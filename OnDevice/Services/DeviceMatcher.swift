@@ -19,7 +19,8 @@ enum DeviceMatcher {
             let regionH = Int(region.height)
             let regionPortraitW = min(regionW, regionH)
             let regionPortraitH = max(regionW, regionH)
-            if portraitW == regionPortraitW && portraitH == regionPortraitH {
+            // Allow ±1px tolerance — iOS screenshots can differ by 1px from display resolution
+            if abs(portraitW - regionPortraitW) <= 1 && abs(portraitH - regionPortraitH) <= 1 {
                 matches.append(Match(device: device, isLandscape: isLandscape))
             }
         }

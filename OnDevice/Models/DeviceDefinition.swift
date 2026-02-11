@@ -32,6 +32,110 @@ struct DeviceDefinition: Identifiable {
 
 enum DeviceCatalog {
     static let allDevices: [DeviceDefinition] = [
+        // MARK: - iPhone 14 family
+        DeviceDefinition(
+            id: "iphone14",
+            displayName: "iPhone 14",
+            colors: [
+                DeviceColor("Blue"),
+                DeviceColor("Midnight"),
+                DeviceColor("Purple"),
+                DeviceColor("Red"),
+                DeviceColor("Starlight"),
+            ],
+            defaultColorID: "Midnight",
+            bezelFilePrefix: "iPhone 14"
+        ),
+        DeviceDefinition(
+            id: "iphone14plus",
+            displayName: "iPhone 14 Plus",
+            colors: [
+                DeviceColor("Blue"),
+                DeviceColor("Midnight"),
+                DeviceColor("Purple"),
+                DeviceColor("Red"),
+                DeviceColor("Starlight"),
+            ],
+            defaultColorID: "Midnight",
+            bezelFilePrefix: "iPhone 14 Plus"
+        ),
+        DeviceDefinition(
+            id: "iphone14pro",
+            displayName: "iPhone 14 Pro",
+            colors: [
+                DeviceColor("Deep Purple"),
+                DeviceColor("Gold"),
+                DeviceColor("Silver"),
+                DeviceColor("Space Black"),
+            ],
+            defaultColorID: "Space Black",
+            bezelFilePrefix: "iPhone 14 Pro"
+        ),
+        DeviceDefinition(
+            id: "iphone14promax",
+            displayName: "iPhone 14 Pro Max",
+            colors: [
+                DeviceColor("Deep Purple"),
+                DeviceColor("Gold"),
+                DeviceColor("Silver"),
+                DeviceColor("Space Black"),
+            ],
+            defaultColorID: "Space Black",
+            bezelFilePrefix: "iPhone 14 Pro Max"
+        ),
+
+        // MARK: - iPhone 15 family
+        DeviceDefinition(
+            id: "iphone15",
+            displayName: "iPhone 15",
+            colors: [
+                DeviceColor("Black"),
+                DeviceColor("Blue"),
+                DeviceColor("Green"),
+                DeviceColor("Pink"),
+                DeviceColor("Yellow"),
+            ],
+            defaultColorID: "Black",
+            bezelFilePrefix: "iPhone 15"
+        ),
+        DeviceDefinition(
+            id: "iphone15plus",
+            displayName: "iPhone 15 Plus",
+            colors: [
+                DeviceColor("Black"),
+                DeviceColor("Blue"),
+                DeviceColor("Green"),
+                DeviceColor("Pink"),
+                DeviceColor("Yellow"),
+            ],
+            defaultColorID: "Black",
+            bezelFilePrefix: "iPhone 15 Plus"
+        ),
+        DeviceDefinition(
+            id: "iphone15pro",
+            displayName: "iPhone 15 Pro",
+            colors: [
+                DeviceColor("Black Titanium"),
+                DeviceColor("Blue Titanium"),
+                DeviceColor("Natural Titanium"),
+                DeviceColor("White Titanium"),
+            ],
+            defaultColorID: "Black Titanium",
+            bezelFilePrefix: "iPhone 15 Pro"
+        ),
+        DeviceDefinition(
+            id: "iphone15promax",
+            displayName: "iPhone 15 Pro Max",
+            colors: [
+                DeviceColor("Black Titanium"),
+                DeviceColor("Blue Titanium"),
+                DeviceColor("Natural Titanium"),
+                DeviceColor("White Titanium"),
+            ],
+            defaultColorID: "Black Titanium",
+            bezelFilePrefix: "iPhone 15 Pro Max"
+        ),
+
         // MARK: - iPhone 16 family
         DeviceDefinition(
             id: "iphone16",
