@@ -40,7 +40,7 @@ enum ScreenRegionDetector {
               let source = CGImageSourceCreateWithURL(url as CFURL, nil),
               let image = CGImageSourceCreateImageAtIndex(source, 0, nil)
         else {
-            print("[OnDevice] Failed to load bezel: \(bezelFileName)")
+            print("[Bezelbub] Failed to load bezel: \(bezelFileName)")
             return nil
         }
 
@@ -66,7 +66,7 @@ enum ScreenRegionDetector {
 
         let startAlpha = ptr[startY * bytesPerRow + startX * bytesPerPixel + 3]
         guard startAlpha == 0 else {
-            print("[OnDevice] Center pixel is not transparent in \(bezelFileName)")
+            print("[Bezelbub] Center pixel is not transparent in \(bezelFileName)")
             return nil
         }
 

@@ -1,0 +1,367 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		008788D9538B682279245FCD /* DeviceDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC6F916AFF331E2FEC71E71 /* DeviceDefinition.swift */; };
+		2A11584152531861AB96DDA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2BE59E8C80B89B68F8C7D07 /* Assets.xcassets */; };
+		306207130400AAA4ED7A694C /* ScreenRegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F82CDBDF8AB9944729D740 /* ScreenRegionDetector.swift */; };
+		36C5385EB0FE48E03706B9C1 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8158426ACE0BBDACCC7E41C0 /* AppState.swift */; };
+		50D844A88140A1A666AFB775 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D966B16F5298D344951A11A /* ContentView.swift */; };
+		7E39111DECD78484B563C4B6 /* DeviceMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6FE6ACE01DC809F28C3603 /* DeviceMatcher.swift */; };
+		8BDD091A6D9C0458690AA093 /* BezelbubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B6D9F43BFB4FFDF593958A /* BezelbubApp.swift */; };
+		ACEE2F270A6B6F2CF10A0014 /* Bezels in Resources */ = {isa = PBXBuildFile; fileRef = 315F6AB6180227B409B8278E /* Bezels */; };
+		FF132FDC40228CE165FDC092 /* FrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E09569259CC3B7F721C2088 /* FrameCompositor.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01F82CDBDF8AB9944729D740 /* ScreenRegionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRegionDetector.swift; sourceTree = "<group>"; };
+		065502B7BC94D544DBB36D15 /* Bezelbub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bezelbub.entitlements; sourceTree = "<group>"; };
+		2E09569259CC3B7F721C2088 /* FrameCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCompositor.swift; sourceTree = "<group>"; };
+		315F6AB6180227B409B8278E /* Bezels */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Bezels; path = Resources/Bezels; sourceTree = SOURCE_ROOT; };
+		372E1FDDB68E56A28177388D /* Bezelbub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezelbub.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		806D100FF9A9E01AB7CE2029 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8158426ACE0BBDACCC7E41C0 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		8D966B16F5298D344951A11A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		94B6D9F43BFB4FFDF593958A /* BezelbubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezelbubApp.swift; sourceTree = "<group>"; };
+		9EC6F916AFF331E2FEC71E71 /* DeviceDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDefinition.swift; sourceTree = "<group>"; };
+		B2BE59E8C80B89B68F8C7D07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CE6FE6ACE01DC809F28C3603 /* DeviceMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMatcher.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		10965F7B33364DFC5E8B82BC /* Bezelbub */ = {
+			isa = PBXGroup;
+			children = (
+				8158426ACE0BBDACCC7E41C0 /* AppState.swift */,
+				B2BE59E8C80B89B68F8C7D07 /* Assets.xcassets */,
+				065502B7BC94D544DBB36D15 /* Bezelbub.entitlements */,
+				94B6D9F43BFB4FFDF593958A /* BezelbubApp.swift */,
+				806D100FF9A9E01AB7CE2029 /* Info.plist */,
+				E5B9904B0484B48DE6329069 /* Models */,
+				4F2FA1E067216764F26BA42B /* Services */,
+				8BDA8986B3C81E86A2F2F51C /* Views */,
+			);
+			path = Bezelbub;
+			sourceTree = "<group>";
+		};
+		1E7DBD0C525009EBC1E19A94 = {
+			isa = PBXGroup;
+			children = (
+				315F6AB6180227B409B8278E /* Bezels */,
+				10965F7B33364DFC5E8B82BC /* Bezelbub */,
+				DF26978FE47FDCED5C36A9B8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4F2FA1E067216764F26BA42B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CE6FE6ACE01DC809F28C3603 /* DeviceMatcher.swift */,
+				2E09569259CC3B7F721C2088 /* FrameCompositor.swift */,
+				01F82CDBDF8AB9944729D740 /* ScreenRegionDetector.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		8BDA8986B3C81E86A2F2F51C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8D966B16F5298D344951A11A /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DF26978FE47FDCED5C36A9B8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				372E1FDDB68E56A28177388D /* Bezelbub.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E5B9904B0484B48DE6329069 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9EC6F916AFF331E2FEC71E71 /* DeviceDefinition.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		78A1BB89FA9FD5A76F0A5EEB /* Bezelbub */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 870E66160823F2E88C00707A /* Build configuration list for PBXNativeTarget "Bezelbub" */;
+			buildPhases = (
+				3CD95971DC8148C6BAB932B1 /* Sources */,
+				97E64886B8229ECF45B68F27 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Bezelbub;
+			packageProductDependencies = (
+			);
+			productName = Bezelbub;
+			productReference = 372E1FDDB68E56A28177388D /* Bezelbub.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D37BF3BC9B51D25D046D6366 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					78A1BB89FA9FD5A76F0A5EEB = {
+						DevelopmentTeam = 4W2V3Q3VA4;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F5307E8D71996A452A271DC8 /* Build configuration list for PBXProject "Bezelbub" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 1E7DBD0C525009EBC1E19A94;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				78A1BB89FA9FD5A76F0A5EEB /* Bezelbub */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		97E64886B8229ECF45B68F27 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A11584152531861AB96DDA2 /* Assets.xcassets in Resources */,
+				ACEE2F270A6B6F2CF10A0014 /* Bezels in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3CD95971DC8148C6BAB932B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36C5385EB0FE48E03706B9C1 /* AppState.swift in Sources */,
+				8BDD091A6D9C0458690AA093 /* BezelbubApp.swift in Sources */,
+				50D844A88140A1A666AFB775 /* ContentView.swift in Sources */,
+				008788D9538B682279245FCD /* DeviceDefinition.swift in Sources */,
+				7E39111DECD78484B563C4B6 /* DeviceMatcher.swift in Sources */,
+				FF132FDC40228CE165FDC092 /* FrameCompositor.swift in Sources */,
+				306207130400AAA4ED7A694C /* ScreenRegionDetector.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4528A437B2B37DDF740FB688 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Bezelbub/Bezelbub.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Bezelbub/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.framer;
+				PRODUCT_NAME = Bezelbub;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		5C76EFF4F70AE48B6394D797 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 4W2V3Q3VA4;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		9A60FD3CB02BB1918E91DAAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Bezelbub/Bezelbub.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Bezelbub/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.framer;
+				PRODUCT_NAME = Bezelbub;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A3EA1DCB222B421582EADECA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 4W2V3Q3VA4;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		870E66160823F2E88C00707A /* Build configuration list for PBXNativeTarget "Bezelbub" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A60FD3CB02BB1918E91DAAB /* Debug */,
+				4528A437B2B37DDF740FB688 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F5307E8D71996A452A271DC8 /* Build configuration list for PBXProject "Bezelbub" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3EA1DCB222B421582EADECA /* Debug */,
+				5C76EFF4F70AE48B6394D797 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D37BF3BC9B51D25D046D6366 /* Project object */;
+}
