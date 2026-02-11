@@ -124,6 +124,11 @@ struct ContentView: View {
                 appState.processFile(url: url)
             }
         }
+        .dropDestination(for: URL.self) { urls, _ in
+            guard let url = urls.first else { return false }
+            appState.processFile(url: url)
+            return true
+        }
         .frame(minWidth: 400, minHeight: 350)
     }
 
