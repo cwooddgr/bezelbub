@@ -16,7 +16,7 @@ struct ContentView: View {
                 Image(nsImage: nsImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 600, maxHeight: 700)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding()
                     .overlay {
                         if appState.isCompositing {
@@ -29,7 +29,7 @@ struct ContentView: View {
             } else if appState.isCompositing {
                 ProgressView()
                     .controlSize(.large)
-                    .frame(width: 400, height: 300)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let error = appState.errorMessage {
                 VStack(spacing: 12) {
                     Image(systemName: "exclamationmark.triangle")
@@ -38,7 +38,7 @@ struct ContentView: View {
                     Text(error)
                         .foregroundStyle(.secondary)
                 }
-                .frame(width: 400, height: 300)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 VStack(spacing: 12) {
                     Image(systemName: "photo.on.rectangle")
@@ -47,7 +47,7 @@ struct ContentView: View {
                     Text("Open a screenshot to get started")
                         .foregroundStyle(.secondary)
                 }
-                .frame(width: 400, height: 300)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
 
             Divider()

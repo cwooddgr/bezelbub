@@ -24,6 +24,6 @@ struct BezelbubApp: App {
                 .handlesExternalEvents(preferring: Set(["*"]), allowing: Set(["*"]))
         }
         .handlesExternalEvents(matching: Set(["*"]))
-        .windowResizability(.contentSize)
+        .defaultSize(width: 1500, height: 1850)
     }
 }

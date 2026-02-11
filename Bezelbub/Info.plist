@@ -21,6 +21,8 @@
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.graphics-design</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2026 DGR Labs, LLC. All rights reserved.</string>
 </dict>

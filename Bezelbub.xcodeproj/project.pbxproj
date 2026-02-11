@@ -182,7 +182,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bezelbub/Bezelbub.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Bezelbub/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
@@ -262,7 +262,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bezelbub/Bezelbub.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Bezelbub/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
