@@ -15,6 +15,7 @@
 		A8DDEB2ABD66E1F97499518E /* OnDeviceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E524725F789CC0DAC04C57 /* OnDeviceApp.swift */; };
 		EBCFE4D529EB8A2D4DD834B0 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD10FCF1DCC47C15CE8810D /* AppState.swift */; };
 		FF9A1F6B324B8D1C1609D976 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC087364A8E8C2A30C91501 /* ContentView.swift */; };
+		AA1B2C3D4E5F607182930A1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB2C3D4E5F60718293A0B1C2 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		BBC087364A8E8C2A30C91501 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DF8764D5A7AFED7196E8B0C7 /* OnDevice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnDevice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBF3F720EC73647A65632F03 /* FrameCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCompositor.swift; sourceTree = "<group>"; };
+		BB2C3D4E5F60718293A0B1C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -78,6 +80,7 @@
 		FDFAAA583815E880CAD42A54 /* OnDevice */ = {
 			isa = PBXGroup;
 			children = (
+				BB2C3D4E5F60718293A0B1C2 /* Assets.xcassets */,
 				3CD10FCF1DCC47C15CE8810D /* AppState.swift */,
 				4723B85720573C2101EF26AA /* Info.plist */,
 				818649FBFE541A1B1C15D0AD /* OnDevice.entitlements */,
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8990FF98B83121F1BCB35ECC /* Bezels in Resources */,
+				AA1B2C3D4E5F607182930A1B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

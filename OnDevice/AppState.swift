@@ -13,6 +13,7 @@ final class AppState {
     var matches: [DeviceMatcher.Match] = []
     var errorMessage: String?
     var showFileImporter = false
+    var isCompositing = false
 
     init() {
         devices = ScreenRegionDetector.detectAll(devices: DeviceCatalog.allDevices)
@@ -67,15 +68,22 @@ final class AppState {
               let color = selectedColor
         else { return }
 
-        compositedImage = FrameCompositor.composite(
-            screenshot: screenshot,
-            device: device,
-            color: color,
-            isLandscape: isLandscape
-        )
-
-        if compositedImage == nil {
-            errorMessage = "Failed to composite image."
+        isCompositing = true
+        let landscape = isLandscape
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let result = FrameCompositor.composite(
+                screenshot: screenshot,
+                device: device,
+                color: color,
+                isLandscape: landscape
+            )
+            DispatchQueue.main.async {
+                self?.compositedImage = result
+                self?.isCompositing = false
+                if result == nil {
+                    self?.errorMessage = "Failed to composite image."
+                }
+            }
         }
     }
 }

@@ -18,6 +18,18 @@ struct ContentView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: 600, maxHeight: 700)
                     .padding()
+                    .overlay {
+                        if appState.isCompositing {
+                            ProgressView()
+                                .controlSize(.large)
+                                .padding(20)
+                                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+                        }
+                    }
+            } else if appState.isCompositing {
+                ProgressView()
+                    .controlSize(.large)
+                    .frame(width: 400, height: 300)
             } else if let error = appState.errorMessage {
                 VStack(spacing: 12) {
                     Image(systemName: "exclamationmark.triangle")
