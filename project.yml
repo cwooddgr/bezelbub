@@ -20,7 +20,7 @@ targets:
         buildPhase: resources
         type: folder
     settings:
-      PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.framer
+      PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.bezelbub
       INFOPLIST_FILE: Bezelbub/Info.plist
       PRODUCT_NAME: Bezelbub
       MARKETING_VERSION: "1.0.0"
