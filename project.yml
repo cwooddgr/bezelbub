@@ -28,4 +28,5 @@ targets:
       COMBINE_HIDPI_IMAGES: YES
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       CODE_SIGN_ENTITLEMENTS: Bezelbub/Bezelbub.entitlements
+      ENABLE_HARDENED_RUNTIME: YES
       INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright © 2026 DGR Labs, LLC. All rights reserved."
