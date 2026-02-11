@@ -94,6 +94,11 @@ struct ContentView: View {
                         .frame(maxWidth: 180)
                     }
 
+                    Button("Copy") {
+                        copyImage()
+                    }
+                    .keyboardShortcut("c", modifiers: .command)
+
                     Button("Save...") {
                         saveImage()
                     }
@@ -120,6 +125,13 @@ struct ContentView: View {
             }
         }
         .frame(minWidth: 400, minHeight: 350)
+    }
+
+    private func copyImage() {
+        guard let composited = appState.compositedImage else { return }
+        let nsImage = NSImage(cgImage: composited, size: NSSize(width: composited.width, height: composited.height))
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.writeObjects([nsImage])
     }
 
     private func saveImage() {
