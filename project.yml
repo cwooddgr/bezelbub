@@ -10,6 +10,12 @@ settings:
   DEVELOPMENT_TEAM: 4W2V3Q3VA4
   CODE_SIGN_STYLE: Automatic
 
+schemes:
+  Bezelbub:
+    build:
+      targets:
+        Bezelbub: all
+
 targets:
   Bezelbub:
     type: application
