@@ -11,7 +11,7 @@ macOS app that composites device bezels onto screenshots. Built with SwiftUI, ta
   - `Services/` — Core logic (`FrameCompositor`, `ScreenRegionDetector`)
   - `Views/` — SwiftUI views (`ContentView`)
 - `Resources/Bezels/` — Device bezel images
-- `Apple Product Bezels/` — Source bezel PNGs from Apple (not included in app bundle)
+- `Apple Product Bezels/` — Source bezel PNGs from Apple (gitignored, local reference only)
 - `project.yml` — XcodeGen project definition
 
 ## Build

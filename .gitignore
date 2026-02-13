@@ -21,3 +21,6 @@ build/
 
 # Photoshop source files
 *.psd
+
+# Apple source bezels (duplicated in Resources/Bezels/)
+Apple Product Bezels/
