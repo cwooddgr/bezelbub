@@ -25,5 +25,13 @@ struct BezelbubApp: App {
         }
         .handlesExternalEvents(matching: Set(["*"]))
         .defaultSize(width: 1500, height: 1850)
+        .commands {
+            CommandGroup(replacing: .newItem) {
+                Button("Open...") {
+                    appState.showFileImporter = true
+                }
+                .keyboardShortcut("o", modifiers: .command)
+            }
+        }
     }
 }

@@ -181,7 +181,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Bezelbub/Bezelbub.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Bezelbub/Info.plist;
@@ -190,7 +190,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.bezelbub;
 				PRODUCT_NAME = Bezelbub;
 				SDKROOT = macosx;
@@ -261,7 +261,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Bezelbub/Bezelbub.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Bezelbub/Info.plist;
@@ -270,7 +270,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.bezelbub;
 				PRODUCT_NAME = Bezelbub;
 				SDKROOT = macosx;

@@ -108,7 +108,6 @@ struct ContentView: View {
                     Button("Open Screenshot...") {
                         appState.showFileImporter = true
                     }
-                    .keyboardShortcut("o", modifiers: .command)
                     Spacer()
                 }
             }
