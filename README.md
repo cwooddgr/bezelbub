@@ -4,6 +4,8 @@
 
 A macOS app that wraps your screenshots in realistic Apple device bezels. Drop in a screenshot, and Bezelbub automatically detects the matching device and composites it into a pixel-perfect framed image.
 
+[**Download the latest release (DMG)**](https://github.com/cwooddgr/bezelbub/releases/latest)
+
 ## Features
 
 - **Auto-detection** — Matches screenshots to the correct device by resolution
