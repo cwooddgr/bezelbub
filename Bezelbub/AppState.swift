@@ -30,7 +30,25 @@ final class AppState {
             return
         }
 
-        screenshotImage = image
+        // Force-realize pixel data while security-scoped access is still active.
+        // CGImage loads data lazily, so without this the sandbox revokes access
+        // before the background compositing thread reads the pixels.
+        guard let colorSpace = image.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB),
+              let ctx = CGContext(
+                  data: nil, width: image.width, height: image.height,
+                  bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
+                  bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+              ),
+              let realized = ({ () -> CGImage? in
+                  ctx.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+                  return ctx.makeImage()
+              })()
+        else {
+            errorMessage = "Could not load image."
+            return
+        }
+
+        screenshotImage = realized
         errorMessage = nil
 
         let w = image.width
