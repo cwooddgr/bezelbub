@@ -28,12 +28,36 @@ enum VideoFrameCompositor {
         return image
     }
 
+    /// Rotates a CGImage by the given number of degrees (must be a multiple of 90).
+    static func rotateImage(_ image: CGImage, byDegrees degrees: Int) -> CGImage? {
+        let radians = CGFloat(degrees) * .pi / 180.0
+        let swapped = degrees == 90 || degrees == 270
+        let newWidth = swapped ? image.height : image.width
+        let newHeight = swapped ? image.width : image.height
+
+        guard let colorSpace = image.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB),
+              let ctx = CGContext(
+                  data: nil, width: newWidth, height: newHeight,
+                  bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
+                  bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+              )
+        else { return nil }
+
+        ctx.translateBy(x: CGFloat(newWidth) / 2, y: CGFloat(newHeight) / 2)
+        ctx.rotate(by: -radians) // CG coordinates: positive = CCW, so negate for CW
+        ctx.translateBy(x: -CGFloat(image.width) / 2, y: -CGFloat(image.height) / 2)
+        ctx.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+
+        return ctx.makeImage()
+    }
+
     /// Exports the video with the device bezel overlaid, preserving audio.
     static func export(
         asset: AVAsset,
         device: DeviceDefinition,
         color: DeviceColor,
         isLandscape: Bool,
+        extraRotation: Int = 0,
         outputURL: URL,
         progressHandler: @escaping @MainActor @Sendable (Double) -> Void
     ) async throws {
@@ -114,12 +138,18 @@ enum VideoFrameCompositor {
 
         let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: compositionVideoTrack)
 
-        // Transform: apply preferred transform, then scale to screen region, then position
+        // Transform: apply preferred transform, optional extra rotation, then scale
+        // to screen region and position.
         // The video composition renders in a coordinate system where (0,0) is top-left
         // and +Y goes down, matching CALayer conventions when isGeometryFlipped = true.
         let transformed = naturalSize.applying(preferredTransform)
-        let videoWidth = abs(transformed.width)
-        let videoHeight = abs(transformed.height)
+        let baseWidth = abs(transformed.width)
+        let baseHeight = abs(transformed.height)
+
+        // After extra rotation, effective dimensions may swap
+        let swapped = extraRotation == 90 || extraRotation == 270
+        let videoWidth = swapped ? baseHeight : baseWidth
+        let videoHeight = swapped ? baseWidth : baseHeight
 
         let scaleX = screenRegion.width / videoWidth
         let scaleY = screenRegion.height / videoHeight
@@ -128,15 +158,21 @@ enum VideoFrameCompositor {
         let translateX = screenRegion.origin.x
         let translateY = screenRegion.origin.y
 
-        // Combined transform: first apply preferredTransform (handles rotation),
-        // then scale to fit the screen region, then translate to position.
-        //
-        // preferredTransform may include a negative translation that moves the
-        // rotated frame into the positive quadrant. We need to handle this along
-        // with our scale and positioning.
+        // Combined transform: first apply preferredTransform (handles source rotation),
+        // then extra user rotation, then scale to fit the screen region, then position.
         var t = preferredTransform
-        // After preferredTransform, the video origin is at (0,0) in its natural
-        // coordinate space. Scale it down to the screen region size.
+
+        // Apply extra rotation around the center of the post-preferredTransform frame
+        if extraRotation != 0 {
+            let radians = CGFloat(extraRotation) * .pi / 180.0
+            // Move origin to center, rotate, move back. After preferredTransform the
+            // frame occupies (0,0)-(baseWidth, baseHeight).
+            t = t.concatenating(CGAffineTransform(translationX: -baseWidth / 2, y: -baseHeight / 2))
+            t = t.concatenating(CGAffineTransform(rotationAngle: radians))
+            t = t.concatenating(CGAffineTransform(translationX: videoWidth / 2, y: videoHeight / 2))
+        }
+
+        // Scale down to the screen region size
         t = t.concatenating(CGAffineTransform(scaleX: scaleX, y: scaleY))
         // Position in the bezel frame
         t = t.concatenating(CGAffineTransform(translationX: translateX, y: translateY))

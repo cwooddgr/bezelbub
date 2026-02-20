@@ -21,6 +21,7 @@ final class AppState {
     var videoURL: URL?
     var isExporting = false
     var exportProgress: Double = 0
+    var videoRotation: Int = 0  // Extra rotation in degrees (0, 90, 180, 270)
     var isVideoMode: Bool { videoAsset != nil }
 
     init() {
@@ -93,6 +94,7 @@ final class AppState {
         // Clear image state
         screenshotImage = nil
         compositedImage = nil
+        videoRotation = 0
 
         _ = url.startAccessingSecurityScopedResource()
         // Store URL for security-scoped access during export (don't stop access yet)
@@ -103,34 +105,59 @@ final class AppState {
         videoAsset = asset
 
         Task { @MainActor in
-            do {
-                let dims = try await VideoFrameCompositor.videoDimensions(asset: asset)
+            await updateVideoMatch()
+        }
+    }
 
-                matches = DeviceMatcher.match(
-                    screenshotWidth: dims.width,
-                    screenshotHeight: dims.height,
-                    devices: devices
-                )
+    func rotateVideo(clockwise: Bool) {
+        videoRotation = (videoRotation + (clockwise ? 90 : 270)) % 360
+        Task { @MainActor in
+            await updateVideoMatch()
+        }
+    }
 
-                if matches.isEmpty {
-                    errorMessage = "No matching device found for \(dims.width)×\(dims.height) video."
-                    selectedDevice = nil
-                    selectedColor = nil
-                    return
-                }
+    private func updateVideoMatch() async {
+        guard let asset = videoAsset else { return }
 
-                let match = matches[0]
-                selectedDevice = match.device
-                isLandscape = match.isLandscape
-                selectedColor = match.device.defaultColor
+        do {
+            let baseDims = try await VideoFrameCompositor.videoDimensions(asset: asset)
 
-                // Extract first frame for preview
-                let frame = try await VideoFrameCompositor.firstFrame(asset: asset)
-                screenshotImage = frame
-                recomposite()
-            } catch {
-                errorMessage = "Could not load video: \(error.localizedDescription)"
+            // Swap dimensions for 90/270 degree extra rotation
+            let swapped = videoRotation == 90 || videoRotation == 270
+            let w = swapped ? baseDims.height : baseDims.width
+            let h = swapped ? baseDims.width : baseDims.height
+
+            matches = DeviceMatcher.match(
+                screenshotWidth: w,
+                screenshotHeight: h,
+                devices: devices
+            )
+
+            if matches.isEmpty {
+                errorMessage = "No matching device found for \(w)×\(h) video."
+                selectedDevice = nil
+                selectedColor = nil
+                compositedImage = nil
+                return
             }
+
+            let match = matches[0]
+            selectedDevice = match.device
+            isLandscape = match.isLandscape
+            selectedColor = match.device.defaultColor
+            errorMessage = nil
+
+            // Extract first frame and apply extra rotation for preview
+            var frame = try await VideoFrameCompositor.firstFrame(asset: asset)
+            if videoRotation != 0 {
+                if let rotated = VideoFrameCompositor.rotateImage(frame, byDegrees: videoRotation) {
+                    frame = rotated
+                }
+            }
+            screenshotImage = frame
+            recomposite()
+        } catch {
+            errorMessage = "Could not load video: \(error.localizedDescription)"
         }
     }
 
@@ -180,6 +207,7 @@ final class AppState {
         isExporting = true
         exportProgress = 0
         let landscape = isLandscape
+        let rotation = videoRotation
 
         Task { @MainActor in
             do {
@@ -188,6 +216,7 @@ final class AppState {
                     device: device,
                     color: color,
                     isLandscape: landscape,
+                    extraRotation: rotation,
                     outputURL: outputURL
                 ) { [weak self] progress in
                     self?.exportProgress = progress

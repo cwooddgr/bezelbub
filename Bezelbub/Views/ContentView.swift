@@ -5,6 +5,7 @@ struct ContentView: View {
     @Environment(AppState.self) private var appState
 
     @State private var showSavePanel = false
+    @State private var optionKeyDown = false
 
     var body: some View {
         @Bindable var appState = appState
@@ -128,6 +129,14 @@ struct ContentView: View {
                     }
 
                     if appState.isVideoMode {
+                        Button {
+                            appState.rotateVideo(clockwise: !optionKeyDown)
+                        } label: {
+                            Image(systemName: optionKeyDown ? "rotate.left" : "rotate.right")
+                        }
+                        .help("Rotate video (hold Option for counter-clockwise)")
+                        .disabled(appState.isExporting)
+
                         Button("Export Video...") {
                             exportVideo()
                         }
@@ -170,6 +179,12 @@ struct ContentView: View {
             guard let url = urls.first else { return false }
             appState.processFile(url: url)
             return true
+        }
+        .onAppear {
+            NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { event in
+                optionKeyDown = event.modifierFlags.contains(.option)
+                return event
+            }
         }
         .frame(minWidth: 400, minHeight: 350)
     }
