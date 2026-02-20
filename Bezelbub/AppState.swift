@@ -78,10 +78,15 @@ final class AppState {
         openPanel = nil
     }
 
+    private func stopVideoAccess() {
+        videoURL?.stopAccessingSecurityScopedResource()
+        videoURL = nil
+    }
+
     private func processImage(url: URL) {
         // Clear video state
         videoAsset = nil
-        videoURL = nil
+        stopVideoAccess()
 
         guard url.startAccessingSecurityScopedResource() || true else { return }
         defer { url.stopAccessingSecurityScopedResource() }
@@ -137,8 +142,9 @@ final class AppState {
         compositedImage = nil
         videoRotation = 0
 
+        // Release previous video's security-scoped access before starting new one
+        stopVideoAccess()
         _ = url.startAccessingSecurityScopedResource()
-        // Store URL for security-scoped access during export (don't stop access yet)
         videoURL = url
         errorMessage = nil
 
