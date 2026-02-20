@@ -14,11 +14,11 @@ final class AppState {
     var compositedImage: CGImage?
     var matches: [DeviceMatcher.Match] = []
     var errorMessage: String?
-    var showFileImporter = false
     var isCompositing = false
 
     // Open panel (modeless, so drag-and-drop still works on the main window)
     @ObservationIgnored private var openPanel: NSOpenPanel?
+    @ObservationIgnored var ensureWindowVisible: (() -> Void)?
 
     // Video state
     var videoAsset: AVAsset?
@@ -29,15 +29,16 @@ final class AppState {
     var videoBackgroundColor: Color = .white
     var isVideoMode: Bool { videoAsset != nil }
     var sourceFileName: String?
+    var sourceDirectoryURL: URL?
 
     init() {
         devices = ScreenRegionDetector.detectAll(devices: DeviceCatalog.allDevices)
     }
 
     func processFile(url: URL) {
-        showFileImporter = false
         dismissOpenPanel()
         sourceFileName = url.deletingPathExtension().lastPathComponent
+        sourceDirectoryURL = url.deletingLastPathComponent()
 
         let ext = url.pathExtension.lowercased()
         if ["mov", "mp4", "m4v"].contains(ext) {
@@ -60,8 +61,12 @@ final class AppState {
         panel.begin { [weak self] response in
             guard let self else { return }
             self.openPanel = nil
-            self.showFileImporter = false
             if response == .OK, let url = panel.url {
+                // Ensure the app has a visible window before processing.
+                // After Cmd-W closes the only window, there's nowhere to show results.
+                if !NSApp.windows.contains(where: { $0.isVisible && !($0 is NSPanel) }) {
+                    self.ensureWindowVisible?()
+                }
                 self.processFile(url: url)
             }
         }

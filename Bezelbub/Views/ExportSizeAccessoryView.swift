@@ -31,15 +31,19 @@ final class ExportSizeModel: ObservableObject {
 struct ExportSizeAccessoryView: View {
     @ObservedObject var model: ExportSizeModel
 
+    private func clamped(_ value: Int) -> Int {
+        min(max(value, ExportSizeModel.minDimension), ExportSizeModel.maxDimension)
+    }
+
     private var widthBinding: Binding<Int> {
         Binding(
             get: { model.width },
             set: { newWidth in
-                model.width = newWidth
-                guard newWidth > 0 else { return }
-                let newHeight = Int((Double(newWidth) / model.aspectRatio).rounded())
+                let w = clamped(newWidth)
+                model.width = w
+                let newHeight = clamped(Int((Double(w) / model.aspectRatio).rounded()))
                 if newHeight != model.height {
-                    model.height = max(1, newHeight)
+                    model.height = newHeight
                 }
             }
         )
@@ -49,11 +53,11 @@ struct ExportSizeAccessoryView: View {
         Binding(
             get: { model.height },
             set: { newHeight in
-                model.height = newHeight
-                guard newHeight > 0 else { return }
-                let newWidth = Int((Double(newHeight) * model.aspectRatio).rounded())
+                let h = clamped(newHeight)
+                model.height = h
+                let newWidth = clamped(Int((Double(h) * model.aspectRatio).rounded()))
                 if newWidth != model.width {
-                    model.width = max(1, newWidth)
+                    model.width = newWidth
                 }
             }
         )

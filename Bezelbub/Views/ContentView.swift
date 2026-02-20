@@ -163,20 +163,13 @@ struct ContentView: View {
                 } else {
                     Spacer()
                     Button("Open...") {
-                        appState.showFileImporter = true
+                        appState.showOpenPanel()
                     }
                     Spacer()
                 }
             }
             .padding(.horizontal)
             .padding(.vertical, 10)
-        }
-        .onChange(of: appState.showFileImporter) { _, newValue in
-            if newValue {
-                appState.showOpenPanel()
-            } else {
-                appState.dismissOpenPanel()
-            }
         }
         .dropDestination(for: URL.self) { urls, _ in
             guard let url = urls.first else { return false }
@@ -209,6 +202,7 @@ struct ContentView: View {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.png]
         panel.nameFieldStringValue = (appState.sourceFileName ?? "screenshot") + "-framed.png"
+        panel.directoryURL = appState.sourceDirectoryURL
         panel.accessoryView = accessory
 
         if panel.runModal() == .OK, let url = panel.url {
@@ -232,6 +226,7 @@ struct ContentView: View {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.mpeg4Movie]
         panel.nameFieldStringValue = (appState.sourceFileName ?? "recording") + "-framed.mp4"
+        panel.directoryURL = appState.sourceDirectoryURL
         panel.accessoryView = accessory
 
         if panel.runModal() == .OK, let url = panel.url {
