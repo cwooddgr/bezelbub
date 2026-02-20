@@ -28,6 +28,7 @@ final class AppState {
     var videoRotation: Int = 0  // Extra rotation in degrees (0, 90, 180, 270)
     var videoBackgroundColor: Color = .white
     var isVideoMode: Bool { videoAsset != nil }
+    var sourceFileName: String?
 
     init() {
         devices = ScreenRegionDetector.detectAll(devices: DeviceCatalog.allDevices)
@@ -36,6 +37,7 @@ final class AppState {
     func processFile(url: URL) {
         showFileImporter = false
         dismissOpenPanel()
+        sourceFileName = url.deletingPathExtension().lastPathComponent
 
         let ext = url.pathExtension.lowercased()
         if ["mov", "mp4", "m4v"].contains(ext) {
@@ -233,7 +235,7 @@ final class AppState {
         }
     }
 
-    func exportVideo(to outputURL: URL) {
+    func exportVideo(to outputURL: URL, size: CGSize? = nil) {
         guard let asset = videoAsset,
               let device = selectedDevice,
               let color = selectedColor
@@ -253,7 +255,8 @@ final class AppState {
                     isLandscape: landscape,
                     extraRotation: rotation,
                     backgroundColor: NSColor(videoBackgroundColor).usingColorSpace(.sRGB)?.cgColor ?? CGColor(red: 1, green: 1, blue: 1, alpha: 1),
-                    outputURL: outputURL
+                    outputURL: outputURL,
+                    outputSize: size
                 ) { [weak self] progress in
                     self?.exportProgress = progress
                 }

@@ -60,6 +60,7 @@ enum VideoFrameCompositor {
         extraRotation: Int = 0,
         backgroundColor: CGColor,
         outputURL: URL,
+        outputSize: CGSize? = nil,
         progressHandler: @escaping @MainActor @Sendable (Double) -> Void
     ) async throws {
         // --- Load bezel image ---
@@ -131,9 +132,27 @@ enum VideoFrameCompositor {
             }
         }
 
-        // --- Build video composition with layer instruction ---
-        let renderSize = CGSize(width: bezelWidth, height: bezelHeight)
+        // --- Compute output scaling ---
+        let scale: CGFloat
+        let renderSize: CGSize
+        let scaledScreenRegion: CGRect
 
+        if let outputSize, outputSize.width > 0, outputSize.height > 0 {
+            scale = outputSize.width / CGFloat(bezelWidth)
+            renderSize = outputSize
+            scaledScreenRegion = CGRect(
+                x: screenRegion.origin.x * scale,
+                y: screenRegion.origin.y * scale,
+                width: screenRegion.width * scale,
+                height: screenRegion.height * scale
+            )
+        } else {
+            scale = 1.0
+            renderSize = CGSize(width: bezelWidth, height: bezelHeight)
+            scaledScreenRegion = screenRegion
+        }
+
+        // --- Build video composition with layer instruction ---
         let instruction = AVMutableVideoCompositionInstruction()
         instruction.timeRange = timeRange
 
@@ -152,12 +171,12 @@ enum VideoFrameCompositor {
         let videoWidth = swapped ? baseHeight : baseWidth
         let videoHeight = swapped ? baseWidth : baseHeight
 
-        let scaleX = screenRegion.width / videoWidth
-        let scaleY = screenRegion.height / videoHeight
+        let scaleX = scaledScreenRegion.width / videoWidth
+        let scaleY = scaledScreenRegion.height / videoHeight
 
         // screenRegion is in top-left-origin coordinates (from ScreenRegionDetector)
-        let translateX = screenRegion.origin.x
-        let translateY = screenRegion.origin.y
+        let translateX = scaledScreenRegion.origin.x
+        let translateY = scaledScreenRegion.origin.y
 
         // Combined transform: first apply preferredTransform (handles source rotation),
         // then extra user rotation, then scale to fit the screen region, then position.

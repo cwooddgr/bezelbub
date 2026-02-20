@@ -202,22 +202,41 @@ struct ContentView: View {
     private func saveImage() {
         guard let composited = appState.compositedImage else { return }
 
+        let sizeModel = ExportSizeModel(width: composited.width, height: composited.height)
+        let accessory = NSHostingView(rootView: ExportSizeAccessoryView(model: sizeModel))
+        accessory.frame.size = accessory.fittingSize
+
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.png]
-        panel.nameFieldStringValue = "framed-screenshot.png"
+        panel.nameFieldStringValue = (appState.sourceFileName ?? "screenshot") + "-framed.png"
+        panel.accessoryView = accessory
 
         if panel.runModal() == .OK, let url = panel.url {
-            _ = FrameCompositor.savePNG(image: composited, to: url)
+            if sizeModel.sizeChanged {
+                if let resized = FrameCompositor.resize(image: composited, to: sizeModel.targetSize) {
+                    _ = FrameCompositor.savePNG(image: resized, to: url)
+                }
+            } else {
+                _ = FrameCompositor.savePNG(image: composited, to: url)
+            }
         }
     }
 
     private func exportVideo() {
+        guard let composited = appState.compositedImage else { return }
+
+        let sizeModel = ExportSizeModel(width: composited.width, height: composited.height)
+        let accessory = NSHostingView(rootView: ExportSizeAccessoryView(model: sizeModel))
+        accessory.frame.size = accessory.fittingSize
+
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.mpeg4Movie]
-        panel.nameFieldStringValue = "framed-recording.mp4"
+        panel.nameFieldStringValue = (appState.sourceFileName ?? "recording") + "-framed.mp4"
+        panel.accessoryView = accessory
 
         if panel.runModal() == .OK, let url = panel.url {
-            appState.exportVideo(to: url)
+            let size: CGSize? = sizeModel.sizeChanged ? sizeModel.targetSize : nil
+            appState.exportVideo(to: url, size: size)
         }
     }
 }
