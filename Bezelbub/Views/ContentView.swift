@@ -11,43 +11,74 @@ struct ContentView: View {
 
         VStack(spacing: 0) {
             // Preview area
-            if let composited = appState.compositedImage {
-                let nsImage = NSImage(cgImage: composited, size: NSSize(width: composited.width, height: composited.height))
-                Image(nsImage: nsImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding()
-                    .overlay {
-                        if appState.isCompositing {
-                            ProgressView()
-                                .controlSize(.large)
-                                .padding(20)
-                                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+            ZStack {
+                if let composited = appState.compositedImage {
+                    let nsImage = NSImage(cgImage: composited, size: NSSize(width: composited.width, height: composited.height))
+                    Image(nsImage: nsImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .padding()
+                        .overlay(alignment: .bottomLeading) {
+                            if appState.isVideoMode {
+                                Text("Video")
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 2)
+                                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 4))
+                                    .padding(8)
+                            }
                         }
+                        .overlay {
+                            if appState.isCompositing {
+                                ProgressView()
+                                    .controlSize(.large)
+                                    .padding(20)
+                                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+                            }
+                        }
+                } else if appState.isCompositing {
+                    ProgressView()
+                        .controlSize(.large)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if let error = appState.errorMessage {
+                    VStack(spacing: 12) {
+                        Image(systemName: "exclamationmark.triangle")
+                            .font(.largeTitle)
+                            .foregroundStyle(.secondary)
+                        Text(error)
+                            .foregroundStyle(.secondary)
                     }
-            } else if appState.isCompositing {
-                ProgressView()
-                    .controlSize(.large)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if let error = appState.errorMessage {
-                VStack(spacing: 12) {
-                    Image(systemName: "exclamationmark.triangle")
-                        .font(.largeTitle)
-                        .foregroundStyle(.secondary)
-                    Text(error)
-                        .foregroundStyle(.secondary)
+                } else {
+                    VStack(spacing: 12) {
+                        Image(systemName: "photo.on.rectangle")
+                            .font(.system(size: 48))
+                            .foregroundStyle(.secondary)
+                        Text("Open a screenshot or screen recording")
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                VStack(spacing: 12) {
-                    Image(systemName: "photo.on.rectangle")
-                        .font(.system(size: 48))
-                        .foregroundStyle(.secondary)
-                    Text("Open a screenshot to get started")
-                        .foregroundStyle(.secondary)
+
+                // Export progress overlay
+                if appState.isExporting {
+                    ZStack {
+                        Color.black.opacity(0.3)
+                        VStack(spacing: 12) {
+                            ProgressView(value: appState.exportProgress)
+                                .frame(width: 200)
+                            Text("\(Int(appState.exportProgress * 100))%")
+                                .font(.headline.monospacedDigit())
+                            Text("Exporting video...")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(24)
+                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+                    }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
 
             Divider()
@@ -70,6 +101,7 @@ struct ContentView: View {
                             }
                         }
                         .frame(maxWidth: 180)
+                        .disabled(appState.isExporting)
                     } else {
                         Text(device.displayName)
                             .fontWeight(.medium)
@@ -92,20 +124,31 @@ struct ContentView: View {
                             }
                         }
                         .frame(maxWidth: 180)
+                        .disabled(appState.isExporting)
                     }
 
-                    Button("Copy") {
-                        copyImage()
-                    }
-                    .keyboardShortcut("c", modifiers: .command)
+                    if appState.isVideoMode {
+                        Button("Export Video...") {
+                            exportVideo()
+                        }
+                        .keyboardShortcut("s", modifiers: .command)
+                        .disabled(appState.isExporting)
+                    } else {
+                        Button("Copy") {
+                            copyImage()
+                        }
+                        .keyboardShortcut("c", modifiers: .command)
+                        .disabled(appState.isExporting)
 
-                    Button("Save...") {
-                        saveImage()
+                        Button("Save...") {
+                            saveImage()
+                        }
+                        .keyboardShortcut("s", modifiers: .command)
+                        .disabled(appState.isExporting)
                     }
-                    .keyboardShortcut("s", modifiers: .command)
                 } else {
                     Spacer()
-                    Button("Open Screenshot...") {
+                    Button("Open...") {
                         appState.showFileImporter = true
                     }
                     Spacer()
@@ -116,7 +159,7 @@ struct ContentView: View {
         }
         .fileImporter(
             isPresented: $appState.showFileImporter,
-            allowedContentTypes: [.png, .jpeg, .heic],
+            allowedContentTypes: [.png, .jpeg, .heic, .movie, .mpeg4Movie],
             allowsMultipleSelection: false
         ) { result in
             if case .success(let urls) = result, let url = urls.first {
@@ -147,6 +190,16 @@ struct ContentView: View {
 
         if panel.runModal() == .OK, let url = panel.url {
             _ = FrameCompositor.savePNG(image: composited, to: url)
+        }
+    }
+
+    private func exportVideo() {
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.movie]
+        panel.nameFieldStringValue = "framed-recording.mov"
+
+        if panel.runModal() == .OK, let url = panel.url {
+            appState.exportVideo(to: url)
         }
     }
 }
