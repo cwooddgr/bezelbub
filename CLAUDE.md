@@ -7,9 +7,9 @@ macOS app that composites device bezels onto screenshots and screen recordings. 
 - `Bezelbub/` — App source code
   - `BezelbubApp.swift` — App entry point
   - `AppState.swift` — Application state
-  - `Models/` — Data models (`DeviceDefinition`, `DeviceMatcher`)
-  - `Services/` — Core logic (`FrameCompositor`, `VideoFrameCompositor`, `ScreenRegionDetector`)
-  - `Views/` — SwiftUI views (`ContentView`)
+  - `Models/` — Data models (`DeviceDefinition`)
+  - `Services/` — Core logic (`DeviceMatcher`, `FrameCompositor`, `VideoFrameCompositor`, `ScreenRegionDetector`)
+  - `Views/` — SwiftUI views (`ContentView`, `ExportSizeAccessoryView`)
 - `Resources/Bezels/` — Device bezel images
 - `Apple Product Bezels/` — Source bezel PNGs from Apple (gitignored, local reference only)
 - `project.yml` — XcodeGen project definition
@@ -23,5 +23,5 @@ xcodegen generate
 open Bezelbub.xcodeproj
 ```
 
-Bundle ID: `co.dgrlabs.framer`
+Bundle ID: `co.dgrlabs.bezelbub`
 Team: `4W2V3Q3VA4`

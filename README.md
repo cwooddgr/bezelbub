@@ -1,7 +1,4 @@
 # Bezelbub
-
-![Bezelbub — Drop an iOS app screenshot, get a perfect device mockup.](hero.png)
-
 A macOS app that wraps your screenshots and screen recordings in realistic Apple device bezels. Drop in a screenshot or video, and Bezelbub automatically detects the matching device and composites it into a pixel-perfect framed image or video.
 
 [**Download the latest release (DMG)**](https://github.com/cwooddgr/bezelbub/releases/latest)

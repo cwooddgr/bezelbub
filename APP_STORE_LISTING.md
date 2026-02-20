@@ -14,16 +14,19 @@ Drop a screenshot, get a stunning device mockup. Now supporting iPhone 17, iPhon
 
 ## Description (4000 characters max)
 
-Bezelbub instantly frames your screenshots in pixel-perfect device bezels. Drop a screenshot, pick a color, and export a beautiful mockup — no templates, no layers, no fuss.
+Bezelbub instantly frames your screenshots and screen recordings in pixel-perfect device bezels. Drop a screenshot or video, pick a color, and export a beautiful mockup — no templates, no layers, no fuss.
 
 **How it works:**
-1. Drag a screenshot into Bezelbub or use File > Open.
-2. The app automatically detects which device the screenshot came from.
+1. Drag a screenshot or screen recording into Bezelbub or use File > Open.
+2. The app automatically detects which device it came from.
 3. Choose your device color to match the real hardware.
-4. Copy to clipboard or save as PNG. Done.
+4. Copy to clipboard, save as PNG, or export framed video. Done.
 
 **Automatic device detection**
-Bezelbub analyzes your screenshot's resolution and instantly identifies the matching device. Portrait or landscape, it just works. If multiple devices share the same resolution, you can pick the right one from a menu.
+Bezelbub analyzes your screenshot or video resolution and instantly identifies the matching device. Portrait or landscape, it just works. If multiple devices share the same resolution, you can pick the right one from a menu.
+
+**Video framing**
+Drop a MOV, MP4, or M4V screen recording and export it with the device bezel overlaid. Audio is preserved. Rotate videos to fix orientation, and choose a background color to complement your content. Export at custom sizes with aspect-ratio locking.
 
 **Every color, every device**
 Each mockup uses the actual device color — not a generic silver frame. Choose from every finish Apple offers, from Black Titanium to Cosmic Orange to Ultramarine.
@@ -46,10 +49,11 @@ iPad Pro 11" M4, iPad Pro 13" M4
 Bezelbub is a native macOS app built with SwiftUI. It launches instantly, composites in the background, and never needs an internet connection. All bezel assets are included in the app.
 
 **Export your way**
-Copy the framed image to your clipboard with Cmd+C for quick pasting into Keynote, Figma, or Messages. Or save as PNG with Cmd+S for use in App Store listings, social media, or documentation.
+Copy the framed image to your clipboard with Cmd+C for quick pasting into Keynote, Figma, or Messages. Save as PNG with Cmd+S. Export framed videos as MP4. Choose a custom export size with aspect-ratio locking.
 
 **Perfect for:**
 - App Store screenshots and marketing materials
+- App preview videos and demo recordings
 - Social media posts showcasing your app
 - Presentations and pitch decks
 - Documentation and tutorials
@@ -66,7 +70,7 @@ mockup,screenshot,bezel,frame,device,iPhone,iPad,framer,preview,marketing
 
 ## Copyright
 
-Copyright © 2025 DGR Labs
+Copyright © 2026 DGR Labs, LLC. All rights reserved.
 
 ## Privacy Policy URL
 
@@ -78,7 +82,7 @@ Copyright © 2025 DGR Labs
 
 ## What's New (Version Release Notes)
 
-Initial release of Bezelbub. Drop any iPhone or iPad screenshot to instantly create a device mockup with authentic bezels in every color Apple offers.
+Frame your screen recordings too — drop a MOV, MP4, or M4V and export with the device bezel overlaid, audio preserved. Rotate videos, pick a background color, and export at custom sizes with aspect-ratio locking. Now supporting iPhone 17, iPhone Air, and the full iPad lineup.
 
 ## Age Rating
 
