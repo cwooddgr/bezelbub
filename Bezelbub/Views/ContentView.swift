@@ -181,6 +181,14 @@ struct ContentView: View {
                 optionKeyDown = event.modifierFlags.contains(.option)
                 return event
             }
+            if !appState.isVideoMode {
+                NSColorPanel.shared.close()
+            }
+        }
+        .onChange(of: appState.isVideoMode) { _, isVideo in
+            if !isVideo {
+                NSColorPanel.shared.close()
+            }
         }
         .frame(minWidth: 400, minHeight: 350)
     }
