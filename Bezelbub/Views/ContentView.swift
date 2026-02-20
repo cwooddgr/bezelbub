@@ -1,5 +1,4 @@
 import SwiftUI
-import UniformTypeIdentifiers
 
 struct ContentView: View {
     @Environment(AppState.self) private var appState
@@ -172,13 +171,11 @@ struct ContentView: View {
             .padding(.horizontal)
             .padding(.vertical, 10)
         }
-        .fileImporter(
-            isPresented: $appState.showFileImporter,
-            allowedContentTypes: [.png, .jpeg, .heic, .movie, .mpeg4Movie],
-            allowsMultipleSelection: false
-        ) { result in
-            if case .success(let urls) = result, let url = urls.first {
-                appState.processFile(url: url)
+        .onChange(of: appState.showFileImporter) { _, newValue in
+            if newValue {
+                appState.showOpenPanel()
+            } else {
+                appState.dismissOpenPanel()
             }
         }
         .dropDestination(for: URL.self) { urls, _ in

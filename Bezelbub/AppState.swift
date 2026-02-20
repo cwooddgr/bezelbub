@@ -2,6 +2,7 @@ import SwiftUI
 import CoreGraphics
 import ImageIO
 import AVFoundation
+import UniformTypeIdentifiers
 
 @Observable
 final class AppState {
@@ -15,6 +16,9 @@ final class AppState {
     var errorMessage: String?
     var showFileImporter = false
     var isCompositing = false
+
+    // Open panel (modeless, so drag-and-drop still works on the main window)
+    @ObservationIgnored private var openPanel: NSOpenPanel?
 
     // Video state
     var videoAsset: AVAsset?
@@ -30,12 +34,40 @@ final class AppState {
     }
 
     func processFile(url: URL) {
+        showFileImporter = false
+        dismissOpenPanel()
+
         let ext = url.pathExtension.lowercased()
         if ["mov", "mp4", "m4v"].contains(ext) {
             processVideo(url: url)
         } else {
             processImage(url: url)
         }
+    }
+
+    func showOpenPanel() {
+        guard openPanel == nil else { return }
+
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.png, .jpeg, .heic, .movie, .mpeg4Movie]
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+
+        openPanel = panel
+
+        panel.begin { [weak self] response in
+            guard let self else { return }
+            self.openPanel = nil
+            self.showFileImporter = false
+            if response == .OK, let url = panel.url {
+                self.processFile(url: url)
+            }
+        }
+    }
+
+    func dismissOpenPanel() {
+        openPanel?.cancel(nil)
+        openPanel = nil
     }
 
     private func processImage(url: URL) {

@@ -18,7 +18,6 @@ struct BezelbubApp: App {
                     }
                 }
                 .onOpenURL { url in
-                    appState.showFileImporter = false
                     appState.processFile(url: url)
                 }
                 .handlesExternalEvents(preferring: Set(["*"]), allowing: Set(["*"]))
