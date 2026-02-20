@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -126,7 +126,6 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					78A1BB89FA9FD5A76F0A5EEB = {
-						DevelopmentTeam = 4W2V3Q3VA4;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -141,7 +140,6 @@
 			);
 			mainGroup = 1E7DBD0C525009EBC1E19A94;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -186,8 +184,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Bezelbub/Bezelbub.entitlements;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Bezelbub/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
@@ -195,7 +195,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.bezelbub;
 				PRODUCT_NAME = Bezelbub;
 				SDKROOT = macosx;
@@ -265,8 +265,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Bezelbub/Bezelbub.entitlements;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Bezelbub/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
@@ -274,7 +276,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.bezelbub;
 				PRODUCT_NAME = Bezelbub;
 				SDKROOT = macosx;

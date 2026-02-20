@@ -1,6 +1,6 @@
 # Bezelbub
 
-macOS app that composites device bezels onto screenshots. Built with SwiftUI, targeting macOS 14+.
+macOS app that composites device bezels onto screenshots and screen recordings. Built with SwiftUI, targeting macOS 14+.
 
 ## Project Structure
 
@@ -8,7 +8,7 @@ macOS app that composites device bezels onto screenshots. Built with SwiftUI, ta
   - `BezelbubApp.swift` — App entry point
   - `AppState.swift` — Application state
   - `Models/` — Data models (`DeviceDefinition`, `DeviceMatcher`)
-  - `Services/` — Core logic (`FrameCompositor`, `ScreenRegionDetector`)
+  - `Services/` — Core logic (`FrameCompositor`, `VideoFrameCompositor`, `ScreenRegionDetector`)
   - `Views/` — SwiftUI views (`ContentView`)
 - `Resources/Bezels/` — Device bezel images
 - `Apple Product Bezels/` — Source bezel PNGs from Apple (gitignored, local reference only)

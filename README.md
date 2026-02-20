@@ -2,16 +2,16 @@
 
 ![Bezelbub — Drop an iOS app screenshot, get a perfect device mockup.](hero.png)
 
-A macOS app that wraps your screenshots in realistic Apple device bezels. Drop in a screenshot, and Bezelbub automatically detects the matching device and composites it into a pixel-perfect framed image.
-
-[**Download the latest release (DMG)**](https://github.com/cwooddgr/bezelbub/releases/latest)
+A macOS app that wraps your screenshots and screen recordings in realistic Apple device bezels. Drop in a screenshot or video, and Bezelbub automatically detects the matching device and composites it into a pixel-perfect framed image or video.
 
 ## Features
 
-- **Auto-detection** — Matches screenshots to the correct device by resolution
-- **Drag and drop** — Drop a screenshot onto the app window or dock icon
+- **Auto-detection** — Matches screenshots and videos to the correct device by resolution
+- **Drag and drop** — Drop a screenshot or screen recording onto the app window or dock icon
+- **Video framing** — Export MOV/MP4 screen recordings with device bezels overlaid, audio preserved
+- **Rotation** — Rotate videos to fix incorrect orientation (Option-click for counter-clockwise)
 - **Device colors** — Choose from all available device color options
-- **Copy & Save** — Copy the framed image to your clipboard or save as PNG
+- **Copy & Save** — Copy framed images to clipboard, save as PNG, or export framed videos as MOV
 - **Landscape & Portrait** — Supports both orientations
 
 ## Supported Devices
