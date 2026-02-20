@@ -58,6 +58,7 @@ enum VideoFrameCompositor {
         color: DeviceColor,
         isLandscape: Bool,
         extraRotation: Int = 0,
+        backgroundColor: CGColor,
         outputURL: URL,
         progressHandler: @escaping @MainActor @Sendable (Double) -> Void
     ) async throws {
@@ -217,6 +218,7 @@ enum VideoFrameCompositor {
             }
         }
 
+        parentLayer.backgroundColor = backgroundColor
         parentLayer.addSublayer(videoLayer)
 
         let bezelLayer = CALayer()
@@ -239,7 +241,7 @@ enum VideoFrameCompositor {
 
         exportSession.videoComposition = videoComposition
         exportSession.outputURL = outputURL
-        exportSession.outputFileType = .mov
+        exportSession.outputFileType = .mp4
 
         // Poll progress concurrently while exporting
         let progressTask = Task {

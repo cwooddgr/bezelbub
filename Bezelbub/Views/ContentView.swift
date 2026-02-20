@@ -129,6 +129,12 @@ struct ContentView: View {
                     }
 
                     if appState.isVideoMode {
+                        ColorPicker("Background", selection: $appState.videoBackgroundColor, supportsOpacity: false)
+                            .disabled(appState.isExporting)
+                            .onChange(of: appState.videoBackgroundColor) {
+                                appState.recomposite()
+                            }
+
                         Button {
                             appState.rotateVideo(clockwise: !optionKeyDown)
                         } label: {
@@ -210,8 +216,8 @@ struct ContentView: View {
 
     private func exportVideo() {
         let panel = NSSavePanel()
-        panel.allowedContentTypes = [.movie]
-        panel.nameFieldStringValue = "framed-recording.mov"
+        panel.allowedContentTypes = [.mpeg4Movie]
+        panel.nameFieldStringValue = "framed-recording.mp4"
 
         if panel.runModal() == .OK, let url = panel.url {
             appState.exportVideo(to: url)

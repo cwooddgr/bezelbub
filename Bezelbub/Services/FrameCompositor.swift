@@ -8,7 +8,8 @@ enum FrameCompositor {
         screenshot: CGImage,
         device: DeviceDefinition,
         color: DeviceColor,
-        isLandscape: Bool
+        isLandscape: Bool,
+        backgroundColor: CGColor? = nil
     ) -> CGImage? {
         let bezelFileName = device.bezelFileName(color: color, landscape: isLandscape)
 
@@ -55,6 +56,12 @@ enum FrameCompositor {
               )
         else {
             return nil
+        }
+
+        // Step 0: Fill background if specified (e.g. video mode where alpha isn't supported)
+        if let backgroundColor {
+            ctx.setFillColor(backgroundColor)
+            ctx.fill(CGRect(x: 0, y: 0, width: bezelWidth, height: bezelHeight))
         }
 
         // Step 1: Draw screenshot centered on screen region, at native pixel size (no scaling)

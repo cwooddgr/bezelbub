@@ -22,6 +22,7 @@ final class AppState {
     var isExporting = false
     var exportProgress: Double = 0
     var videoRotation: Int = 0  // Extra rotation in degrees (0, 90, 180, 270)
+    var videoBackgroundColor: Color = .white
     var isVideoMode: Bool { videoAsset != nil }
 
     init() {
@@ -181,12 +182,14 @@ final class AppState {
 
         isCompositing = true
         let landscape = isLandscape
+        let bgColor: CGColor? = isVideoMode ? NSColor(videoBackgroundColor).usingColorSpace(.sRGB)?.cgColor : nil
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let result = FrameCompositor.composite(
                 screenshot: screenshot,
                 device: device,
                 color: color,
-                isLandscape: landscape
+                isLandscape: landscape,
+                backgroundColor: bgColor
             )
             DispatchQueue.main.async {
                 self?.compositedImage = result
@@ -217,6 +220,7 @@ final class AppState {
                     color: color,
                     isLandscape: landscape,
                     extraRotation: rotation,
+                    backgroundColor: NSColor(videoBackgroundColor).usingColorSpace(.sRGB)?.cgColor ?? CGColor(red: 1, green: 1, blue: 1, alpha: 1),
                     outputURL: outputURL
                 ) { [weak self] progress in
                     self?.exportProgress = progress
