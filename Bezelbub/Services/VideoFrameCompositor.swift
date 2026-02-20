@@ -192,6 +192,31 @@ enum VideoFrameCompositor {
 
         let videoLayer = CALayer()
         videoLayer.frame = CGRect(origin: .zero, size: renderSize)
+
+        // Mask the video layer to the screen hole shape (rounded corners)
+        // so video pixels don't poke out behind the bezel's anti-aliased edges.
+        // detectScreenMask returns a grayscale image (luminance-based), but CALayer
+        // masks use the alpha channel, so we convert: draw white clipped by the
+        // grayscale mask to produce an RGBA image with proper alpha.
+        if let screenMask = ScreenRegionDetector.detectScreenMask(bezelFileName: bezelFileName),
+           let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
+           let ctx = CGContext(
+               data: nil, width: bezelWidth, height: bezelHeight,
+               bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
+               bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+           ) {
+            let fullRect = CGRect(x: 0, y: 0, width: bezelWidth, height: bezelHeight)
+            ctx.clip(to: fullRect, mask: screenMask)
+            ctx.setFillColor(.white)
+            ctx.fill(fullRect)
+            if let alphaMask = ctx.makeImage() {
+                let maskLayer = CALayer()
+                maskLayer.frame = CGRect(origin: .zero, size: renderSize)
+                maskLayer.contents = alphaMask
+                videoLayer.mask = maskLayer
+            }
+        }
+
         parentLayer.addSublayer(videoLayer)
 
         let bezelLayer = CALayer()
