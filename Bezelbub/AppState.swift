@@ -19,6 +19,7 @@ final class AppState {
     // Open panel (modeless, so drag-and-drop still works on the main window)
     @ObservationIgnored private var openPanel: NSOpenPanel?
     @ObservationIgnored var ensureWindowVisible: (() -> Void)?
+    @ObservationIgnored private var debounceWork: DispatchWorkItem?
 
     // Video state
     var videoAsset: AVAsset?
@@ -211,6 +212,15 @@ final class AppState {
     func selectColor(_ color: DeviceColor) {
         selectedColor = color
         recomposite()
+    }
+
+    func recompositeDebounced() {
+        debounceWork?.cancel()
+        let item = DispatchWorkItem { [weak self] in
+            self?.recomposite()
+        }
+        debounceWork = item
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15, execute: item)
     }
 
     func recomposite() {

@@ -131,7 +131,7 @@ struct ContentView: View {
                         ColorPicker("Background", selection: $appState.videoBackgroundColor, supportsOpacity: false)
                             .disabled(appState.isExporting)
                             .onChange(of: appState.videoBackgroundColor) {
-                                appState.recomposite()
+                                appState.recompositeDebounced()
                             }
 
                         Button {
