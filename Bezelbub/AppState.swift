@@ -50,7 +50,10 @@ final class AppState {
     }
 
     func showOpenPanel() {
-        guard openPanel == nil else { return }
+        if let existing = openPanel {
+            existing.makeKeyAndOrderFront(nil)
+            return
+        }
 
         let panel = NSOpenPanel()
         panel.allowedContentTypes = [.png, .jpeg, .heic, .movie, .mpeg4Movie]
