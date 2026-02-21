@@ -190,7 +190,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bezelbub/Bezelbub.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Bezelbub/Info.plist;
@@ -199,7 +199,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.bezelbub;
 				PRODUCT_NAME = Bezelbub;
 				SDKROOT = macosx;
@@ -271,7 +271,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bezelbub/Bezelbub.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Bezelbub/Info.plist;
@@ -280,7 +280,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.bezelbub;
 				PRODUCT_NAME = Bezelbub;
 				SDKROOT = macosx;
