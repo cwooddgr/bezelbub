@@ -84,6 +84,8 @@ struct ShareExtensionView: View {
     let onClose: () -> Void
 
     @State private var copiedNotice = false
+    @State private var savedNotice = false
+    @State private var shareItem: ShareItem?
 
     var body: some View {
         NavigationStack {
@@ -132,8 +134,28 @@ struct ShareExtensionView: View {
 
                 if appState.compositedImage != nil {
                     ToolbarItem(placement: .confirmationAction) {
-                        Button("Copy") {
-                            copyAndClose()
+                        Menu {
+                            Button {
+                                copyImage()
+                            } label: {
+                                Label("Copy", systemImage: "doc.on.doc")
+                            }
+
+                            Button {
+                                saveToPhotos()
+                            } label: {
+                                Label("Save to Photos", systemImage: "square.and.arrow.down")
+                            }
+
+                            Button {
+                                if let composited = appState.compositedImage {
+                                    shareItem = ShareItem(items: [UIImage(cgImage: composited)])
+                                }
+                            } label: {
+                                Label("Share...", systemImage: "square.and.arrow.up")
+                            }
+                        } label: {
+                            Image(systemName: "square.and.arrow.up")
                         }
                     }
                 }
@@ -149,8 +171,22 @@ struct ShareExtensionView: View {
                         .transition(.move(edge: .top).combined(with: .opacity))
                         .padding(.top, 4)
                 }
+                if savedNotice {
+                    Text("Saved!")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(.ultraThinMaterial, in: Capsule())
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .padding(.top, 4)
+                }
             }
             .animation(.easeInOut(duration: 0.2), value: copiedNotice)
+            .animation(.easeInOut(duration: 0.2), value: savedNotice)
+            .sheet(item: $shareItem) { item in
+                ShareSheet(items: item.items)
+            }
         }
     }
 
@@ -199,13 +235,40 @@ struct ShareExtensionView: View {
         }
     }
 
-    private func copyAndClose() {
+    private func copyImage() {
         guard let composited = appState.compositedImage else { return }
         let uiImage = UIImage(cgImage: composited)
         UIPasteboard.general.image = uiImage
         copiedNotice = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            onClose()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            copiedNotice = false
         }
     }
+
+    private func saveToPhotos() {
+        guard let composited = appState.compositedImage else { return }
+        let uiImage = UIImage(cgImage: composited)
+        UIImageWriteToSavedPhotosAlbum(uiImage, nil, nil, nil)
+        savedNotice = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            savedNotice = false
+        }
+    }
+}
+
+// MARK: - Share Sheet Types
+
+struct ShareItem: Identifiable {
+    let id = UUID()
+    let items: [Any]
+}
+
+struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
