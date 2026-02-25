@@ -39,31 +39,19 @@ struct VideoExportSheet: View {
                             .multilineTextAlignment(.trailing)
                             .frame(width: 100)
                     }
-                    if model.sizeChanged {
-                        Button("Reset to Original") {
-                            model.reset()
-                        }
-                    }
                 } header: {
                     Text("Resolution")
                 } footer: {
-                    Text("Original: \(model.originalWidth) \u{00d7} \(model.originalHeight)")
-                }
-
-                Section("Quality") {
-                    HStack(spacing: 12) {
-                        Image(systemName: model.isHighQuality ? "checkmark.circle.fill" : "info.circle.fill")
-                            .foregroundStyle(model.isHighQuality ? .green : .yellow)
-                            .font(.title2)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(model.isHighQuality ? "High Quality" : "Standard Quality")
-                                .fontWeight(.medium)
-                            Text(model.isHighQuality ? "Best quality, smaller output" : "Good quality, faster export")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                    HStack {
+                        Text("Original: \(model.originalWidth) \u{00d7} \(model.originalHeight)")
+                        if model.sizeChanged {
+                            Text("·")
+                            Button("Reset") { model.reset() }
                         }
                     }
                 }
+
+
             }
             .navigationTitle("Export Video")
             .navigationBarTitleDisplayMode(.inline)

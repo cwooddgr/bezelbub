@@ -74,7 +74,7 @@ enum FrameCompositor {
         let drawRect = CGRect(x: drawX, y: flippedY, width: ssWidth, height: ssHeight)
 
         ctx.saveGState()
-        if let screenMask = ScreenRegionDetector.detectScreenMask(bezelFileName: bezelFileName) {
+        if let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName) {
             ctx.clip(to: CGRect(x: 0, y: 0, width: bezelWidth, height: bezelHeight), mask: screenMask)
         }
         ctx.draw(screenshot, in: drawRect)

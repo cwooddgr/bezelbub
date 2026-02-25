@@ -1,5 +1,6 @@
 import AVFoundation
 import CoreGraphics
+import CoreImage
 import ImageIO
 import QuartzCore
 
@@ -156,6 +157,7 @@ enum VideoFrameCompositor {
         // --- Build video composition with layer instruction ---
         let instruction = AVMutableVideoCompositionInstruction()
         instruction.timeRange = timeRange
+        instruction.backgroundColor = CGColor(gray: 0, alpha: 0)
 
         let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: compositionVideoTrack)
 
@@ -183,6 +185,16 @@ enum VideoFrameCompositor {
         // then extra user rotation, then scale to fit the screen region, then position.
         var t = preferredTransform
 
+        // Normalize so bounding box origin is at (0,0).
+        // preferredTransform can produce negative coords (e.g., 90° rotation maps
+        // (1640,0) to (0,-1640)). macOS's AVVideoCompositionCoreAnimationTool handles
+        // this internally; our iOS custom compositor needs the transform pre-normalized.
+        let transformedRect = CGRect(origin: .zero, size: naturalSize).applying(t)
+        t = t.concatenating(CGAffineTransform(
+            translationX: -transformedRect.origin.x,
+            y: -transformedRect.origin.y
+        ))
+
         // Apply extra rotation around the center of the post-preferredTransform frame
         if extraRotation != 0 {
             let radians = CGFloat(extraRotation) * .pi / 180.0
@@ -206,7 +218,71 @@ enum VideoFrameCompositor {
         videoComposition.renderSize = renderSize
         videoComposition.frameDuration = CMTime(value: 1, timescale: CMTimeScale(nominalFrameRate > 0 ? nominalFrameRate : 30))
 
-        // --- Build CALayer hierarchy for bezel overlay ---
+        // --- Pre-scale images when outputSize differs from bezel dimensions ---
+        // AVVideoCompositionCoreAnimationTool can produce artifacts (black frames,
+        // aliased edges) when CALayer must downscale large contents at render time.
+        // Pre-scaling with CGContext and high-quality interpolation avoids this.
+        let renderWidth = Int(renderSize.width)
+        let renderHeight = Int(renderSize.height)
+        let needsRescale = renderWidth != bezelWidth || renderHeight != bezelHeight
+
+        let finalBezelImage: CGImage
+        if needsRescale,
+           let colorSpace = bezelImage.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB),
+           let ctx = CGContext(
+               data: nil, width: renderWidth, height: renderHeight,
+               bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
+               bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+           ) {
+            ctx.interpolationQuality = .high
+            ctx.draw(bezelImage, in: CGRect(origin: .zero, size: renderSize))
+            finalBezelImage = ctx.makeImage() ?? bezelImage
+        } else {
+            finalBezelImage = bezelImage
+        }
+
+        // --- Platform-specific bezel overlay ---
+        //
+        // macOS: Use AVVideoCompositionCoreAnimationTool with CALayer hierarchy (works well)
+        // iOS: Use custom AVVideoCompositing because animationTool doesn't properly
+        //      composite CALayer alpha transparency on iOS (black screen bug)
+
+        #if os(iOS)
+        // --- iOS: Custom compositor path ---
+        // Load precomputed mask as CIImage
+        let maskCIImage: CIImage?
+        if let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName) {
+            maskCIImage = CIImage(cgImage: screenMask)
+        } else {
+            maskCIImage = nil
+        }
+
+        // Create bezel CIImage (with alpha transparency for screen hole)
+        let bezelCIImage = CIImage(cgImage: finalBezelImage)
+
+        // Create solid-color background at render size
+        let bgComponents = backgroundColor.components ?? [0, 0, 0, 1]
+        let bgCIImage = CIImage(color: CIColor(
+            red: bgComponents.count > 0 ? bgComponents[0] : 0,
+            green: bgComponents.count > 1 ? bgComponents[1] : 0,
+            blue: bgComponents.count > 2 ? bgComponents[2] : 0,
+            alpha: bgComponents.count > 3 ? bgComponents[3] : 1
+        )).cropped(to: CGRect(origin: .zero, size: renderSize))
+
+        let bezelInstruction = BezelOverlayInstruction(
+            timeRange: timeRange,
+            sourceTrackID: compositionVideoTrack.trackID,
+            bezelImage: bezelCIImage,
+            maskImage: maskCIImage,
+            videoTransform: t,
+            backgroundColor: bgCIImage,
+            renderSize: renderSize
+        )
+
+        videoComposition.customVideoCompositorClass = BezelOverlayCompositor.self
+        videoComposition.instructions = [bezelInstruction]
+        #else
+        // --- macOS: CALayer + animationTool path ---
         let parentLayer = CALayer()
         parentLayer.frame = CGRect(origin: .zero, size: renderSize)
         parentLayer.isGeometryFlipped = true
@@ -216,23 +292,21 @@ enum VideoFrameCompositor {
 
         // Mask the video layer to the screen hole shape (rounded corners)
         // so video pixels don't poke out behind the bezel's anti-aliased edges.
-        // detectScreenMask returns a grayscale image (luminance-based), but CALayer
-        // masks use the alpha channel, so we convert: draw white clipped by the
-        // grayscale mask to produce an RGBA image with proper alpha.
         if let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName),
            let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
            let ctx = CGContext(
-               data: nil, width: bezelWidth, height: bezelHeight,
+               data: nil, width: renderWidth, height: renderHeight,
                bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
            ) {
-            let fullRect = CGRect(x: 0, y: 0, width: bezelWidth, height: bezelHeight)
+            let fullRect = CGRect(origin: .zero, size: renderSize)
+            ctx.interpolationQuality = .high
             ctx.clip(to: fullRect, mask: screenMask)
             ctx.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
             ctx.fill(fullRect)
             if let alphaMask = ctx.makeImage() {
                 let maskLayer = CALayer()
-                maskLayer.frame = CGRect(origin: .zero, size: renderSize)
+                maskLayer.frame = fullRect
                 maskLayer.contents = alphaMask
                 videoLayer.mask = maskLayer
             }
@@ -243,13 +317,14 @@ enum VideoFrameCompositor {
 
         let bezelLayer = CALayer()
         bezelLayer.frame = CGRect(origin: .zero, size: renderSize)
-        bezelLayer.contents = bezelImage
+        bezelLayer.contents = finalBezelImage
         parentLayer.addSublayer(bezelLayer)
 
         videoComposition.animationTool = AVVideoCompositionCoreAnimationTool(
             postProcessingAsVideoLayer: videoLayer,
             in: parentLayer
         )
+        #endif
 
         // --- Export ---
         let resolvedPreset: String
@@ -259,7 +334,7 @@ enum VideoFrameCompositor {
             #if os(macOS)
             resolvedPreset = AVAssetExportPresetHighestQuality
             #else
-            resolvedPreset = AVAssetExportPresetMediumQuality
+            resolvedPreset = AVAssetExportPresetHighestQuality
             #endif
         }
         guard let exportSession = AVAssetExportSession(

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		065439B71423C26748DB591D /* BezelOverlayCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC47BE4C4D1D906E1690A590 /* BezelOverlayCompositor.swift */; };
+		07171232EE0687CE9BE6397D /* BezelOverlayInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55F56B2D937CABAD03CED25 /* BezelOverlayInstruction.swift */; };
 		09688EC1A5ACCA02DEDF2E7E /* ExportSizeAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCD2162C54740DCDE3267A7 /* ExportSizeAccessoryView.swift */; };
 		12F062B3B736D0AE84650AE3 /* Masks in Resources */ = {isa = PBXBuildFile; fileRef = 188830798FBDF3A45B2A58FC /* Masks */; };
 		164A972BA74FD6EB832A1C1C /* ExportSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */; };
@@ -37,10 +39,12 @@
 		ACEE2F270A6B6F2CF10A0014 /* Bezels in Resources */ = {isa = PBXBuildFile; fileRef = 315F6AB6180227B409B8278E /* Bezels */; };
 		B6F1B828CC7764DD83F93DF4 /* DeviceMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */; };
 		B6F61BF45C6614B3DE4B6296 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E2B35ED96C5D90F85408D0 /* AppState.swift */; };
+		BB39DFEEAAC549C151BC9F4F /* BezelOverlayInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55F56B2D937CABAD03CED25 /* BezelOverlayInstruction.swift */; };
 		C1F37CDA44236E652B12FD38 /* VideoFrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90FD3B82D2917F552AE902 /* VideoFrameCompositor.swift */; };
 		C526498B7A0243B8A73AA14B /* screen-regions.json in Resources */ = {isa = PBXBuildFile; fileRef = 21DBC54512D0785272D54CC8 /* screen-regions.json */; };
 		CCFB62964B756B9E11857D93 /* DeviceMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */; };
 		CFA2AA00FCDB2689E26DAF98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D2364C0610086B4A6FF2F50 /* Assets.xcassets */; };
+		D4AF7691464D6620180A3BD0 /* BezelOverlayCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC47BE4C4D1D906E1690A590 /* BezelOverlayCompositor.swift */; };
 		DAF3335095B8BA3B48AD48AF /* Masks in Resources */ = {isa = PBXBuildFile; fileRef = 188830798FBDF3A45B2A58FC /* Masks */; };
 		DE94BB55A11D663DEE3A6738 /* ExportSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */; };
 		DF2B9ABD923173B757B22E72 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61202F6ADEFB3BDEB52800B6 /* ContentView.swift */; };
@@ -101,6 +105,8 @@
 		CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMatcher.swift; sourceTree = "<group>"; };
 		CBFFE949642129EBFEA4C1E1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CE3B239CEFBB092ACE6B17D3 /* VideoExportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoExportSheet.swift; sourceTree = "<group>"; };
+		EC47BE4C4D1D906E1690A590 /* BezelOverlayCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezelOverlayCompositor.swift; sourceTree = "<group>"; };
+		F55F56B2D937CABAD03CED25 /* BezelOverlayInstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezelOverlayInstruction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -210,6 +216,8 @@
 		F48DEC9DC907078630EC5B80 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				EC47BE4C4D1D906E1690A590 /* BezelOverlayCompositor.swift */,
+				F55F56B2D937CABAD03CED25 /* BezelOverlayInstruction.swift */,
 				CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */,
 				1B182D82C51C36235B3EF967 /* FrameCompositor.swift */,
 				3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */,
@@ -376,6 +384,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6F61BF45C6614B3DE4B6296 /* AppState.swift in Sources */,
+				D4AF7691464D6620180A3BD0 /* BezelOverlayCompositor.swift in Sources */,
+				BB39DFEEAAC549C151BC9F4F /* BezelOverlayInstruction.swift in Sources */,
 				5B509F0B66C92B4D1233B88F /* BezelbubApp.swift in Sources */,
 				ACBF56DDA4EF7390D30C5002 /* ContentView.swift in Sources */,
 				5AD62F2763027E53D4E32ABF /* DeviceDefinition.swift in Sources */,
@@ -393,6 +403,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				98DB363B057E388C27E90F3E /* AppState.swift in Sources */,
+				065439B71423C26748DB591D /* BezelOverlayCompositor.swift in Sources */,
+				07171232EE0687CE9BE6397D /* BezelOverlayInstruction.swift in Sources */,
 				54160930C7131803E3586866 /* BezelbubApp.swift in Sources */,
 				DF2B9ABD923173B757B22E72 /* ContentView.swift in Sources */,
 				ECCA747FFDAD2E46EC703154 /* DeviceDefinition.swift in Sources */,

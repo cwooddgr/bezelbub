@@ -32,6 +32,9 @@ targets:
       - path: Resources/Bezels
         buildPhase: resources
         type: folder
+      - path: Resources/Masks
+        buildPhase: resources
+        type: folder
       - path: Resources/screen-regions.json
         buildPhase: resources
     settings:
@@ -55,6 +58,9 @@ targets:
       - path: Shared
       - path: iOS
       - path: Resources/Bezels
+        buildPhase: resources
+        type: folder
+      - path: Resources/Masks
         buildPhase: resources
         type: folder
       - path: Resources/screen-regions.json
@@ -81,8 +87,15 @@ targets:
     platform: iOS
     sources:
       - path: Shared
+        excludes:
+          - "Services/VideoFrameCompositor.swift"
+          - "Services/BezelOverlayCompositor.swift"
+          - "Services/BezelOverlayInstruction.swift"
       - path: BezelbubShareExtension
       - path: Resources/Bezels
+        buildPhase: resources
+        type: folder
+      - path: Resources/Masks
         buildPhase: resources
         type: folder
       - path: Resources/screen-regions.json
@@ -97,3 +110,4 @@ targets:
       CURRENT_PROJECT_VERSION: "7"
       CODE_SIGN_ENTITLEMENTS: BezelbubShareExtension/BezelbubShareExtension.entitlements
       SKIP_INSTALL: YES
+      OTHER_SWIFT_FLAGS: "-DSHARE_EXTENSION"

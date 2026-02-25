@@ -4,15 +4,20 @@ import UIKit
 import AVFoundation
 import UniformTypeIdentifiers
 
+struct ShareItem: Identifiable {
+    let id = UUID()
+    let items: [Any]
+}
+
 struct ContentView: View {
     @Environment(AppState.self) private var appState
 
     @State private var selectedPhotoItem: PhotosPickerItem?
+    @State private var showPhotoPicker = false
     @State private var showDocumentPicker = false
-    @State private var showShareSheet = false
+    @State private var shareItem: ShareItem?
     @State private var copiedNotice = false
     @State private var exportedVideoURL: URL?
-    @State private var showVideoExportSheet = false
     @State private var exportSizeModel: ExportSizeModel?
 
     var body: some View {
@@ -72,10 +77,9 @@ struct ContentView: View {
                                 .foregroundStyle(.secondary)
 
                             HStack(spacing: 12) {
-                                PhotosPicker(
-                                    selection: $selectedPhotoItem,
-                                    matching: .any(of: [.screenshots, .images, .videos])
-                                ) {
+                                Button {
+                                    showPhotoPicker = true
+                                } label: {
                                     Label("Photos", systemImage: "photo.on.rectangle")
                                 }
                                 .buttonStyle(.bordered)
@@ -120,10 +124,9 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Menu {
-                        PhotosPicker(
-                            selection: $selectedPhotoItem,
-                            matching: .any(of: [.screenshots, .images, .videos])
-                        ) {
+                        Button {
+                            showPhotoPicker = true
+                        } label: {
                             Label("Choose from Photos", systemImage: "photo.on.rectangle")
                         }
 
@@ -146,7 +149,6 @@ struct ContentView: View {
                                     width: composited.width,
                                     height: composited.height
                                 )
-                                showVideoExportSheet = true
                             } label: {
                                 Image(systemName: "square.and.arrow.up")
                             }
@@ -166,8 +168,9 @@ struct ContentView: View {
                                 }
 
                                 Button {
-                                    exportedVideoURL = nil
-                                    showShareSheet = true
+                                    if let composited = appState.compositedImage {
+                                        shareItem = ShareItem(items: [UIImage(cgImage: composited)])
+                                    }
                                 } label: {
                                     Label("Share...", systemImage: "square.and.arrow.up")
                                 }
@@ -197,28 +200,23 @@ struct ContentView: View {
             Task { await loadPhoto(from: newItem) }
             selectedPhotoItem = nil
         }
+        .photosPicker(isPresented: $showPhotoPicker, selection: $selectedPhotoItem, matching: .any(of: [.screenshots, .images, .videos]))
         .sheet(isPresented: $showDocumentPicker) {
             DocumentPickerView { url in
                 appState.processFile(url: url)
             }
         }
-        .sheet(isPresented: $showShareSheet) {
-            if let videoURL = exportedVideoURL {
-                ShareSheet(items: [videoURL])
-            } else if let composited = appState.compositedImage {
-                ShareSheet(items: [UIImage(cgImage: composited)])
-            }
+        .sheet(item: $shareItem) { item in
+            ShareSheet(items: item.items)
         }
-        .sheet(isPresented: $showVideoExportSheet) {
-            if let model = exportSizeModel {
-                VideoExportSheet(model: model) {
-                    performVideoExport(model: model)
-                }
+        .sheet(item: $exportSizeModel) { model in
+            VideoExportSheet(model: model) {
+                performVideoExport(model: model)
             }
         }
         .onChange(of: appState.isExporting) { wasExporting, isExporting in
-            if wasExporting && !isExporting, exportedVideoURL != nil, appState.errorMessage == nil {
-                showShareSheet = true
+            if wasExporting && !isExporting, let url = exportedVideoURL, appState.errorMessage == nil {
+                shareItem = ShareItem(items: [url])
             }
         }
     }
@@ -349,10 +347,7 @@ struct ContentView: View {
         exportedVideoURL = tempURL
 
         let size: CGSize? = model.sizeChanged ? model.targetSize : nil
-        let preset = model.isHighQuality
-            ? AVAssetExportPresetHighestQuality
-            : AVAssetExportPresetMediumQuality
-        appState.exportVideo(to: tempURL, size: size, exportPreset: preset)
+        appState.exportVideo(to: tempURL, size: size, exportPreset: AVAssetExportPresetHighestQuality)
     }
 }
 

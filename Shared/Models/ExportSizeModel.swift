@@ -1,10 +1,10 @@
 import SwiftUI
 
 @Observable
-final class ExportSizeModel {
+final class ExportSizeModel: Identifiable {
+    let id = UUID()
     static let minDimension = 1
     static let maxDimension = 16384
-    static let highQualityPixelThreshold = 4_000_000
 
     let originalWidth: Int
     let originalHeight: Int
@@ -27,10 +27,6 @@ final class ExportSizeModel {
 
     var targetSize: CGSize {
         CGSize(width: width, height: height)
-    }
-
-    var isHighQuality: Bool {
-        (width * height) <= Self.highQualityPixelThreshold
     }
 
     func reset() {

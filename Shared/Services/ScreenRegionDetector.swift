@@ -122,6 +122,31 @@ enum ScreenRegionDetector {
         return rect
     }
 
+    // MARK: - Bundled Masks (precomputed by Scripts/generate-screen-regions.swift)
+
+    /// Look up a precomputed screen mask by bezel filename.
+    /// Falls back to runtime flood-fill if not found.
+    static func screenMask(forBezelFileName fileName: String) -> CGImage? {
+        if let mask = bundledMask(forBezelFileName: fileName) {
+            return mask
+        }
+        print("[Bezelbub] Warning: No precomputed mask for \(fileName), falling back to runtime detection")
+        return detectScreenMask(bezelFileName: fileName)
+    }
+
+    private static func bundledMask(forBezelFileName fileName: String) -> CGImage? {
+        guard let masksURL = Bundle.main.url(forResource: "Masks", withExtension: nil) else {
+            return nil
+        }
+        let url = masksURL.appendingPathComponent(fileName)
+        guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+              let image = CGImageSourceCreateImageAtIndex(source, 0, nil)
+        else {
+            return nil
+        }
+        return image
+    }
+
     /// Returns a grayscale CGImage mask matching the exact screen hole shape
     /// (including rounded corners and anti-aliased edges) by flood-filling
     /// from the bezel center. White (0xFF) = screen area, black (0x00) = blocked.
