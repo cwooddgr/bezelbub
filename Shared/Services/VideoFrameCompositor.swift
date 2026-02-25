@@ -61,6 +61,7 @@ enum VideoFrameCompositor {
         backgroundColor: CGColor,
         outputURL: URL,
         outputSize: CGSize? = nil,
+        exportPreset: String? = nil,
         progressHandler: @escaping @MainActor @Sendable (Double) -> Void
     ) async throws {
         // --- Load bezel image ---
@@ -218,7 +219,7 @@ enum VideoFrameCompositor {
         // detectScreenMask returns a grayscale image (luminance-based), but CALayer
         // masks use the alpha channel, so we convert: draw white clipped by the
         // grayscale mask to produce an RGBA image with proper alpha.
-        if let screenMask = ScreenRegionDetector.detectScreenMask(bezelFileName: bezelFileName),
+        if let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName),
            let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
            let ctx = CGContext(
                data: nil, width: bezelWidth, height: bezelHeight,
@@ -251,9 +252,19 @@ enum VideoFrameCompositor {
         )
 
         // --- Export ---
+        let resolvedPreset: String
+        if let exportPreset {
+            resolvedPreset = exportPreset
+        } else {
+            #if os(macOS)
+            resolvedPreset = AVAssetExportPresetHighestQuality
+            #else
+            resolvedPreset = AVAssetExportPresetMediumQuality
+            #endif
+        }
         guard let exportSession = AVAssetExportSession(
             asset: composition,
-            presetName: AVAssetExportPresetHighestQuality
+            presetName: resolvedPreset
         ) else {
             throw VideoExportError.exportSessionFailed
         }

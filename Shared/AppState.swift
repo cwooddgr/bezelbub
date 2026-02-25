@@ -1,7 +1,9 @@
 import SwiftUI
 import CoreGraphics
 import ImageIO
+#if !SHARE_EXTENSION
 import AVFoundation
+#endif
 import UniformTypeIdentifiers
 
 #if os(macOS)
@@ -29,6 +31,7 @@ final class AppState {
     #endif
     @ObservationIgnored private var debounceWork: DispatchWorkItem?
 
+    #if !SHARE_EXTENSION
     // Video state
     var videoAsset: AVAsset?
     var videoURL: URL?
@@ -37,6 +40,7 @@ final class AppState {
     var videoRotation: Int = 0  // Extra rotation in degrees (0, 90, 180, 270)
     var videoBackgroundColor: Color = .white
     var isVideoMode: Bool { videoAsset != nil }
+    #endif
     var sourceFileName: String?
     var sourceDirectoryURL: URL?
 
@@ -64,12 +68,16 @@ final class AppState {
         sourceFileName = url.deletingPathExtension().lastPathComponent
         sourceDirectoryURL = url.deletingLastPathComponent()
 
+        #if !SHARE_EXTENSION
         let ext = url.pathExtension.lowercased()
         if ["mov", "mp4", "m4v"].contains(ext) {
             processVideo(url: url)
         } else {
             processImage(url: url)
         }
+        #else
+        processImage(url: url)
+        #endif
     }
 
     #if os(macOS)
@@ -106,15 +114,19 @@ final class AppState {
     }
     #endif
 
+    #if !SHARE_EXTENSION
     private func stopVideoAccess() {
         videoURL?.stopAccessingSecurityScopedResource()
         videoURL = nil
     }
+    #endif
 
     func processImage(url: URL) {
+        #if !SHARE_EXTENSION
         // Clear video state
         videoAsset = nil
         stopVideoAccess()
+        #endif
 
         guard url.startAccessingSecurityScopedResource() || true else { return }
         defer { url.stopAccessingSecurityScopedResource() }
@@ -165,9 +177,11 @@ final class AppState {
     }
 
     func processImage(cgImage: CGImage) {
+        #if !SHARE_EXTENSION
         // Clear video state
         videoAsset = nil
         stopVideoAccess()
+        #endif
 
         screenshotImage = cgImage
         errorMessage = nil
@@ -191,6 +205,7 @@ final class AppState {
         selectDevice(match.device, isLandscape: match.isLandscape)
     }
 
+    #if !SHARE_EXTENSION
     private func processVideo(url: URL) {
         // Clear image state
         screenshotImage = nil
@@ -262,6 +277,7 @@ final class AppState {
             errorMessage = "Could not load video: \(error.localizedDescription)"
         }
     }
+    #endif
 
     func selectDevice(_ device: DeviceDefinition, isLandscape: Bool) {
         selectedDevice = device
@@ -284,6 +300,7 @@ final class AppState {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15, execute: item)
     }
 
+    #if !SHARE_EXTENSION
     private func videoBackgroundCGColor() -> CGColor {
         #if os(macOS)
         return NSColor(videoBackgroundColor).usingColorSpace(.sRGB)?.cgColor
@@ -292,6 +309,7 @@ final class AppState {
         return UIColor(videoBackgroundColor).cgColor
         #endif
     }
+    #endif
 
     func recomposite() {
         guard let screenshot = screenshotImage,
@@ -301,8 +319,17 @@ final class AppState {
 
         isCompositing = true
         let landscape = isLandscape
+        #if !SHARE_EXTENSION
         let bgColor: CGColor? = isVideoMode ? videoBackgroundCGColor() : nil
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+        #else
+        let bgColor: CGColor? = nil
+        #endif
+        #if os(macOS)
+        let compositingQoS = DispatchQoS.QoSClass.userInitiated
+        #else
+        let compositingQoS = DispatchQoS.QoSClass.utility
+        #endif
+        DispatchQueue.global(qos: compositingQoS).async { [weak self] in
             let result = FrameCompositor.composite(
                 screenshot: screenshot,
                 device: device,
@@ -320,7 +347,8 @@ final class AppState {
         }
     }
 
-    func exportVideo(to outputURL: URL, size: CGSize? = nil) {
+    #if !SHARE_EXTENSION
+    func exportVideo(to outputURL: URL, size: CGSize? = nil, exportPreset: String? = nil) {
         guard let asset = videoAsset,
               let device = selectedDevice,
               let color = selectedColor
@@ -342,7 +370,8 @@ final class AppState {
                     extraRotation: rotation,
                     backgroundColor: bgColor,
                     outputURL: outputURL,
-                    outputSize: size
+                    outputSize: size,
+                    exportPreset: exportPreset
                 ) { [weak self] progress in
                     self?.exportProgress = progress
                 }
@@ -353,4 +382,5 @@ final class AppState {
             }
         }
     }
+    #endif
 }

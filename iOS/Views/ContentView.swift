@@ -1,6 +1,7 @@
 import SwiftUI
 import PhotosUI
 import UIKit
+import AVFoundation
 import UniformTypeIdentifiers
 
 struct ContentView: View {
@@ -11,6 +12,8 @@ struct ContentView: View {
     @State private var showShareSheet = false
     @State private var copiedNotice = false
     @State private var exportedVideoURL: URL?
+    @State private var showVideoExportSheet = false
+    @State private var exportSizeModel: ExportSizeModel?
 
     var body: some View {
         @Bindable var appState = appState
@@ -138,7 +141,12 @@ struct ContentView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         if appState.isVideoMode {
                             Button {
-                                exportVideo()
+                                guard let composited = appState.compositedImage else { return }
+                                exportSizeModel = ExportSizeModel(
+                                    width: composited.width,
+                                    height: composited.height
+                                )
+                                showVideoExportSheet = true
                             } label: {
                                 Image(systemName: "square.and.arrow.up")
                             }
@@ -199,6 +207,13 @@ struct ContentView: View {
                 ShareSheet(items: [videoURL])
             } else if let composited = appState.compositedImage {
                 ShareSheet(items: [UIImage(cgImage: composited)])
+            }
+        }
+        .sheet(isPresented: $showVideoExportSheet) {
+            if let model = exportSizeModel {
+                VideoExportSheet(model: model) {
+                    performVideoExport(model: model)
+                }
             }
         }
         .onChange(of: appState.isExporting) { wasExporting, isExporting in
@@ -321,7 +336,7 @@ struct ContentView: View {
         UIImageWriteToSavedPhotosAlbum(uiImage, nil, nil, nil)
     }
 
-    private func exportVideo() {
+    private func performVideoExport(model: ExportSizeModel) {
         guard appState.compositedImage != nil else { return }
 
         let tempURL = FileManager.default.temporaryDirectory
@@ -332,7 +347,12 @@ struct ContentView: View {
         try? FileManager.default.removeItem(at: tempURL)
 
         exportedVideoURL = tempURL
-        appState.exportVideo(to: tempURL)
+
+        let size: CGSize? = model.sizeChanged ? model.targetSize : nil
+        let preset = model.isHighQuality
+            ? AVAssetExportPresetHighestQuality
+            : AVAssetExportPresetMediumQuality
+        appState.exportVideo(to: tempURL, size: size, exportPreset: preset)
     }
 }
 

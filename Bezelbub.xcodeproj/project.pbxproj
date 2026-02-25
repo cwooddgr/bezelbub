@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		09688EC1A5ACCA02DEDF2E7E /* ExportSizeAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCD2162C54740DCDE3267A7 /* ExportSizeAccessoryView.swift */; };
+		12F062B3B736D0AE84650AE3 /* Masks in Resources */ = {isa = PBXBuildFile; fileRef = 188830798FBDF3A45B2A58FC /* Masks */; };
+		164A972BA74FD6EB832A1C1C /* ExportSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */; };
 		1A25300357F8B75AD7C32523 /* Bezels in Resources */ = {isa = PBXBuildFile; fileRef = 315F6AB6180227B409B8278E /* Bezels */; };
 		24D1B0C626E8D70B41C89E4F /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEE59BF678487F35F7F7597 /* ShareViewController.swift */; };
+		2C7B2A89132371DE36F2D267 /* Masks in Resources */ = {isa = PBXBuildFile; fileRef = 188830798FBDF3A45B2A58FC /* Masks */; };
 		327B98799D01DC920A353AD3 /* FrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B182D82C51C36235B3EF967 /* FrameCompositor.swift */; };
 		38F05F3486506BFF8FA81AF7 /* screen-regions.json in Resources */ = {isa = PBXBuildFile; fileRef = 21DBC54512D0785272D54CC8 /* screen-regions.json */; };
 		42AD27688EECAE44C64608E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39BBDA3AB8A423E4620B0461 /* Assets.xcassets */; };
@@ -20,6 +23,8 @@
 		5B509F0B66C92B4D1233B88F /* BezelbubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3306004E9B006EE26A720505 /* BezelbubApp.swift */; };
 		5BAD7D929AEFB14CBA468B9C /* DeviceDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465F701ED71381B1207E9674 /* DeviceDefinition.swift */; };
 		6522B1972F07F6EC59A35E28 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E2B35ED96C5D90F85408D0 /* AppState.swift */; };
+		6E60987700E17BF7DAD28023 /* ExportSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */; };
+		735FECFD31E7AB9709F0AF5C /* VideoExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3B239CEFBB092ACE6B17D3 /* VideoExportSheet.swift */; };
 		7405FF8189A77D9BA0A95681 /* Bezels in Resources */ = {isa = PBXBuildFile; fileRef = 315F6AB6180227B409B8278E /* Bezels */; };
 		7858A5E0BD3D20EFE488B67C /* screen-regions.json in Resources */ = {isa = PBXBuildFile; fileRef = 21DBC54512D0785272D54CC8 /* screen-regions.json */; };
 		84AC81359FD8DA3A11B2BCB3 /* ScreenRegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */; };
@@ -36,7 +41,8 @@
 		C526498B7A0243B8A73AA14B /* screen-regions.json in Resources */ = {isa = PBXBuildFile; fileRef = 21DBC54512D0785272D54CC8 /* screen-regions.json */; };
 		CCFB62964B756B9E11857D93 /* DeviceMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */; };
 		CFA2AA00FCDB2689E26DAF98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D2364C0610086B4A6FF2F50 /* Assets.xcassets */; };
-		D246F6CA14896E78C95E61E9 /* VideoFrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90FD3B82D2917F552AE902 /* VideoFrameCompositor.swift */; };
+		DAF3335095B8BA3B48AD48AF /* Masks in Resources */ = {isa = PBXBuildFile; fileRef = 188830798FBDF3A45B2A58FC /* Masks */; };
+		DE94BB55A11D663DEE3A6738 /* ExportSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */; };
 		DF2B9ABD923173B757B22E72 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61202F6ADEFB3BDEB52800B6 /* ContentView.swift */; };
 		E7F5BADE64418652BEBDBBFB /* VideoFrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90FD3B82D2917F552AE902 /* VideoFrameCompositor.swift */; };
 		ECCA747FFDAD2E46EC703154 /* DeviceDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465F701ED71381B1207E9674 /* DeviceDefinition.swift */; };
@@ -67,6 +73,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		188830798FBDF3A45B2A58FC /* Masks */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Masks; path = Resources/Masks; sourceTree = SOURCE_ROOT; };
 		1A8016D8E20AEC37FAE032A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1B182D82C51C36235B3EF967 /* FrameCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCompositor.swift; sourceTree = "<group>"; };
 		1DCD2162C54740DCDE3267A7 /* ExportSizeAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSizeAccessoryView.swift; sourceTree = "<group>"; };
@@ -86,12 +93,14 @@
 		6D2364C0610086B4A6FF2F50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		867C438292AAC0E6B5D36503 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8F9797F68B3DD12D4A97FD80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSizeModel.swift; sourceTree = "<group>"; };
 		A18F927CC62EE90481CDA011 /* BezelbubShareExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = BezelbubShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACEE59BF678487F35F7F7597 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		C5B71CEC1869D991FEC634CF /* BezelbubShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BezelbubShareExtension.entitlements; sourceTree = "<group>"; };
 		CA8E38085E9D6CA1F6085DEC /* Bezelbub-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bezelbub-iOS.entitlements"; sourceTree = "<group>"; };
 		CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMatcher.swift; sourceTree = "<group>"; };
 		CBFFE949642129EBFEA4C1E1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		CE3B239CEFBB092ACE6B17D3 /* VideoExportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoExportSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -99,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				315F6AB6180227B409B8278E /* Bezels */,
+				188830798FBDF3A45B2A58FC /* Masks */,
 				3B9704F97FA1FA0AECB6BF45 /* BezelbubShareExtension */,
 				EB5214187513FDB9318AB795 /* iOS */,
 				85716587414E5ABB391CA0F3 /* macOS */,
@@ -131,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				61202F6ADEFB3BDEB52800B6 /* ContentView.swift */,
+				CE3B239CEFBB092ACE6B17D3 /* VideoExportSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -169,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				465F701ED71381B1207E9674 /* DeviceDefinition.swift */,
+				9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -315,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A25300357F8B75AD7C32523 /* Bezels in Resources */,
+				2C7B2A89132371DE36F2D267 /* Masks in Resources */,
 				7858A5E0BD3D20EFE488B67C /* screen-regions.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,6 +338,7 @@
 			files = (
 				42AD27688EECAE44C64608E8 /* Assets.xcassets in Resources */,
 				7405FF8189A77D9BA0A95681 /* Bezels in Resources */,
+				12F062B3B736D0AE84650AE3 /* Masks in Resources */,
 				38F05F3486506BFF8FA81AF7 /* screen-regions.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -335,6 +349,7 @@
 			files = (
 				CFA2AA00FCDB2689E26DAF98 /* Assets.xcassets in Resources */,
 				ACEE2F270A6B6F2CF10A0014 /* Bezels in Resources */,
+				DAF3335095B8BA3B48AD48AF /* Masks in Resources */,
 				C526498B7A0243B8A73AA14B /* screen-regions.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,10 +364,10 @@
 				6522B1972F07F6EC59A35E28 /* AppState.swift in Sources */,
 				5BAD7D929AEFB14CBA468B9C /* DeviceDefinition.swift in Sources */,
 				B6F1B828CC7764DD83F93DF4 /* DeviceMatcher.swift in Sources */,
+				6E60987700E17BF7DAD28023 /* ExportSizeModel.swift in Sources */,
 				9150F022E1A21BE53D510F92 /* FrameCompositor.swift in Sources */,
 				ABE72E61C307CAD6DBE2FE0E /* ScreenRegionDetector.swift in Sources */,
 				24D1B0C626E8D70B41C89E4F /* ShareViewController.swift in Sources */,
-				D246F6CA14896E78C95E61E9 /* VideoFrameCompositor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,6 +381,7 @@
 				5AD62F2763027E53D4E32ABF /* DeviceDefinition.swift in Sources */,
 				42CC3DEC949F30F8B3ADE0AE /* DeviceMatcher.swift in Sources */,
 				09688EC1A5ACCA02DEDF2E7E /* ExportSizeAccessoryView.swift in Sources */,
+				DE94BB55A11D663DEE3A6738 /* ExportSizeModel.swift in Sources */,
 				327B98799D01DC920A353AD3 /* FrameCompositor.swift in Sources */,
 				464BFF8175BEF395C93EA99F /* ScreenRegionDetector.swift in Sources */,
 				C1F37CDA44236E652B12FD38 /* VideoFrameCompositor.swift in Sources */,
@@ -381,8 +397,10 @@
 				DF2B9ABD923173B757B22E72 /* ContentView.swift in Sources */,
 				ECCA747FFDAD2E46EC703154 /* DeviceDefinition.swift in Sources */,
 				CCFB62964B756B9E11857D93 /* DeviceMatcher.swift in Sources */,
+				164A972BA74FD6EB832A1C1C /* ExportSizeModel.swift in Sources */,
 				A13BC31C287F514DFD9B7E52 /* FrameCompositor.swift in Sources */,
 				84AC81359FD8DA3A11B2BCB3 /* ScreenRegionDetector.swift in Sources */,
+				735FECFD31E7AB9709F0AF5C /* VideoExportSheet.swift in Sources */,
 				E7F5BADE64418652BEBDBBFB /* VideoFrameCompositor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,6 +479,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 2.1.1;
+				OTHER_SWIFT_FLAGS = "-DSHARE_EXTENSION";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.dgrlabs.bezelbub.share-extension";
 				PRODUCT_NAME = BezelbubShareExtension;
 				SDKROOT = iphoneos;
@@ -567,6 +586,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 2.1.1;
+				OTHER_SWIFT_FLAGS = "-DSHARE_EXTENSION";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.dgrlabs.bezelbub.share-extension";
 				PRODUCT_NAME = BezelbubShareExtension;
 				SDKROOT = iphoneos;
