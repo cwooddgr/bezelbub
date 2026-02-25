@@ -52,6 +52,8 @@
 	<string>Bezelbub needs access to save framed screenshots and videos to your Photo Library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Bezelbub needs access to your Photo Library to load screenshots and screen recordings.</string>
+	<key>UILaunchScreen</key>
+	<dict/>
 	<key>UISupportsDocumentBrowser</key>
 	<false/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>

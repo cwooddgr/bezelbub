@@ -8,7 +8,7 @@ options:
   generateEmptyDirectories: true
 
 settings:
-  DEVELOPMENT_TEAM: 4W2V3Q3VA4
+  DEVELOPMENT_TEAM: 2CTUXD4C44
   CODE_SIGN_STYLE: Automatic
 
 schemes:
@@ -33,7 +33,7 @@ targets:
         buildPhase: resources
         type: folder
     settings:
-      DEVELOPMENT_TEAM: 4W2V3Q3VA4
+      DEVELOPMENT_TEAM: 2CTUXD4C44
       CODE_SIGN_STYLE: Automatic
       PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.bezelbub
       INFOPLIST_FILE: macOS/Info.plist
@@ -56,7 +56,7 @@ targets:
         buildPhase: resources
         type: folder
     settings:
-      DEVELOPMENT_TEAM: 4W2V3Q3VA4
+      DEVELOPMENT_TEAM: 2CTUXD4C44
       CODE_SIGN_STYLE: Automatic
       PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.bezelbub
       INFOPLIST_FILE: iOS/Info.plist
@@ -68,7 +68,7 @@ targets:
       INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright \u00a9 2026 DGR Labs, LLC. All rights reserved."
       INFOPLIST_KEY_UILaunchScreen_Generation: YES
       INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
-      INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+      INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
     dependencies:
       - target: BezelbubShareExtension
 
@@ -82,7 +82,7 @@ targets:
         buildPhase: resources
         type: folder
     settings:
-      DEVELOPMENT_TEAM: 4W2V3Q3VA4
+      DEVELOPMENT_TEAM: 2CTUXD4C44
       CODE_SIGN_STYLE: Automatic
       PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.bezelbub.share-extension
       INFOPLIST_FILE: BezelbubShareExtension/Info.plist

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -76,13 +76,13 @@
 		39BBDA3AB8A423E4620B0461 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRegionDetector.swift; sourceTree = "<group>"; };
 		465F701ED71381B1207E9674 /* DeviceDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDefinition.swift; sourceTree = "<group>"; };
-		5071F363F33E5DBE583B3D51 /* Bezelbub-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Bezelbub-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5071F363F33E5DBE583B3D51 /* Bezelbub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezelbub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61202F6ADEFB3BDEB52800B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		638F038B33402030765C275F /* Bezelbub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bezelbub.entitlements; sourceTree = "<group>"; };
 		6D2364C0610086B4A6FF2F50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		867C438292AAC0E6B5D36503 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8F9797F68B3DD12D4A97FD80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		A18F927CC62EE90481CDA011 /* BezelbubShareExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = BezelbubShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A18F927CC62EE90481CDA011 /* BezelbubShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BezelbubShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACEE59BF678487F35F7F7597 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		C5B71CEC1869D991FEC634CF /* BezelbubShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BezelbubShareExtension.entitlements; sourceTree = "<group>"; };
 		CA8E38085E9D6CA1F6085DEC /* Bezelbub-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bezelbub-iOS.entitlements"; sourceTree = "<group>"; };
@@ -163,7 +163,7 @@
 		DF26978FE47FDCED5C36A9B8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5071F363F33E5DBE583B3D51 /* Bezelbub-iOS.app */,
+				5071F363F33E5DBE583B3D51 /* Bezelbub.app */,
 				372E1FDDB68E56A28177388D /* Bezelbub.app */,
 				A18F927CC62EE90481CDA011 /* BezelbubShareExtension.appex */,
 			);
@@ -213,7 +213,7 @@
 			packageProductDependencies = (
 			);
 			productName = "Bezelbub-iOS";
-			productReference = 5071F363F33E5DBE583B3D51 /* Bezelbub-iOS.app */;
+			productReference = 5071F363F33E5DBE583B3D51 /* Bezelbub.app */;
 			productType = "com.apple.product-type.application";
 		};
 		78A1BB89FA9FD5A76F0A5EEB /* Bezelbub */ = {
@@ -262,15 +262,12 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					62DE3436A69B6711D075E338 = {
-						DevelopmentTeam = 4W2V3Q3VA4;
 						ProvisioningStyle = Automatic;
 					};
 					78A1BB89FA9FD5A76F0A5EEB = {
-						DevelopmentTeam = 4W2V3Q3VA4;
 						ProvisioningStyle = Automatic;
 					};
 					958C71A657CC224299AAD004 = {
-						DevelopmentTeam = 4W2V3Q3VA4;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -285,7 +282,6 @@
 			);
 			mainGroup = 1E7DBD0C525009EBC1E19A94;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -390,7 +386,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = 4W2V3Q3VA4;
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
@@ -413,7 +409,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = 4W2V3Q3VA4;
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = iOS/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -437,7 +433,7 @@
 				CODE_SIGN_ENTITLEMENTS = BezelbubShareExtension/BezelbubShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = 4W2V3Q3VA4;
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = BezelbubShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -519,7 +515,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = 4W2V3Q3VA4;
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = iOS/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -543,7 +539,7 @@
 				CODE_SIGN_ENTITLEMENTS = BezelbubShareExtension/BezelbubShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = 4W2V3Q3VA4;
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = BezelbubShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -567,7 +563,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = 4W2V3Q3VA4;
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";

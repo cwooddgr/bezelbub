@@ -44,4 +44,4 @@ open Bezelbub.xcodeproj
 - **Bezelbub-iOS** — Builds/runs the iOS app + share extension
 
 Bundle ID: `co.dgrlabs.bezelbub`
-Team: `4W2V3Q3VA4`
+Team: `2CTUXD4C44`
