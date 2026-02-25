@@ -3,24 +3,41 @@ import Foundation
 import ImageIO
 
 enum ScreenRegionDetector {
-    private static let cacheKey = "cachedScreenRegions_v2"
+    // MARK: - Bundled Regions (precomputed by Scripts/generate-screen-regions.swift)
+
+    static let bundledRegions: [String: CGRect] = loadBundledRegions()
+
+    private static func loadBundledRegions() -> [String: CGRect] {
+        guard let url = Bundle.main.url(forResource: "screen-regions", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let dict = try? JSONDecoder().decode([String: CodableRect].self, from: data)
+        else {
+            print("[Bezelbub] Warning: Could not load bundled screen-regions.json")
+            return [:]
+        }
+        return dict.mapValues { $0.cgRect }
+    }
+
+    /// Look up a precomputed screen region by bezel filename.
+    /// Falls back to runtime flood-fill if not found (should not happen with up-to-date JSON).
+    static func screenRegion(forBezelFileName fileName: String) -> CGRect? {
+        if let region = bundledRegions[fileName] {
+            return region
+        }
+        print("[Bezelbub] Warning: No precomputed region for \(fileName), falling back to runtime detection")
+        return detectScreenRegion(bezelFileName: fileName)
+    }
 
     static func detectAll(devices: [DeviceDefinition]) -> [DeviceDefinition] {
         var devices = devices
-        let cached = loadCache()
 
         for i in devices.indices {
-            if let rect = cached[devices[i].id] {
-                devices[i].screenRegion = rect
-            } else {
-                let fileName = devices[i].bezelFileName(color: devices[i].defaultColor, landscape: false)
-                if let region = detectScreenRegion(bezelFileName: fileName) {
-                    devices[i].screenRegion = region
-                }
+            let fileName = devices[i].bezelFileName(color: devices[i].defaultColor, landscape: false)
+            if let region = screenRegion(forBezelFileName: fileName) {
+                devices[i].screenRegion = region
             }
         }
 
-        saveCache(devices: devices)
         return devices
     }
 
@@ -216,32 +233,9 @@ enum ScreenRegionDetector {
 
         return maskImage
     }
-
-    // MARK: - Caching
-
-    private static func loadCache() -> [String: CGRect] {
-        guard let data = UserDefaults.standard.data(forKey: cacheKey),
-              let dict = try? JSONDecoder().decode([String: CodableRect].self, from: data)
-        else {
-            return [:]
-        }
-        return dict.mapValues { $0.cgRect }
-    }
-
-    private static func saveCache(devices: [DeviceDefinition]) {
-        var dict: [String: CodableRect] = [:]
-        for device in devices {
-            if let region = device.screenRegion {
-                dict[device.id] = CodableRect(cgRect: region)
-            }
-        }
-        if let data = try? JSONEncoder().encode(dict) {
-            UserDefaults.standard.set(data, forKey: cacheKey)
-        }
-    }
 }
 
-private struct CodableRect: Codable {
+struct CodableRect: Codable {
     let x, y, width, height: CGFloat
 
     var cgRect: CGRect {

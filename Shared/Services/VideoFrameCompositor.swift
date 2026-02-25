@@ -79,7 +79,7 @@ enum VideoFrameCompositor {
         let screenRegion: CGRect
         if isLandscape {
             let landscapeBezelFileName = device.bezelFileName(color: color, landscape: true)
-            if let landscapeRegion = ScreenRegionDetector.detectScreenRegion(bezelFileName: landscapeBezelFileName) {
+            if let landscapeRegion = ScreenRegionDetector.screenRegion(forBezelFileName: landscapeBezelFileName) {
                 screenRegion = landscapeRegion
             } else if let portraitRegion = device.screenRegion {
                 screenRegion = CGRect(

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,7 @@
 		1A25300357F8B75AD7C32523 /* Bezels in Resources */ = {isa = PBXBuildFile; fileRef = 315F6AB6180227B409B8278E /* Bezels */; };
 		24D1B0C626E8D70B41C89E4F /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEE59BF678487F35F7F7597 /* ShareViewController.swift */; };
 		327B98799D01DC920A353AD3 /* FrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B182D82C51C36235B3EF967 /* FrameCompositor.swift */; };
+		38F05F3486506BFF8FA81AF7 /* screen-regions.json in Resources */ = {isa = PBXBuildFile; fileRef = 21DBC54512D0785272D54CC8 /* screen-regions.json */; };
 		42AD27688EECAE44C64608E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39BBDA3AB8A423E4620B0461 /* Assets.xcassets */; };
 		42CC3DEC949F30F8B3ADE0AE /* DeviceMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */; };
 		464BFF8175BEF395C93EA99F /* ScreenRegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */; };
@@ -20,6 +21,7 @@
 		5BAD7D929AEFB14CBA468B9C /* DeviceDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465F701ED71381B1207E9674 /* DeviceDefinition.swift */; };
 		6522B1972F07F6EC59A35E28 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E2B35ED96C5D90F85408D0 /* AppState.swift */; };
 		7405FF8189A77D9BA0A95681 /* Bezels in Resources */ = {isa = PBXBuildFile; fileRef = 315F6AB6180227B409B8278E /* Bezels */; };
+		7858A5E0BD3D20EFE488B67C /* screen-regions.json in Resources */ = {isa = PBXBuildFile; fileRef = 21DBC54512D0785272D54CC8 /* screen-regions.json */; };
 		84AC81359FD8DA3A11B2BCB3 /* ScreenRegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */; };
 		8812193B5E3CC3F606DAFE75 /* BezelbubShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A18F927CC62EE90481CDA011 /* BezelbubShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9150F022E1A21BE53D510F92 /* FrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B182D82C51C36235B3EF967 /* FrameCompositor.swift */; };
@@ -31,6 +33,7 @@
 		B6F1B828CC7764DD83F93DF4 /* DeviceMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */; };
 		B6F61BF45C6614B3DE4B6296 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E2B35ED96C5D90F85408D0 /* AppState.swift */; };
 		C1F37CDA44236E652B12FD38 /* VideoFrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90FD3B82D2917F552AE902 /* VideoFrameCompositor.swift */; };
+		C526498B7A0243B8A73AA14B /* screen-regions.json in Resources */ = {isa = PBXBuildFile; fileRef = 21DBC54512D0785272D54CC8 /* screen-regions.json */; };
 		CCFB62964B756B9E11857D93 /* DeviceMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */; };
 		CFA2AA00FCDB2689E26DAF98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D2364C0610086B4A6FF2F50 /* Assets.xcassets */; };
 		D246F6CA14896E78C95E61E9 /* VideoFrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90FD3B82D2917F552AE902 /* VideoFrameCompositor.swift */; };
@@ -67,6 +70,7 @@
 		1A8016D8E20AEC37FAE032A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1B182D82C51C36235B3EF967 /* FrameCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCompositor.swift; sourceTree = "<group>"; };
 		1DCD2162C54740DCDE3267A7 /* ExportSizeAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSizeAccessoryView.swift; sourceTree = "<group>"; };
+		21DBC54512D0785272D54CC8 /* screen-regions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "screen-regions.json"; sourceTree = "<group>"; };
 		24E2B35ED96C5D90F85408D0 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		2F90FD3B82D2917F552AE902 /* VideoFrameCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameCompositor.swift; sourceTree = "<group>"; };
 		315F6AB6180227B409B8278E /* Bezels */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Bezels; path = Resources/Bezels; sourceTree = SOURCE_ROOT; };
@@ -76,13 +80,13 @@
 		39BBDA3AB8A423E4620B0461 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRegionDetector.swift; sourceTree = "<group>"; };
 		465F701ED71381B1207E9674 /* DeviceDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDefinition.swift; sourceTree = "<group>"; };
-		5071F363F33E5DBE583B3D51 /* Bezelbub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezelbub.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5071F363F33E5DBE583B3D51 /* Bezelbub-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Bezelbub-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		61202F6ADEFB3BDEB52800B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		638F038B33402030765C275F /* Bezelbub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bezelbub.entitlements; sourceTree = "<group>"; };
 		6D2364C0610086B4A6FF2F50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		867C438292AAC0E6B5D36503 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8F9797F68B3DD12D4A97FD80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		A18F927CC62EE90481CDA011 /* BezelbubShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BezelbubShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A18F927CC62EE90481CDA011 /* BezelbubShareExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = BezelbubShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACEE59BF678487F35F7F7597 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		C5B71CEC1869D991FEC634CF /* BezelbubShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BezelbubShareExtension.entitlements; sourceTree = "<group>"; };
 		CA8E38085E9D6CA1F6085DEC /* Bezelbub-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bezelbub-iOS.entitlements"; sourceTree = "<group>"; };
@@ -98,6 +102,7 @@
 				3B9704F97FA1FA0AECB6BF45 /* BezelbubShareExtension */,
 				EB5214187513FDB9318AB795 /* iOS */,
 				85716587414E5ABB391CA0F3 /* macOS */,
+				B2856D51FEB03135BD4E1BAE /* Resources */,
 				70710EFF6084872B031BB822 /* Shared */,
 				DF26978FE47FDCED5C36A9B8 /* Products */,
 			);
@@ -152,6 +157,14 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
+		B2856D51FEB03135BD4E1BAE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				21DBC54512D0785272D54CC8 /* screen-regions.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		D14C3246CF68A87E63A89CCC /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,7 +176,7 @@
 		DF26978FE47FDCED5C36A9B8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5071F363F33E5DBE583B3D51 /* Bezelbub.app */,
+				5071F363F33E5DBE583B3D51 /* Bezelbub-iOS.app */,
 				372E1FDDB68E56A28177388D /* Bezelbub.app */,
 				A18F927CC62EE90481CDA011 /* BezelbubShareExtension.appex */,
 			);
@@ -213,7 +226,7 @@
 			packageProductDependencies = (
 			);
 			productName = "Bezelbub-iOS";
-			productReference = 5071F363F33E5DBE583B3D51 /* Bezelbub.app */;
+			productReference = 5071F363F33E5DBE583B3D51 /* Bezelbub-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 		78A1BB89FA9FD5A76F0A5EEB /* Bezelbub */ = {
@@ -262,12 +275,15 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					62DE3436A69B6711D075E338 = {
+						DevelopmentTeam = 2CTUXD4C44;
 						ProvisioningStyle = Automatic;
 					};
 					78A1BB89FA9FD5A76F0A5EEB = {
+						DevelopmentTeam = 2CTUXD4C44;
 						ProvisioningStyle = Automatic;
 					};
 					958C71A657CC224299AAD004 = {
+						DevelopmentTeam = 2CTUXD4C44;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -282,6 +298,7 @@
 			);
 			mainGroup = 1E7DBD0C525009EBC1E19A94;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -298,6 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A25300357F8B75AD7C32523 /* Bezels in Resources */,
+				7858A5E0BD3D20EFE488B67C /* screen-regions.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +325,7 @@
 			files = (
 				42AD27688EECAE44C64608E8 /* Assets.xcassets in Resources */,
 				7405FF8189A77D9BA0A95681 /* Bezels in Resources */,
+				38F05F3486506BFF8FA81AF7 /* screen-regions.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +335,7 @@
 			files = (
 				CFA2AA00FCDB2689E26DAF98 /* Assets.xcassets in Resources */,
 				ACEE2F270A6B6F2CF10A0014 /* Bezels in Resources */,
+				C526498B7A0243B8A73AA14B /* screen-regions.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,7 +434,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -485,7 +505,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 4W2V3Q3VA4;
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -520,7 +540,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -614,7 +634,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 4W2V3Q3VA4;
+				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

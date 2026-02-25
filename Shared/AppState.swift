@@ -42,6 +42,19 @@ final class AppState {
 
     init() {
         devices = ScreenRegionDetector.detectAll(devices: DeviceCatalog.allDevices)
+
+        #if DEBUG
+        // Verify every bezel has a precomputed screen region
+        let regions = ScreenRegionDetector.bundledRegions
+        for device in devices {
+            for color in device.colors {
+                for landscape in [false, true] {
+                    let fileName = device.bezelFileName(color: color, landscape: landscape)
+                    assert(regions[fileName] != nil, "Missing precomputed screen region for \(fileName)")
+                }
+            }
+        }
+        #endif
     }
 
     func processFile(url: URL) {

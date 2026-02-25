@@ -32,6 +32,8 @@ targets:
       - path: Resources/Bezels
         buildPhase: resources
         type: folder
+      - path: Resources/screen-regions.json
+        buildPhase: resources
     settings:
       DEVELOPMENT_TEAM: 2CTUXD4C44
       CODE_SIGN_STYLE: Automatic
@@ -55,6 +57,8 @@ targets:
       - path: Resources/Bezels
         buildPhase: resources
         type: folder
+      - path: Resources/screen-regions.json
+        buildPhase: resources
     settings:
       DEVELOPMENT_TEAM: 2CTUXD4C44
       CODE_SIGN_STYLE: Automatic
@@ -81,6 +85,8 @@ targets:
       - path: Resources/Bezels
         buildPhase: resources
         type: folder
+      - path: Resources/screen-regions.json
+        buildPhase: resources
     settings:
       DEVELOPMENT_TEAM: 2CTUXD4C44
       CODE_SIGN_STYLE: Automatic
