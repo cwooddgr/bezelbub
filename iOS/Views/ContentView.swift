@@ -19,6 +19,7 @@ struct ContentView: View {
     @State private var copiedNotice = false
     @State private var exportedVideoURL: URL?
     @State private var exportSizeModel: ExportSizeModel?
+    @State private var exportError: String?
     @State private var localBGColor: Color = .white
     @State private var bgColorDebounce: DispatchWorkItem?
 
@@ -217,9 +218,22 @@ struct ContentView: View {
             }
         }
         .onChange(of: appState.isExporting) { wasExporting, isExporting in
-            if wasExporting && !isExporting, let url = exportedVideoURL, appState.errorMessage == nil {
-                shareItem = ShareItem(items: [url])
+            if wasExporting && !isExporting {
+                if let error = appState.errorMessage {
+                    exportError = error
+                    appState.errorMessage = nil
+                } else if let url = exportedVideoURL {
+                    shareItem = ShareItem(items: [url])
+                }
             }
+        }
+        .alert("Export Failed", isPresented: .init(
+            get: { exportError != nil },
+            set: { if !$0 { exportError = nil } }
+        )) {
+            Button("OK") { exportError = nil }
+        } message: {
+            Text(exportError ?? "")
         }
     }
 
