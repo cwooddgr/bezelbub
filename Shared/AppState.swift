@@ -4,6 +4,12 @@ import ImageIO
 import AVFoundation
 import UniformTypeIdentifiers
 
+#if os(macOS)
+import AppKit
+#elseif os(iOS)
+import UIKit
+#endif
+
 @Observable
 final class AppState {
     var devices: [DeviceDefinition] = []
@@ -16,9 +22,11 @@ final class AppState {
     var errorMessage: String?
     var isCompositing = false
 
+    #if os(macOS)
     // Open panel (modeless, so drag-and-drop still works on the main window)
     @ObservationIgnored private var openPanel: NSOpenPanel?
     @ObservationIgnored var ensureWindowVisible: (() -> Void)?
+    #endif
     @ObservationIgnored private var debounceWork: DispatchWorkItem?
 
     // Video state
@@ -37,7 +45,9 @@ final class AppState {
     }
 
     func processFile(url: URL) {
+        #if os(macOS)
         dismissOpenPanel()
+        #endif
         sourceFileName = url.deletingPathExtension().lastPathComponent
         sourceDirectoryURL = url.deletingLastPathComponent()
 
@@ -49,6 +59,7 @@ final class AppState {
         }
     }
 
+    #if os(macOS)
     func showOpenPanel() {
         if let existing = openPanel {
             existing.makeKeyAndOrderFront(nil)
@@ -80,13 +91,14 @@ final class AppState {
         openPanel?.cancel(nil)
         openPanel = nil
     }
+    #endif
 
     private func stopVideoAccess() {
         videoURL?.stopAccessingSecurityScopedResource()
         videoURL = nil
     }
 
-    private func processImage(url: URL) {
+    func processImage(url: URL) {
         // Clear video state
         videoAsset = nil
         stopVideoAccess()
@@ -128,7 +140,34 @@ final class AppState {
         matches = DeviceMatcher.match(screenshotWidth: w, screenshotHeight: h, devices: devices)
 
         if matches.isEmpty {
-            errorMessage = "No matching device found for \(w)×\(h) screenshot."
+            errorMessage = "No matching device found for \(w)\u{00d7}\(h) screenshot."
+            compositedImage = nil
+            selectedDevice = nil
+            selectedColor = nil
+            return
+        }
+
+        let match = matches[0]
+        selectDevice(match.device, isLandscape: match.isLandscape)
+    }
+
+    func processImage(cgImage: CGImage) {
+        // Clear video state
+        videoAsset = nil
+        stopVideoAccess()
+
+        screenshotImage = cgImage
+        errorMessage = nil
+        sourceFileName = nil
+        sourceDirectoryURL = nil
+
+        let w = cgImage.width
+        let h = cgImage.height
+
+        matches = DeviceMatcher.match(screenshotWidth: w, screenshotHeight: h, devices: devices)
+
+        if matches.isEmpty {
+            errorMessage = "No matching device found for \(w)\u{00d7}\(h) screenshot."
             compositedImage = nil
             selectedDevice = nil
             selectedColor = nil
@@ -184,7 +223,7 @@ final class AppState {
             )
 
             if matches.isEmpty {
-                errorMessage = "No matching device found for \(w)×\(h) video."
+                errorMessage = "No matching device found for \(w)\u{00d7}\(h) video."
                 selectedDevice = nil
                 selectedColor = nil
                 compositedImage = nil
@@ -232,6 +271,15 @@ final class AppState {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15, execute: item)
     }
 
+    private func videoBackgroundCGColor() -> CGColor {
+        #if os(macOS)
+        return NSColor(videoBackgroundColor).usingColorSpace(.sRGB)?.cgColor
+            ?? CGColor(red: 1, green: 1, blue: 1, alpha: 1)
+        #elseif os(iOS)
+        return UIColor(videoBackgroundColor).cgColor
+        #endif
+    }
+
     func recomposite() {
         guard let screenshot = screenshotImage,
               let device = selectedDevice,
@@ -240,7 +288,7 @@ final class AppState {
 
         isCompositing = true
         let landscape = isLandscape
-        let bgColor: CGColor? = isVideoMode ? NSColor(videoBackgroundColor).usingColorSpace(.sRGB)?.cgColor : nil
+        let bgColor: CGColor? = isVideoMode ? videoBackgroundCGColor() : nil
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let result = FrameCompositor.composite(
                 screenshot: screenshot,
@@ -269,6 +317,7 @@ final class AppState {
         exportProgress = 0
         let landscape = isLandscape
         let rotation = videoRotation
+        let bgColor = videoBackgroundCGColor()
 
         Task { @MainActor in
             do {
@@ -278,7 +327,7 @@ final class AppState {
                     color: color,
                     isLandscape: landscape,
                     extraRotation: rotation,
-                    backgroundColor: NSColor(videoBackgroundColor).usingColorSpace(.sRGB)?.cgColor ?? CGColor(red: 1, green: 1, blue: 1, alpha: 1),
+                    backgroundColor: bgColor,
                     outputURL: outputURL,
                     outputSize: size
                 ) { [weak self] progress in

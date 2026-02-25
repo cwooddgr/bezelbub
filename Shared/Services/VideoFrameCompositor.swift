@@ -227,7 +227,7 @@ enum VideoFrameCompositor {
            ) {
             let fullRect = CGRect(x: 0, y: 0, width: bezelWidth, height: bezelHeight)
             ctx.clip(to: fullRect, mask: screenMask)
-            ctx.setFillColor(.white)
+            ctx.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
             ctx.fill(fullRect)
             if let alphaMask = ctx.makeImage() {
                 let maskLayer = CALayer()

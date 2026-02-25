@@ -3,6 +3,7 @@ options:
   bundleIdPrefix: co.dgrlabs
   deploymentTarget:
     macOS: "14.0"
+    iOS: "17.0"
   xcodeVersion: "16.0"
   generateEmptyDirectories: true
 
@@ -15,13 +16,19 @@ schemes:
     build:
       targets:
         Bezelbub: all
+  Bezelbub-iOS:
+    build:
+      targets:
+        Bezelbub-iOS: all
+        BezelbubShareExtension: all
 
 targets:
   Bezelbub:
     type: application
     platform: macOS
     sources:
-      - path: Bezelbub
+      - path: Shared
+      - path: macOS
       - path: Resources/Bezels
         buildPhase: resources
         type: folder
@@ -29,12 +36,58 @@ targets:
       DEVELOPMENT_TEAM: 4W2V3Q3VA4
       CODE_SIGN_STYLE: Automatic
       PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.bezelbub
-      INFOPLIST_FILE: Bezelbub/Info.plist
+      INFOPLIST_FILE: macOS/Info.plist
       PRODUCT_NAME: Bezelbub
       MARKETING_VERSION: "2.1.1"
       CURRENT_PROJECT_VERSION: "7"
       COMBINE_HIDPI_IMAGES: YES
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-      CODE_SIGN_ENTITLEMENTS: Bezelbub/Bezelbub.entitlements
+      CODE_SIGN_ENTITLEMENTS: macOS/Bezelbub.entitlements
       ENABLE_HARDENED_RUNTIME: YES
-      INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright © 2026 DGR Labs, LLC. All rights reserved."
+      INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright \u00a9 2026 DGR Labs, LLC. All rights reserved."
+
+  Bezelbub-iOS:
+    type: application
+    platform: iOS
+    sources:
+      - path: Shared
+      - path: iOS
+      - path: Resources/Bezels
+        buildPhase: resources
+        type: folder
+    settings:
+      DEVELOPMENT_TEAM: 4W2V3Q3VA4
+      CODE_SIGN_STYLE: Automatic
+      PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.bezelbub
+      INFOPLIST_FILE: iOS/Info.plist
+      PRODUCT_NAME: Bezelbub
+      MARKETING_VERSION: "2.1.1"
+      CURRENT_PROJECT_VERSION: "7"
+      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+      CODE_SIGN_ENTITLEMENTS: iOS/Bezelbub-iOS.entitlements
+      INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright \u00a9 2026 DGR Labs, LLC. All rights reserved."
+      INFOPLIST_KEY_UILaunchScreen_Generation: YES
+      INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+      INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+    dependencies:
+      - target: BezelbubShareExtension
+
+  BezelbubShareExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Shared
+      - path: BezelbubShareExtension
+      - path: Resources/Bezels
+        buildPhase: resources
+        type: folder
+    settings:
+      DEVELOPMENT_TEAM: 4W2V3Q3VA4
+      CODE_SIGN_STYLE: Automatic
+      PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.bezelbub.share-extension
+      INFOPLIST_FILE: BezelbubShareExtension/Info.plist
+      PRODUCT_NAME: BezelbubShareExtension
+      MARKETING_VERSION: "2.1.1"
+      CURRENT_PROJECT_VERSION: "7"
+      CODE_SIGN_ENTITLEMENTS: BezelbubShareExtension/BezelbubShareExtension.entitlements
+      SKIP_INSTALL: YES
