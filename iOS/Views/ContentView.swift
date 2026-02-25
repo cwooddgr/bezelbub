@@ -19,6 +19,8 @@ struct ContentView: View {
     @State private var copiedNotice = false
     @State private var exportedVideoURL: URL?
     @State private var exportSizeModel: ExportSizeModel?
+    @State private var localBGColor: Color = .white
+    @State private var bgColorDebounce: DispatchWorkItem?
 
     var body: some View {
         @Bindable var appState = appState
@@ -269,10 +271,17 @@ struct ContentView: View {
                     }
 
                     if appState.isVideoMode {
-                        ColorPicker("BG", selection: $appState.videoBackgroundColor, supportsOpacity: false)
+                        ColorPicker("BG", selection: $localBGColor, supportsOpacity: false)
                             .disabled(appState.isExporting)
-                            .onChange(of: appState.videoBackgroundColor) {
-                                appState.recompositeDebounced()
+                            .onAppear { localBGColor = appState.videoBackgroundColor }
+                            .onChange(of: localBGColor) {
+                                bgColorDebounce?.cancel()
+                                let item = DispatchWorkItem {
+                                    appState.videoBackgroundColor = localBGColor
+                                    appState.recomposite()
+                                }
+                                bgColorDebounce = item
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: item)
                             }
 
                         Button {
