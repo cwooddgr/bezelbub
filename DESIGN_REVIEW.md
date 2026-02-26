@@ -14,7 +14,7 @@ Issues identified from a comprehensive UI/UX review across macOS, iOS, and iPadO
 
 | Issue | Platform | Location |
 |-------|----------|----------|
-| Default macOS window size 1500x1850 is taller than most displays | macOS | `macOS/BezelbubApp.swift:30` |
+| ~~Default macOS window size 1500x1850 is taller than most displays~~ | ~~macOS~~ | ~~Fixed~~ |
 | No visual drag-drop affordance on macOS (no highlighted border or "Drop here" indicator) | macOS | `macOS/Views/ContentView.swift:174-178` |
 | No haptic feedback on confirmatory actions (copy, save) | iOS | `iOS/Views/ContentView.swift` |
 | iPhone landscape not adapted — very cramped vertical space | iOS | `iOS/Views/ContentView.swift` |

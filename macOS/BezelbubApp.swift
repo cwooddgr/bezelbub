@@ -27,7 +27,7 @@ struct BezelbubApp: App {
                 .handlesExternalEvents(preferring: Set(["*"]), allowing: Set(["*"]))
         }
         .handlesExternalEvents(matching: Set(["*"]))
-        .defaultSize(width: 1500, height: 1850)
+        .defaultSize(width: 800, height: 1000)
         .commands {
             CommandGroup(replacing: .newItem) {
                 Button("Open...") {
