@@ -163,6 +163,8 @@ struct ContentView: View {
                         }
                         .help("Rotate video (hold Option for counter-clockwise)")
                         .disabled(appState.isExporting)
+                        .accessibilityLabel("Rotate Video")
+                        .accessibilityHint("Hold Option for counter-clockwise")
 
                         Button("Export Video...") {
                             exportVideo()
