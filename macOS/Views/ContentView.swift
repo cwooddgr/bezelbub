@@ -6,6 +6,7 @@ struct ContentView: View {
     @State private var showSavePanel = false
     @State private var optionKeyDown = false
     @State private var eventMonitor: Any?
+    @State private var sampleMockups: [CGImage] = []
 
     var body: some View {
         @Bindable var appState = appState
@@ -53,14 +54,34 @@ struct ContentView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
-                    VStack(spacing: 12) {
-                        Image(systemName: "photo.on.rectangle")
-                            .font(.system(size: 48))
-                            .foregroundStyle(.secondary)
-                        Text("Open a screenshot or screen recording")
+                    VStack(spacing: 16) {
+                        if !sampleMockups.isEmpty {
+                            HStack(spacing: -20) {
+                                ForEach(Array(sampleMockups.enumerated()), id: \.offset) { index, mockup in
+                                    let nsImage = NSImage(cgImage: mockup, size: NSSize(width: mockup.width, height: mockup.height))
+                                    Image(nsImage: nsImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .shadow(color: .black.opacity(0.2), radius: 8, y: 4)
+                                        .zIndex(Double(sampleMockups.count - index))
+                                }
+                            }
+                            .frame(maxHeight: 280)
+                            .padding(.horizontal, 40)
+                        }
+                        Text("Frame your screenshots and screen recordings in Apple device bezels")
+                            .font(.headline)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 40)
+                        Text("Drop an image here, or press \u{2318}O")
                             .foregroundStyle(.secondary)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .task {
+                        if sampleMockups.isEmpty {
+                            sampleMockups = FrameCompositor.generateSampleMockups(devices: appState.devices)
+                        }
+                    }
                 }
 
                 // Export progress overlay

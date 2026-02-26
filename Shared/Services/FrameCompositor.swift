@@ -114,4 +114,66 @@ enum FrameCompositor {
         CGImageDestinationAddImage(dest, image, nil)
         return CGImageDestinationFinalize(dest)
     }
+
+    /// Creates a diagonal linear gradient CGImage at the specified size.
+    static func makeGradientImage(width: Int, height: Int, colors: [CGColor]) -> CGImage? {
+        guard width > 0, height > 0,
+              let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
+              let ctx = CGContext(
+                  data: nil,
+                  width: width,
+                  height: height,
+                  bitsPerComponent: 8,
+                  bytesPerRow: 0,
+                  space: colorSpace,
+                  bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+              ),
+              let gradient = CGGradient(colorsSpace: colorSpace, colors: colors as CFArray, locations: nil)
+        else { return nil }
+
+        ctx.drawLinearGradient(
+            gradient,
+            start: .zero,
+            end: CGPoint(x: width, y: height),
+            options: []
+        )
+        return ctx.makeImage()
+    }
+
+    /// Generates sample composited mockups for the empty state display.
+    /// Returns up to two CGImages: an iPhone and an iPad framed with colorful gradients.
+    static func generateSampleMockups(devices: [DeviceDefinition]) -> [CGImage] {
+        var results: [CGImage] = []
+
+        let specs: [(id: String, colors: [CGColor])] = [
+            ("iphone17pro", [
+                CGColor(srgbRed: 0.3, green: 0.4, blue: 1.0, alpha: 1.0),
+                CGColor(srgbRed: 0.7, green: 0.2, blue: 0.9, alpha: 1.0),
+            ]),
+            ("ipadair11m2", [
+                CGColor(srgbRed: 1.0, green: 0.5, blue: 0.2, alpha: 1.0),
+                CGColor(srgbRed: 1.0, green: 0.3, blue: 0.5, alpha: 1.0),
+            ]),
+        ]
+
+        for spec in specs {
+            guard let device = devices.first(where: { $0.id == spec.id }),
+                  let screenRegion = device.screenRegion,
+                  let gradient = makeGradientImage(
+                      width: Int(screenRegion.width),
+                      height: Int(screenRegion.height),
+                      colors: spec.colors
+                  ),
+                  let composited = composite(
+                      screenshot: gradient,
+                      device: device,
+                      color: device.defaultColor,
+                      isLandscape: false
+                  )
+            else { continue }
+            results.append(composited)
+        }
+
+        return results
+    }
 }

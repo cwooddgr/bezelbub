@@ -24,6 +24,7 @@ struct ContentView: View {
     @State private var exportError: String?
     @State private var localBGColor: Color = .white
     @State private var bgColorDebounce: DispatchWorkItem?
+    @State private var sampleMockups: [CGImage] = []
 
     var body: some View {
         @Bindable var appState = appState
@@ -75,12 +76,24 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     } else {
                         VStack(spacing: 16) {
-                            Image(systemName: "photo.on.rectangle")
-                                .font(.system(size: 48))
-                                .foregroundStyle(.secondary)
-                            Text("Open a screenshot or screen recording")
-                                .foregroundStyle(.secondary)
-                                .padding(.horizontal)
+                            if !sampleMockups.isEmpty {
+                                HStack(spacing: -12) {
+                                    ForEach(Array(sampleMockups.enumerated()), id: \.offset) { index, mockup in
+                                        let uiImage = UIImage(cgImage: mockup)
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .shadow(color: .black.opacity(0.2), radius: 6, y: 3)
+                                            .zIndex(Double(sampleMockups.count - index))
+                                    }
+                                }
+                                .frame(maxHeight: 220)
+                                .padding(.horizontal, 32)
+                            }
+                            Text("Frame your screenshots and screen recordings in Apple device bezels")
+                                .font(.headline)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 32)
 
                             HStack(spacing: 12) {
                                 Button {
@@ -99,6 +112,11 @@ struct ContentView: View {
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .task {
+                            if sampleMockups.isEmpty {
+                                sampleMockups = FrameCompositor.generateSampleMockups(devices: appState.devices)
+                            }
+                        }
                     }
 
                     // Export progress overlay
