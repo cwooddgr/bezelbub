@@ -25,6 +25,8 @@ struct ExportSizeAccessoryView: View {
                     .frame(width: 70)
                     .multilineTextAlignment(.trailing)
                     .overlay(RoundedRectangle(cornerRadius: 4).stroke(.tertiary))
+                    .accessibilityLabel("Width")
+                    .accessibilityHint("Export width in pixels")
             }
             GridRow {
                 Text("Height:")
@@ -32,6 +34,8 @@ struct ExportSizeAccessoryView: View {
                     .frame(width: 70)
                     .multilineTextAlignment(.trailing)
                     .overlay(RoundedRectangle(cornerRadius: 4).stroke(.tertiary))
+                    .accessibilityLabel("Height")
+                    .accessibilityHint("Export height in pixels")
             }
         }
         .padding(12)
