@@ -5,6 +5,7 @@ struct ContentView: View {
 
     @State private var showSavePanel = false
     @State private var optionKeyDown = false
+    @State private var eventMonitor: Any?
 
     var body: some View {
         @Bindable var appState = appState
@@ -177,13 +178,19 @@ struct ContentView: View {
             return true
         }
         .onAppear {
-            NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { event in
+            eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { event in
                 optionKeyDown = event.modifierFlags.contains(.option)
                 return event
             }
             if !appState.isVideoMode {
                 NSColorPanel.shared.close()
             }
+        }
+        .onDisappear {
+            if let eventMonitor {
+                NSEvent.removeMonitor(eventMonitor)
+            }
+            eventMonitor = nil
         }
         .onChange(of: appState.isVideoMode) { _, isVideo in
             if !isVideo {

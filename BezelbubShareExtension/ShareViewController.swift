@@ -83,9 +83,10 @@ struct ShareExtensionView: View {
     let appState: AppState
     let onClose: () -> Void
 
-    @State private var copiedNotice = false
-    @State private var savedNotice = false
     @State private var shareItem: ShareItem?
+    @State private var showSavedCheckmark = false
+    @State private var saveError: String?
+    @State private var photoSaveDelegate: PhotoSaveDelegate?
 
     var body: some View {
         NavigationStack {
@@ -160,32 +161,27 @@ struct ShareExtensionView: View {
                     }
                 }
             }
-            .overlay(alignment: .top) {
-                if copiedNotice {
-                    Text("Copied!")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                        .background(.ultraThinMaterial, in: Capsule())
-                        .transition(.move(edge: .top).combined(with: .opacity))
-                        .padding(.top, 4)
-                }
-                if savedNotice {
-                    Text("Saved!")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                        .background(.ultraThinMaterial, in: Capsule())
-                        .transition(.move(edge: .top).combined(with: .opacity))
-                        .padding(.top, 4)
+            .overlay {
+                if showSavedCheckmark {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 48))
+                        .foregroundStyle(.green)
+                        .padding(24)
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+                        .transition(.scale.combined(with: .opacity))
                 }
             }
-            .animation(.easeInOut(duration: 0.2), value: copiedNotice)
-            .animation(.easeInOut(duration: 0.2), value: savedNotice)
+            .animation(.easeInOut(duration: 0.3), value: showSavedCheckmark)
             .sheet(item: $shareItem) { item in
                 ShareSheet(items: item.items)
+            }
+            .alert("Save Failed", isPresented: .init(
+                get: { saveError != nil },
+                set: { if !$0 { saveError = nil } }
+            )) {
+                Button("OK") { saveError = nil }
+            } message: {
+                Text(saveError ?? "")
             }
         }
     }
@@ -239,19 +235,39 @@ struct ShareExtensionView: View {
         guard let composited = appState.compositedImage else { return }
         let uiImage = UIImage(cgImage: composited)
         UIPasteboard.general.image = uiImage
-        copiedNotice = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            copiedNotice = false
-        }
     }
 
     private func saveToPhotos() {
         guard let composited = appState.compositedImage else { return }
         let uiImage = UIImage(cgImage: composited)
-        UIImageWriteToSavedPhotosAlbum(uiImage, nil, nil, nil)
-        savedNotice = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            savedNotice = false
+        let delegate = PhotoSaveDelegate { [self] error in
+            photoSaveDelegate = nil
+            if let error {
+                saveError = error.localizedDescription
+            } else {
+                showSavedCheckmark = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    showSavedCheckmark = false
+                }
+            }
+        }
+        photoSaveDelegate = delegate
+        UIImageWriteToSavedPhotosAlbum(uiImage, delegate, #selector(PhotoSaveDelegate.image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+}
+
+// MARK: - Photo Save Delegate
+
+class PhotoSaveDelegate: NSObject {
+    let completion: (Error?) -> Void
+
+    init(completion: @escaping (Error?) -> Void) {
+        self.completion = completion
+    }
+
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        DispatchQueue.main.async {
+            self.completion(error)
         }
     }
 }

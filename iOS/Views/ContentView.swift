@@ -16,7 +16,9 @@ struct ContentView: View {
     @State private var showPhotoPicker = false
     @State private var showDocumentPicker = false
     @State private var shareItem: ShareItem?
-    @State private var copiedNotice = false
+    @State private var showSavedCheckmark = false
+    @State private var saveError: String?
+    @State private var photoSaveDelegate: PhotoSaveDelegate?
     @State private var exportedVideoURL: URL?
     @State private var exportSizeModel: ExportSizeModel?
     @State private var exportError: String?
@@ -78,6 +80,7 @@ struct ContentView: View {
                                 .foregroundStyle(.secondary)
                             Text("Open a screenshot or screen recording")
                                 .foregroundStyle(.secondary)
+                                .padding(.horizontal)
 
                             HStack(spacing: 12) {
                                 Button {
@@ -184,19 +187,17 @@ struct ContentView: View {
                     }
                 }
             }
-            .overlay(alignment: .top) {
-                if copiedNotice {
-                    Text("Copied!")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                        .background(.ultraThinMaterial, in: Capsule())
-                        .transition(.move(edge: .top).combined(with: .opacity))
-                        .padding(.top, 4)
+            .overlay {
+                if showSavedCheckmark {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 48))
+                        .foregroundStyle(.green)
+                        .padding(24)
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+                        .transition(.scale.combined(with: .opacity))
                 }
             }
-            .animation(.easeInOut(duration: 0.2), value: copiedNotice)
+            .animation(.easeInOut(duration: 0.3), value: showSavedCheckmark)
         }
         .onChange(of: selectedPhotoItem) { _, newItem in
             guard let newItem else { return }
@@ -234,6 +235,14 @@ struct ContentView: View {
             Button("OK") { exportError = nil }
         } message: {
             Text(exportError ?? "")
+        }
+        .alert("Save Failed", isPresented: .init(
+            get: { saveError != nil },
+            set: { if !$0 { saveError = nil } }
+        )) {
+            Button("OK") { saveError = nil }
+        } message: {
+            Text(saveError ?? "")
         }
     }
 
@@ -345,16 +354,24 @@ struct ContentView: View {
         guard let composited = appState.compositedImage else { return }
         let uiImage = UIImage(cgImage: composited)
         UIPasteboard.general.image = uiImage
-        copiedNotice = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            copiedNotice = false
-        }
     }
 
     private func saveToPhotos() {
         guard let composited = appState.compositedImage else { return }
         let uiImage = UIImage(cgImage: composited)
-        UIImageWriteToSavedPhotosAlbum(uiImage, nil, nil, nil)
+        let delegate = PhotoSaveDelegate { [self] error in
+            photoSaveDelegate = nil
+            if let error {
+                saveError = error.localizedDescription
+            } else {
+                showSavedCheckmark = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    showSavedCheckmark = false
+                }
+            }
+        }
+        photoSaveDelegate = delegate
+        UIImageWriteToSavedPhotosAlbum(uiImage, delegate, #selector(PhotoSaveDelegate.image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
 
     private func performVideoExport(model: ExportSizeModel) {
@@ -422,6 +439,22 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
             guard let url = urls.first else { return }
             onPick(url)
+        }
+    }
+}
+
+// MARK: - Photo Save Delegate
+
+class PhotoSaveDelegate: NSObject {
+    let completion: (Error?) -> Void
+
+    init(completion: @escaping (Error?) -> Void) {
+        self.completion = completion
+    }
+
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        DispatchQueue.main.async {
+            self.completion(error)
         }
     }
 }
