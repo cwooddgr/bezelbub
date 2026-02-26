@@ -22,18 +22,28 @@ struct ExportSizeAccessoryView: View {
             GridRow {
                 Text("Width:")
                 TextField("", value: widthBinding, format: .number)
-                    .frame(width: 70)
+                    .textFieldStyle(.plain)
                     .multilineTextAlignment(.trailing)
-                    .textFieldStyle(.roundedBorder)
+                    .padding(4)
+                    .frame(width: 80)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+                    )
                     .accessibilityLabel("Width")
                     .accessibilityHint("Export width in pixels")
             }
             GridRow {
                 Text("Height:")
                 TextField("", value: heightBinding, format: .number)
-                    .frame(width: 70)
+                    .textFieldStyle(.plain)
                     .multilineTextAlignment(.trailing)
-                    .textFieldStyle(.roundedBorder)
+                    .padding(4)
+                    .frame(width: 80)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+                    )
                     .accessibilityLabel("Height")
                     .accessibilityHint("Export height in pixels")
             }
