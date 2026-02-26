@@ -25,6 +25,7 @@ struct ContentView: View {
     @State private var localBGColor: Color = .white
     @State private var bgColorDebounce: DispatchWorkItem?
     @State private var sampleMockups: [CGImage] = []
+    @State private var isLoadingPhoto = false
 
     var body: some View {
         @Bindable var appState = appState
@@ -59,7 +60,7 @@ struct ContentView: View {
                                         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
                                 }
                             }
-                    } else if appState.isCompositing {
+                    } else if appState.isCompositing || isLoadingPhoto {
                         ProgressView()
                             .controlSize(.large)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -228,7 +229,11 @@ struct ContentView: View {
         }
         .onChange(of: selectedPhotoItem) { _, newItem in
             guard let newItem else { return }
-            Task { await loadPhoto(from: newItem) }
+            isLoadingPhoto = true
+            Task {
+                await loadPhoto(from: newItem)
+                isLoadingPhoto = false
+            }
             selectedPhotoItem = nil
         }
         .photosPicker(isPresented: $showPhotoPicker, selection: $selectedPhotoItem, matching: .any(of: [.screenshots, .images, .videos]))

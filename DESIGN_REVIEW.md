@@ -35,7 +35,7 @@ Issues identified from a comprehensive UI/UX review across macOS, iOS, and iPadO
 | No "Open Recent" menu on macOS | macOS | `macOS/BezelbubApp.swift` |
 | No paste (Cmd+V) support on macOS to paste screenshots from clipboard | macOS | `macOS/Views/ContentView.swift` |
 | No way to dismiss/clear the current image without loading a new one | iOS | `iOS/Views/ContentView.swift` |
-| No loading/processing indicator for initial photo import (gap before compositing spinner) | iOS | `iOS/Views/ContentView.swift` |
+| ~~No loading/processing indicator for initial photo import (gap before compositing spinner)~~ | ~~iOS~~ | ~~Fixed~~ |
 | Export progress overlay uses hardcoded `frame(width: 200)` | iOS | `iOS/Views/ContentView.swift:108` |
 | `NSEvent.addLocalMonitorForEvents` set up in `.onAppear` — already fixed | macOS | ~~Fixed~~ |
 | macOS app launches and immediately shows `NSOpenPanel` — window briefly appears empty | macOS | `macOS/BezelbubApp.swift:18-23` |
