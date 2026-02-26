@@ -102,6 +102,8 @@ struct ContentView: View {
                                     Label("Photos", systemImage: "photo.on.rectangle")
                                 }
                                 .buttonStyle(.bordered)
+                                .accessibilityLabel("Photos")
+                                .accessibilityHint("Import a screenshot from your photo library")
 
                                 Button {
                                     showDocumentPicker = true
@@ -109,6 +111,8 @@ struct ContentView: View {
                                     Label("Files", systemImage: "folder")
                                 }
                                 .buttonStyle(.bordered)
+                                .accessibilityLabel("Files")
+                                .accessibilityHint("Import a screenshot from Files")
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -162,6 +166,8 @@ struct ContentView: View {
                     } label: {
                         Image(systemName: "plus")
                     }
+                    .accessibilityLabel("Add Image")
+                    .accessibilityHint("Opens options to import from Photos or Files")
                 }
 
                 if appState.compositedImage != nil {
@@ -177,6 +183,7 @@ struct ContentView: View {
                                 Image(systemName: "square.and.arrow.up")
                             }
                             .disabled(appState.isExporting)
+                            .accessibilityLabel("Export Video")
                         } else {
                             Menu {
                                 Button {
@@ -201,6 +208,8 @@ struct ContentView: View {
                             } label: {
                                 Image(systemName: "square.and.arrow.up")
                             }
+                            .accessibilityLabel("Share")
+                            .accessibilityHint("Opens sharing options")
                         }
                     }
                 }
@@ -331,6 +340,7 @@ struct ContentView: View {
                             Image(systemName: "rotate.right")
                         }
                         .disabled(appState.isExporting)
+                        .accessibilityLabel("Rotate Video")
                     }
                 }
             }
