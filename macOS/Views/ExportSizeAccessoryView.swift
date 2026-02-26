@@ -24,7 +24,7 @@ struct ExportSizeAccessoryView: View {
                 TextField("", value: widthBinding, format: .number)
                     .frame(width: 70)
                     .multilineTextAlignment(.trailing)
-                    .overlay(RoundedRectangle(cornerRadius: 4).stroke(.tertiary))
+                    .textFieldStyle(.roundedBorder)
                     .accessibilityLabel("Width")
                     .accessibilityHint("Export width in pixels")
             }
@@ -33,7 +33,7 @@ struct ExportSizeAccessoryView: View {
                 TextField("", value: heightBinding, format: .number)
                     .frame(width: 70)
                     .multilineTextAlignment(.trailing)
-                    .overlay(RoundedRectangle(cornerRadius: 4).stroke(.tertiary))
+                    .textFieldStyle(.roundedBorder)
                     .accessibilityLabel("Height")
                     .accessibilityHint("Export height in pixels")
             }

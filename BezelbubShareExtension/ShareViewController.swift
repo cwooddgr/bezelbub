@@ -54,7 +54,7 @@ class ShareViewController: UIViewController {
             }
         }
 
-        state.errorMessage = "No supported image found."
+        state.errorMessage = "No supported image found. Videos are not supported in the share extension."
     }
 
     @MainActor

@@ -51,6 +51,8 @@ struct ContentView: View {
                             .foregroundStyle(.secondary)
                         Text(error)
                             .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
@@ -195,6 +197,7 @@ struct ContentView: View {
             .padding(.horizontal)
             .padding(.vertical, 10)
         }
+        .background(.bar)
         .dropDestination(for: URL.self) { urls, _ in
             guard let url = urls.first else { return false }
             appState.processFile(url: url)

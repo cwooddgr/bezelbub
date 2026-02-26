@@ -73,6 +73,6 @@ struct VideoExportSheet: View {
                 }
             }
         }
-        .presentationDetents([.medium])
+        .presentationDetents([.medium, .large])
     }
 }

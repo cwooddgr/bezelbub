@@ -16,11 +16,11 @@ Issues identified from a comprehensive UI/UX review across macOS, iOS, and iPadO
 |-------|----------|----------|
 | ~~Default macOS window size 1500x1850 is taller than most displays~~ | ~~macOS~~ | ~~Fixed~~ |
 | No visual drag-drop affordance on macOS (no highlighted border or "Drop here" indicator) | macOS | `macOS/Views/ContentView.swift:174-178` |
-| No haptic feedback on confirmatory actions (copy, save) | iOS | `iOS/Views/ContentView.swift` |
+| ~~No haptic feedback on confirmatory actions (copy, save)~~ | ~~iOS~~ | ~~Fixed~~ |
 | iPhone landscape not adapted — very cramped vertical space | iOS | `iOS/Views/ContentView.swift` |
-| `VideoExportSheet` only has `.medium` detent — may look odd on iPad | iPadOS | `iOS/Views/VideoExportSheet.swift:70` |
-| Controls bar has no background — blends with preview area, only a Divider separates them | iOS | `iOS/Views/ContentView.swift:246-313` |
-| macOS bottom toolbar has no background material or visual separation beyond the Divider | macOS | `macOS/Views/ContentView.swift` |
+| ~~`VideoExportSheet` only has `.medium` detent — may look odd on iPad~~ | ~~iPadOS~~ | ~~Fixed~~ |
+| ~~Controls bar has no background — blends with preview area, only a Divider separates them~~ | ~~iOS~~ | ~~Fixed~~ |
+| ~~macOS bottom toolbar has no background material or visual separation beyond the Divider~~ | ~~macOS~~ | ~~Fixed~~ |
 
 ## P3 — Polish
 
@@ -28,15 +28,15 @@ Issues identified from a comprehensive UI/UX review across macOS, iOS, and iPadO
 |-------|----------|----------|
 | No keyboard shortcuts on iPad (Cmd+C, Cmd+S, Cmd+O) | iPadOS | `iOS/Views/ContentView.swift` |
 | No `.hoverEffect()` on interactive elements for iPad trackpad users | iPadOS | `iOS/Views/ContentView.swift` |
-| macOS error state lacks `.multilineTextAlignment(.center)` and `.padding(.horizontal)` | macOS | `macOS/Views/ContentView.swift:50-51` |
-| `ExportSizeAccessoryView` uses manual border overlay instead of `.textFieldStyle(.roundedBorder)` | macOS | `macOS/Views/ExportSizeAccessoryView.swift:27,34` |
-| Share extension error "No supported image found" is unhelpful when sharing a video | Share Ext | `ShareViewController.swift:57` |
+| ~~macOS error state lacks `.multilineTextAlignment(.center)` and `.padding(.horizontal)`~~ | ~~macOS~~ | ~~Fixed~~ |
+| ~~`ExportSizeAccessoryView` uses manual border overlay instead of `.textFieldStyle(.roundedBorder)`~~ | ~~macOS~~ | ~~Fixed~~ |
+| ~~Share extension error "No supported image found" is unhelpful when sharing a video~~ | ~~Share Ext~~ | ~~Fixed~~ |
 | "+" icon for import may read as "create new" rather than "open existing" | iOS | `iOS/Views/ContentView.swift:143` |
 | No "Open Recent" menu on macOS | macOS | `macOS/BezelbubApp.swift` |
 | No paste (Cmd+V) support on macOS to paste screenshots from clipboard | macOS | `macOS/Views/ContentView.swift` |
 | No way to dismiss/clear the current image without loading a new one | iOS | `iOS/Views/ContentView.swift` |
 | ~~No loading/processing indicator for initial photo import (gap before compositing spinner)~~ | ~~iOS~~ | ~~Fixed~~ |
-| Export progress overlay uses hardcoded `frame(width: 200)` | iOS | `iOS/Views/ContentView.swift:108` |
+| ~~Export progress overlay uses hardcoded `frame(width: 200)`~~ | ~~iOS~~ | ~~Fixed~~ |
 | `NSEvent.addLocalMonitorForEvents` set up in `.onAppear` — already fixed | macOS | ~~Fixed~~ |
 | macOS app launches and immediately shows `NSOpenPanel` — window briefly appears empty | macOS | `macOS/BezelbubApp.swift:18-23` |
 

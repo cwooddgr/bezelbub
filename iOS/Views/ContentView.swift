@@ -130,7 +130,7 @@ struct ContentView: View {
                             Color.black.opacity(0.3)
                             VStack(spacing: 12) {
                                 ProgressView(value: appState.exportProgress)
-                                    .frame(width: 200)
+                                    .frame(maxWidth: 200)
                                 Text("\(Int(appState.exportProgress * 100))%")
                                     .font(.headline.monospacedDigit())
                                 Text("Exporting video...")
@@ -352,6 +352,7 @@ struct ContentView: View {
             .padding(.horizontal)
             .padding(.vertical, 10)
         }
+        .background(.bar)
     }
 
     // MARK: - Photo Loading
@@ -387,6 +388,7 @@ struct ContentView: View {
         guard let composited = appState.compositedImage else { return }
         let uiImage = UIImage(cgImage: composited)
         UIPasteboard.general.image = uiImage
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     }
 
     private func saveToPhotos() {
@@ -397,6 +399,7 @@ struct ContentView: View {
             if let error {
                 saveError = error.localizedDescription
             } else {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 showSavedCheckmark = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     showSavedCheckmark = false
