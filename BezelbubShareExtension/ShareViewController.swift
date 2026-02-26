@@ -158,6 +158,8 @@ struct ShareExtensionView: View {
                         } label: {
                             Image(systemName: "square.and.arrow.up")
                         }
+                        .accessibilityLabel("Share")
+                        .accessibilityHint("Opens sharing options")
                     }
                 }
             }
