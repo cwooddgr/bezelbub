@@ -30,6 +30,8 @@ struct VideoExportSheet: View {
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 100)
+                            .accessibilityLabel("Width")
+                            .accessibilityHint("Export width in pixels")
                     }
                     HStack {
                         Text("Height")
@@ -38,6 +40,8 @@ struct VideoExportSheet: View {
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 100)
+                            .accessibilityLabel("Height")
+                            .accessibilityHint("Export height in pixels")
                     }
                 } header: {
                     Text("Resolution")
@@ -47,6 +51,8 @@ struct VideoExportSheet: View {
                         if model.sizeChanged {
                             Text("·")
                             Button("Reset") { model.reset() }
+                                .accessibilityLabel("Reset Size")
+                                .accessibilityHint("Resets to original video dimensions")
                         }
                     }
                 }
