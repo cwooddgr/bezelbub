@@ -8,7 +8,7 @@ Issues identified from a comprehensive UI/UX review across macOS, iOS, and iPadO
 |-------|----------|----------|
 | Zero iPad-specific layout — phone UI stretched on large screens. No `horizontalSizeClass`, no `NavigationSplitView`, no sidebar | iPadOS | `iOS/Views/ContentView.swift` |
 | No drag-and-drop on iOS (supported on macOS but not iOS) | iOS/iPad | Missing `.dropDestination` in `iOS/Views/ContentView.swift` |
-| Zero accessibility labels — VoiceOver unusable for icon-only buttons (rotate, "+", share) | All | All view files |
+| ~~Zero accessibility labels — VoiceOver unusable for icon-only buttons (rotate, "+", share)~~ | ~~All~~ | ~~Fixed~~ |
 
 ## P2 — Design Gaps
 
