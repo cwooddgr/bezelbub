@@ -11,12 +11,14 @@ A macOS app that wraps your screenshots and screen recordings in realistic Apple
 - **Rotation** — Rotate videos to fix incorrect orientation (Option-click for counter-clockwise)
 - **Device colors** — Choose from all available device color options
 - **Copy & Save** — Copy framed images to clipboard, save as PNG, or export framed videos as MOV
-- **Landscape & Portrait** — Supports both orientations
+- **Landscape & Portrait** — Supports both orientations for iPhone and iPad
+- **Apple TV** — Supports 1080p (1920×1080) and 4K (3840×2160) screenshots
 
 ## Supported Devices
 
 - **iPhone** — 14, 14 Plus, 14 Pro, 14 Pro Max, 15, 15 Plus, 15 Pro, 15 Pro Max, 16, 16 Plus, 16 Pro, 16 Pro Max, 17, 17 Pro, 17 Pro Max, Air
 - **iPad** — iPad, iPad Air 11" M2, iPad Air 13" M2, iPad mini, iPad Pro 11" M4, iPad Pro 13" M4
+- **Apple TV** — Apple TV 4K (1080p and 4K screenshots)
 
 ## Requirements
 

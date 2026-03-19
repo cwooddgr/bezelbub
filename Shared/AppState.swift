@@ -52,7 +52,8 @@ final class AppState {
         let regions = ScreenRegionDetector.bundledRegions
         for device in devices {
             for color in device.colors {
-                for landscape in [false, true] {
+                let orientations: [Bool] = device.landscapeOnly ? [true] : [false, true]
+                for landscape in orientations {
                     let fileName = device.bezelFileName(color: color, landscape: landscape)
                     assert(regions[fileName] != nil, "Missing precomputed screen region for \(fileName)")
                 }

@@ -20,13 +20,17 @@ struct DeviceDefinition: Identifiable {
     let defaultColorID: String
     let bezelFilePrefix: String
     var screenRegion: CGRect?
+    var landscapeOnly: Bool = false
 
     var defaultColor: DeviceColor {
         colors.first { $0.id == defaultColorID } ?? colors[0]
     }
 
     func bezelFileName(color: DeviceColor, landscape: Bool) -> String {
-        "\(bezelFilePrefix) - \(color.fileComponent) - \(landscape ? "Landscape" : "Portrait").png"
+        if landscapeOnly {
+            return "\(bezelFilePrefix).png"
+        }
+        return "\(bezelFilePrefix) - \(color.fileComponent) - \(landscape ? "Landscape" : "Portrait").png"
     }
 }
 
@@ -295,6 +299,16 @@ enum DeviceCatalog {
             ],
             defaultColorID: "Silver",
             bezelFilePrefix: "iPad Pro 13 - M4"
+        ),
+
+        // MARK: - Apple TV
+        DeviceDefinition(
+            id: "appletv4k",
+            displayName: "Apple TV 4K",
+            colors: [DeviceColor("Black")],
+            defaultColorID: "Black",
+            bezelFilePrefix: "Apple TV - 4K",
+            landscapeOnly: true
         ),
     ]
 }

@@ -64,10 +64,28 @@ enum FrameCompositor {
             ctx.fill(CGRect(x: 0, y: 0, width: bezelWidth, height: bezelHeight))
         }
 
-        // Step 1: Draw screenshot centered on screen region, at native pixel size (no scaling)
+        // Step 1: Draw screenshot centered on screen region at native pixel size (no scaling).
+        // For landscape-only devices (e.g. Apple TV), crop 1px from each side (left/right) so
+        // the screenshot sits pixel-perfectly behind the screen hole; the bezel drawn on top
+        // covers any sub-pixel edge differences.
+        let screenshotToDraw: CGImage
+        if device.landscapeOnly {
+            // Scale up if screenshot is smaller than the screen region (e.g. 1080p → 4K 2× upscale)
+            var base = screenshot
+            if base.width < Int(screenRegion.width) {
+                let scale = screenRegion.width / CGFloat(base.width)
+                let targetSize = CGSize(width: screenRegion.width, height: CGFloat(base.height) * scale)
+                if let scaled = resize(image: base, to: targetSize) { base = scaled }
+            }
+            // Crop 1px from left and right for pixel-perfect fit in the screen hole
+            let cropRect = CGRect(x: 1, y: 0, width: base.width - 2, height: base.height)
+            screenshotToDraw = base.cropping(to: cropRect) ?? base
+        } else {
+            screenshotToDraw = screenshot
+        }
+        let ssWidth = CGFloat(screenshotToDraw.width)
+        let ssHeight = CGFloat(screenshotToDraw.height)
         // Clip to the exact screen hole shape (rounded corners) using a pixel-accurate mask
-        let ssWidth = CGFloat(screenshot.width)
-        let ssHeight = CGFloat(screenshot.height)
         let drawX = screenRegion.midX - ssWidth / 2.0
         let drawY = screenRegion.midY - ssHeight / 2.0
         let flippedY = CGFloat(bezelHeight) - drawY - ssHeight
@@ -77,7 +95,7 @@ enum FrameCompositor {
         if let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName) {
             ctx.clip(to: CGRect(x: 0, y: 0, width: bezelWidth, height: bezelHeight), mask: screenMask)
         }
-        ctx.draw(screenshot, in: drawRect)
+        ctx.draw(screenshotToDraw, in: drawRect)
         ctx.restoreGState()
 
         // Step 2: Draw bezel frame on top — covers rounded corners and blends anti-aliased edges

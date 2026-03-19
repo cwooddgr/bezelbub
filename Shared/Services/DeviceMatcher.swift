@@ -15,13 +15,25 @@ enum DeviceMatcher {
 
         for device in devices {
             guard let region = device.screenRegion else { continue }
-            let regionW = Int(region.width)
-            let regionH = Int(region.height)
-            let regionPortraitW = min(regionW, regionH)
-            let regionPortraitH = max(regionW, regionH)
-            // Allow ±1px tolerance — iOS screenshots can differ by 1px from display resolution
-            if abs(portraitW - regionPortraitW) <= 1 && abs(portraitH - regionPortraitH) <= 1 {
-                matches.append(Match(device: device, isLandscape: isLandscape))
+
+            if device.landscapeOnly {
+                // Only match landscape screenshots; use aspect ratio (±2%) to handle
+                // both 1920×1080 and 3840×2160 with the same bezel.
+                guard isLandscape else { continue }
+                let regionAspect = region.width / region.height
+                let screenshotAspect = Double(screenshotWidth) / Double(screenshotHeight)
+                if abs(screenshotAspect - regionAspect) / regionAspect < 0.02 {
+                    matches.append(Match(device: device, isLandscape: true))
+                }
+            } else {
+                let regionW = Int(region.width)
+                let regionH = Int(region.height)
+                let regionPortraitW = min(regionW, regionH)
+                let regionPortraitH = max(regionW, regionH)
+                // Allow ±1px tolerance — iOS screenshots can differ by 1px from display resolution
+                if abs(portraitW - regionPortraitW) <= 1 && abs(portraitH - regionPortraitH) <= 1 {
+                    matches.append(Match(device: device, isLandscape: isLandscape))
+                }
             }
         }
 
