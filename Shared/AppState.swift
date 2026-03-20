@@ -52,10 +52,21 @@ final class AppState {
         let regions = ScreenRegionDetector.bundledRegions
         for device in devices {
             for color in device.colors {
-                let orientations: [Bool] = device.landscapeOnly ? [true] : [false, true]
-                for landscape in orientations {
-                    let fileName = device.bezelFileName(color: color, landscape: landscape)
+                if device.landscapeOnly {
+                    let fileName = device.bezelFileName(color: color, landscape: true)
                     assert(regions[fileName] != nil, "Missing precomputed screen region for \(fileName)")
+                } else {
+                    let portraitFileName = device.bezelFileName(color: color, landscape: false)
+                    let landscapeFileName = device.bezelFileName(color: color, landscape: true)
+                    let hasPortrait = regions[portraitFileName] != nil
+                    let hasLandscape = regions[landscapeFileName] != nil
+                    // At least one orientation must exist; devices with portrait bezels must also have landscape.
+                    assert(hasPortrait || hasLandscape,
+                           "Missing precomputed screen region for \(portraitFileName)")
+                    if hasPortrait {
+                        assert(hasLandscape,
+                               "Missing precomputed screen region for \(landscapeFileName)")
+                    }
                 }
             }
         }
