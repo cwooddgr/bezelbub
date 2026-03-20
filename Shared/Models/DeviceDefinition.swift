@@ -310,5 +310,35 @@ enum DeviceCatalog {
             bezelFilePrefix: "Apple TV - 4K",
             landscapeOnly: true
         ),
+
+        // MARK: - Mac family
+        DeviceDefinition(
+            id: "macbookair13",
+            displayName: "MacBook Air 13\"",
+            colors: [DeviceColor("Midnight")],
+            defaultColorID: "Midnight",
+            bezelFilePrefix: "MacBook Air 13"
+        ),
+        DeviceDefinition(
+            id: "macbookpro14",
+            displayName: "MacBook Pro 14\"",
+            colors: [DeviceColor("Silver")],
+            defaultColorID: "Silver",
+            bezelFilePrefix: "MacBook Pro 14"
+        ),
+        DeviceDefinition(
+            id: "macbookpro16",
+            displayName: "MacBook Pro 16\"",
+            colors: [DeviceColor("Silver")],
+            defaultColorID: "Silver",
+            bezelFilePrefix: "MacBook Pro 16"
+        ),
+        DeviceDefinition(
+            id: "imac24",
+            displayName: "iMac 24\"",
+            colors: [DeviceColor("Silver")],
+            defaultColorID: "Silver",
+            bezelFilePrefix: "iMac 24"
+        ),
     ]
 }
