@@ -250,6 +250,18 @@ enum DeviceCatalog {
             bezelFilePrefix: "iPad"
         ),
         DeviceDefinition(
+            id: "ipada16",
+            displayName: "iPad (A16)",
+            colors: [
+                DeviceColor("Blue"),
+                DeviceColor("Pink"),
+                DeviceColor("Silver"),
+                DeviceColor("Yellow"),
+            ],
+            defaultColorID: "Silver",
+            bezelFilePrefix: "iPad - A16"
+        ),
+        DeviceDefinition(
             id: "ipadair11m2",
             displayName: "iPad Air 11\" M2",
             colors: [
@@ -274,11 +286,47 @@ enum DeviceCatalog {
             bezelFilePrefix: "iPad Air 13\" - M2"
         ),
         DeviceDefinition(
+            id: "ipadair11m4",
+            displayName: "iPad Air 11\" M4",
+            colors: [
+                DeviceColor("Blue"),
+                DeviceColor("Purple"),
+                DeviceColor("Space Gray"),
+                DeviceColor("Starlight"),
+            ],
+            defaultColorID: "Space Gray",
+            bezelFilePrefix: "iPad Air 11\" - M4"
+        ),
+        DeviceDefinition(
+            id: "ipadair13m4",
+            displayName: "iPad Air 13\" M4",
+            colors: [
+                DeviceColor("Blue"),
+                DeviceColor("Purple"),
+                DeviceColor("Space Gray"),
+                DeviceColor("Starlight"),
+            ],
+            defaultColorID: "Space Gray",
+            bezelFilePrefix: "iPad Air 13\" - M4"
+        ),
+        DeviceDefinition(
             id: "ipadmini",
             displayName: "iPad mini",
             colors: [DeviceColor("Starlight")],
             defaultColorID: "Starlight",
             bezelFilePrefix: "iPad mini"
+        ),
+        DeviceDefinition(
+            id: "ipadminia17pro",
+            displayName: "iPad mini (A17 Pro)",
+            colors: [
+                DeviceColor("Blue"),
+                DeviceColor("Purple"),
+                DeviceColor("Space Gray"),
+                DeviceColor("Starlight"),
+            ],
+            defaultColorID: "Space Gray",
+            bezelFilePrefix: "iPad mini - A17 Pro"
         ),
         DeviceDefinition(
             id: "ipadpro11m4",
@@ -300,6 +348,26 @@ enum DeviceCatalog {
             defaultColorID: "Silver",
             bezelFilePrefix: "iPad Pro 13 - M4"
         ),
+        DeviceDefinition(
+            id: "ipadpro11m5",
+            displayName: "iPad Pro 11\" M5",
+            colors: [
+                DeviceColor("Silver"),
+                DeviceColor("Space Black"),
+            ],
+            defaultColorID: "Silver",
+            bezelFilePrefix: "iPad Pro 11 - M5"
+        ),
+        DeviceDefinition(
+            id: "ipadpro13m5",
+            displayName: "iPad Pro 13\" M5",
+            colors: [
+                DeviceColor("Silver"),
+                DeviceColor("Space Black"),
+            ],
+            defaultColorID: "Silver",
+            bezelFilePrefix: "iPad Pro 13 - M5"
+        ),
 
         // MARK: - Apple TV
         DeviceDefinition(
@@ -320,6 +388,30 @@ enum DeviceCatalog {
             bezelFilePrefix: "MacBook Air 13"
         ),
         DeviceDefinition(
+            id: "macbookairm513",
+            displayName: "MacBook Air 13\" M5",
+            colors: [
+                DeviceColor("Midnight"),
+                DeviceColor("Silver"),
+                DeviceColor("Sky Blue"),
+                DeviceColor("Starlight"),
+            ],
+            defaultColorID: "Midnight",
+            bezelFilePrefix: "MacBook Air M5 13"
+        ),
+        DeviceDefinition(
+            id: "macbookairm515",
+            displayName: "MacBook Air 15\" M5",
+            colors: [
+                DeviceColor("Midnight"),
+                DeviceColor("Silver"),
+                DeviceColor("Sky Blue"),
+                DeviceColor("Starlight"),
+            ],
+            defaultColorID: "Midnight",
+            bezelFilePrefix: "MacBook Air M5 15"
+        ),
+        DeviceDefinition(
             id: "macbookpro14",
             displayName: "MacBook Pro 14\"",
             colors: [DeviceColor("Silver")],
@@ -327,11 +419,43 @@ enum DeviceCatalog {
             bezelFilePrefix: "MacBook Pro 14"
         ),
         DeviceDefinition(
+            id: "macbookprom514",
+            displayName: "MacBook Pro 14\" M5",
+            colors: [
+                DeviceColor("Silver"),
+                DeviceColor("Space Black"),
+            ],
+            defaultColorID: "Silver",
+            bezelFilePrefix: "MacBook Pro M5 14"
+        ),
+        DeviceDefinition(
             id: "macbookpro16",
             displayName: "MacBook Pro 16\"",
             colors: [DeviceColor("Silver")],
             defaultColorID: "Silver",
             bezelFilePrefix: "MacBook Pro 16"
+        ),
+        DeviceDefinition(
+            id: "macbookprom516",
+            displayName: "MacBook Pro 16\" M5",
+            colors: [
+                DeviceColor("Silver"),
+                DeviceColor("Space Black"),
+            ],
+            defaultColorID: "Silver",
+            bezelFilePrefix: "MacBook Pro M5 16"
+        ),
+        DeviceDefinition(
+            id: "macbookneo",
+            displayName: "MacBook Neo",
+            colors: [
+                DeviceColor("Silver"),
+                DeviceColor("Blush"),
+                DeviceColor("Citrus"),
+                DeviceColor("Indigo"),
+            ],
+            defaultColorID: "Silver",
+            bezelFilePrefix: "MacBook Neo"
         ),
         DeviceDefinition(
             id: "imac24",

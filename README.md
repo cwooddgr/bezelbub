@@ -18,8 +18,8 @@ A macOS and iOS app that wraps your screenshots and screen recordings in realist
 ## Supported Devices
 
 - **iPhone** — 14, 14 Plus, 14 Pro, 14 Pro Max, 15, 15 Plus, 15 Pro, 15 Pro Max, 16, 16 Plus, 16 Pro, 16 Pro Max, 17, 17 Pro, 17 Pro Max, Air
-- **iPad** — iPad, iPad Air 11" M2, iPad Air 13" M2, iPad mini, iPad Pro 11" M4, iPad Pro 13" M4
-- **Mac** — MacBook Air 13", MacBook Pro 14", MacBook Pro 16", iMac 24"
+- **iPad** — iPad, iPad (A16), iPad Air 11"/13" M2, iPad Air 11"/13" M4, iPad mini, iPad mini (A17 Pro), iPad Pro 11"/13" M4, iPad Pro 11"/13" M5
+- **Mac** — MacBook Air 13", MacBook Air 13"/15" M5, MacBook Pro 14", MacBook Pro 16", MacBook Pro 14"/16" M5, MacBook Neo, iMac 24"
 - **Apple TV** — Apple TV 4K (1080p and 4K screenshots)
 
 ## Requirements

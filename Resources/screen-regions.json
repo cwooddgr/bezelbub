@@ -11,6 +11,78 @@
     "x" : 330,
     "y" : 218
   },
+  "MacBook Air M5 13 - Midnight - Landscape.png" : {
+    "height" : 1664,
+    "width" : 2560,
+    "x" : 420,
+    "y" : 288
+  },
+  "MacBook Air M5 13 - Silver - Landscape.png" : {
+    "height" : 1664,
+    "width" : 2560,
+    "x" : 420,
+    "y" : 288
+  },
+  "MacBook Air M5 13 - Sky Blue - Landscape.png" : {
+    "height" : 1664,
+    "width" : 2560,
+    "x" : 420,
+    "y" : 288
+  },
+  "MacBook Air M5 13 - Starlight - Landscape.png" : {
+    "height" : 1664,
+    "width" : 2560,
+    "x" : 420,
+    "y" : 288
+  },
+  "MacBook Air M5 15 - Midnight - Landscape.png" : {
+    "height" : 1864,
+    "width" : 2880,
+    "x" : 329,
+    "y" : 218
+  },
+  "MacBook Air M5 15 - Silver - Landscape.png" : {
+    "height" : 1864,
+    "width" : 2880,
+    "x" : 329,
+    "y" : 218
+  },
+  "MacBook Air M5 15 - Sky Blue - Landscape.png" : {
+    "height" : 1864,
+    "width" : 2880,
+    "x" : 329,
+    "y" : 218
+  },
+  "MacBook Air M5 15 - Starlight - Landscape.png" : {
+    "height" : 1864,
+    "width" : 2880,
+    "x" : 329,
+    "y" : 218
+  },
+  "MacBook Neo - Blush - Landscape.png" : {
+    "height" : 1506,
+    "width" : 2408,
+    "x" : 406,
+    "y" : 297
+  },
+  "MacBook Neo - Citrus - Landscape.png" : {
+    "height" : 1506,
+    "width" : 2408,
+    "x" : 406,
+    "y" : 297
+  },
+  "MacBook Neo - Indigo - Landscape.png" : {
+    "height" : 1506,
+    "width" : 2408,
+    "x" : 406,
+    "y" : 297
+  },
+  "MacBook Neo - Silver - Landscape.png" : {
+    "height" : 1506,
+    "width" : 2408,
+    "x" : 406,
+    "y" : 297
+  },
   "MacBook Pro 14 - Silver - Landscape.png" : {
     "height" : 1962,
     "width" : 3022,
@@ -23,11 +95,83 @@
     "x" : 443,
     "y" : 314
   },
+  "MacBook Pro M5 14 - Silver - Landscape.png" : {
+    "height" : 1964,
+    "width" : 3024,
+    "x" : 418,
+    "y" : 288
+  },
+  "MacBook Pro M5 14 - Space Black - Landscape.png" : {
+    "height" : 1964,
+    "width" : 3024,
+    "x" : 418,
+    "y" : 288
+  },
+  "MacBook Pro M5 16 - Silver - Landscape.png" : {
+    "height" : 2234,
+    "width" : 3456,
+    "x" : 402,
+    "y" : 303
+  },
+  "MacBook Pro M5 16 - Space Black - Landscape.png" : {
+    "height" : 2234,
+    "width" : 3456,
+    "x" : 402,
+    "y" : 303
+  },
   "iMac 24 - Silver - Landscape.png" : {
     "height" : 2519,
     "width" : 4480,
     "x" : 140,
     "y" : 161
+  },
+  "iPad - A16 - Blue - Landscape.png" : {
+    "height" : 1639,
+    "width" : 2360,
+    "x" : 200,
+    "y" : 200
+  },
+  "iPad - A16 - Blue - Portrait.png" : {
+    "height" : 2360,
+    "width" : 1639,
+    "x" : 200,
+    "y" : 200
+  },
+  "iPad - A16 - Pink - Landscape.png" : {
+    "height" : 1639,
+    "width" : 2360,
+    "x" : 200,
+    "y" : 200
+  },
+  "iPad - A16 - Pink - Portrait.png" : {
+    "height" : 2360,
+    "width" : 1639,
+    "x" : 200,
+    "y" : 200
+  },
+  "iPad - A16 - Silver - Landscape.png" : {
+    "height" : 1639,
+    "width" : 2360,
+    "x" : 200,
+    "y" : 200
+  },
+  "iPad - A16 - Silver - Portrait.png" : {
+    "height" : 2360,
+    "width" : 1639,
+    "x" : 200,
+    "y" : 200
+  },
+  "iPad - A16 - Yellow - Landscape.png" : {
+    "height" : 1639,
+    "width" : 2360,
+    "x" : 200,
+    "y" : 200
+  },
+  "iPad - A16 - Yellow - Portrait.png" : {
+    "height" : 2360,
+    "width" : 1639,
+    "x" : 200,
+    "y" : 200
   },
   "iPad - Silver - Landscape.png" : {
     "height" : 1620,
@@ -89,6 +233,54 @@
     "x" : 130,
     "y" : 130
   },
+  "iPad Air 11\" - M4 - Blue - Landscape.png" : {
+    "height" : 1640,
+    "width" : 2360,
+    "x" : 130,
+    "y" : 130
+  },
+  "iPad Air 11\" - M4 - Blue - Portrait.png" : {
+    "height" : 2360,
+    "width" : 1640,
+    "x" : 130,
+    "y" : 130
+  },
+  "iPad Air 11\" - M4 - Purple - Landscape.png" : {
+    "height" : 1640,
+    "width" : 2360,
+    "x" : 130,
+    "y" : 130
+  },
+  "iPad Air 11\" - M4 - Purple - Portrait.png" : {
+    "height" : 2360,
+    "width" : 1640,
+    "x" : 130,
+    "y" : 130
+  },
+  "iPad Air 11\" - M4 - Space Gray - Landscape.png" : {
+    "height" : 1640,
+    "width" : 2360,
+    "x" : 130,
+    "y" : 130
+  },
+  "iPad Air 11\" - M4 - Space Gray - Portrait.png" : {
+    "height" : 2360,
+    "width" : 1640,
+    "x" : 130,
+    "y" : 130
+  },
+  "iPad Air 11\" - M4 - Starlight - Landscape.png" : {
+    "height" : 1640,
+    "width" : 2360,
+    "x" : 130,
+    "y" : 130
+  },
+  "iPad Air 11\" - M4 - Starlight - Portrait.png" : {
+    "height" : 2360,
+    "width" : 1640,
+    "x" : 130,
+    "y" : 130
+  },
   "iPad Air 13\" - M2 - Blue - Landscape.png" : {
     "height" : 2048,
     "width" : 2732,
@@ -137,6 +329,54 @@
     "x" : 126,
     "y" : 124
   },
+  "iPad Air 13\" - M4 - Blue - Landscape.png" : {
+    "height" : 2048,
+    "width" : 2732,
+    "x" : 124,
+    "y" : 126
+  },
+  "iPad Air 13\" - M4 - Blue - Portrait.png" : {
+    "height" : 2732,
+    "width" : 2048,
+    "x" : 126,
+    "y" : 124
+  },
+  "iPad Air 13\" - M4 - Purple - Landscape.png" : {
+    "height" : 2048,
+    "width" : 2732,
+    "x" : 124,
+    "y" : 126
+  },
+  "iPad Air 13\" - M4 - Purple - Portrait.png" : {
+    "height" : 2732,
+    "width" : 2048,
+    "x" : 126,
+    "y" : 124
+  },
+  "iPad Air 13\" - M4 - Space Gray - Landscape.png" : {
+    "height" : 2048,
+    "width" : 2732,
+    "x" : 124,
+    "y" : 126
+  },
+  "iPad Air 13\" - M4 - Space Gray - Portrait.png" : {
+    "height" : 2732,
+    "width" : 2048,
+    "x" : 126,
+    "y" : 124
+  },
+  "iPad Air 13\" - M4 - Starlight - Landscape.png" : {
+    "height" : 2048,
+    "width" : 2732,
+    "x" : 124,
+    "y" : 126
+  },
+  "iPad Air 13\" - M4 - Starlight - Portrait.png" : {
+    "height" : 2732,
+    "width" : 2048,
+    "x" : 126,
+    "y" : 124
+  },
   "iPad Pro 11 - M4 - Silver - Landscape.png" : {
     "height" : 1668,
     "width" : 2420,
@@ -156,6 +396,30 @@
     "y" : 106
   },
   "iPad Pro 11 - M4 - Space Gray - Portrait.png" : {
+    "height" : 2420,
+    "width" : 1668,
+    "x" : 106,
+    "y" : 110
+  },
+  "iPad Pro 11 - M5 - Silver - Landscape.png" : {
+    "height" : 1668,
+    "width" : 2420,
+    "x" : 110,
+    "y" : 106
+  },
+  "iPad Pro 11 - M5 - Silver - Portrait.png" : {
+    "height" : 2420,
+    "width" : 1668,
+    "x" : 106,
+    "y" : 110
+  },
+  "iPad Pro 11 - M5 - Space Black - Landscape.png" : {
+    "height" : 1668,
+    "width" : 2420,
+    "x" : 110,
+    "y" : 106
+  },
+  "iPad Pro 11 - M5 - Space Black - Portrait.png" : {
     "height" : 2420,
     "width" : 1668,
     "x" : 106,
@@ -184,6 +448,78 @@
     "width" : 2064,
     "x" : 118,
     "y" : 124
+  },
+  "iPad Pro 13 - M5 - Silver - Landscape.png" : {
+    "height" : 2064,
+    "width" : 2752,
+    "x" : 124,
+    "y" : 118
+  },
+  "iPad Pro 13 - M5 - Silver - Portrait.png" : {
+    "height" : 2752,
+    "width" : 2064,
+    "x" : 118,
+    "y" : 124
+  },
+  "iPad Pro 13 - M5 - Space Black - Landscape.png" : {
+    "height" : 2064,
+    "width" : 2752,
+    "x" : 124,
+    "y" : 118
+  },
+  "iPad Pro 13 - M5 - Space Black - Portrait.png" : {
+    "height" : 2752,
+    "width" : 2064,
+    "x" : 118,
+    "y" : 124
+  },
+  "iPad mini - A17 Pro - Blue - Landscape.png" : {
+    "height" : 1488,
+    "width" : 2266,
+    "x" : 142,
+    "y" : 146
+  },
+  "iPad mini - A17 Pro - Blue - Portrait.png" : {
+    "height" : 2266,
+    "width" : 1488,
+    "x" : 146,
+    "y" : 142
+  },
+  "iPad mini - A17 Pro - Purple - Landscape.png" : {
+    "height" : 1488,
+    "width" : 2266,
+    "x" : 142,
+    "y" : 146
+  },
+  "iPad mini - A17 Pro - Purple - Portrait.png" : {
+    "height" : 2266,
+    "width" : 1488,
+    "x" : 146,
+    "y" : 142
+  },
+  "iPad mini - A17 Pro - Space Gray - Landscape.png" : {
+    "height" : 1488,
+    "width" : 2266,
+    "x" : 142,
+    "y" : 146
+  },
+  "iPad mini - A17 Pro - Space Gray - Portrait.png" : {
+    "height" : 2266,
+    "width" : 1488,
+    "x" : 146,
+    "y" : 142
+  },
+  "iPad mini - A17 Pro - Starlight - Landscape.png" : {
+    "height" : 1488,
+    "width" : 2266,
+    "x" : 142,
+    "y" : 146
+  },
+  "iPad mini - A17 Pro - Starlight - Portrait.png" : {
+    "height" : 2266,
+    "width" : 1488,
+    "x" : 146,
+    "y" : 142
   },
   "iPad mini - Starlight - Landscape.png" : {
     "height" : 1488,
