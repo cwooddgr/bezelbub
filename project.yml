@@ -43,8 +43,8 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.bezelbub
       INFOPLIST_FILE: macOS/Info.plist
       PRODUCT_NAME: Bezelbub
-      MARKETING_VERSION: "3.0.0"
-      CURRENT_PROJECT_VERSION: "9"
+      MARKETING_VERSION: "3.1.0"
+      CURRENT_PROJECT_VERSION: "10"
       COMBINE_HIDPI_IMAGES: YES
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       CODE_SIGN_ENTITLEMENTS: macOS/Bezelbub.entitlements
@@ -71,8 +71,8 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.bezelbub
       INFOPLIST_FILE: iOS/Info.plist
       PRODUCT_NAME: Bezelbub
-      MARKETING_VERSION: "3.0.0"
-      CURRENT_PROJECT_VERSION: "9"
+      MARKETING_VERSION: "3.1.0"
+      CURRENT_PROJECT_VERSION: "10"
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       CODE_SIGN_ENTITLEMENTS: iOS/Bezelbub-iOS.entitlements
       INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright \u00a9 2026 DGR Labs, LLC. All rights reserved."
@@ -106,8 +106,8 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.bezelbub.share-extension
       INFOPLIST_FILE: BezelbubShareExtension/Info.plist
       PRODUCT_NAME: BezelbubShareExtension
-      MARKETING_VERSION: "3.0.0"
-      CURRENT_PROJECT_VERSION: "9"
+      MARKETING_VERSION: "3.1.0"
+      CURRENT_PROJECT_VERSION: "10"
       CODE_SIGN_ENTITLEMENTS: BezelbubShareExtension/BezelbubShareExtension.entitlements
       SKIP_INSTALL: YES
       OTHER_SWIFT_FLAGS: "-DSHARE_EXTENSION"

@@ -435,7 +435,7 @@
 				CODE_SIGN_ENTITLEMENTS = macOS/Bezelbub.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
@@ -444,7 +444,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.0;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.bezelbub;
 				PRODUCT_NAME = Bezelbub;
 				SDKROOT = macosx;
@@ -458,7 +458,7 @@
 				CODE_SIGN_ENTITLEMENTS = "iOS/Bezelbub-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = iOS/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
@@ -469,7 +469,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.0;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.bezelbub;
 				PRODUCT_NAME = Bezelbub;
 				SDKROOT = iphoneos;
@@ -482,7 +482,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = BezelbubShareExtension/BezelbubShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = BezelbubShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -490,7 +490,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.0;
+				MARKETING_VERSION = 3.1.0;
 				OTHER_SWIFT_FLAGS = "-DSHARE_EXTENSION";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.dgrlabs.bezelbub.share-extension";
 				PRODUCT_NAME = BezelbubShareExtension;
@@ -565,7 +565,7 @@
 				CODE_SIGN_ENTITLEMENTS = "iOS/Bezelbub-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = iOS/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
@@ -576,7 +576,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.0;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.bezelbub;
 				PRODUCT_NAME = Bezelbub;
 				SDKROOT = iphoneos;
@@ -589,7 +589,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = BezelbubShareExtension/BezelbubShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = BezelbubShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -597,7 +597,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.0;
+				MARKETING_VERSION = 3.1.0;
 				OTHER_SWIFT_FLAGS = "-DSHARE_EXTENSION";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.dgrlabs.bezelbub.share-extension";
 				PRODUCT_NAME = BezelbubShareExtension;
@@ -614,7 +614,7 @@
 				CODE_SIGN_ENTITLEMENTS = macOS/Bezelbub.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
@@ -623,7 +623,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.0;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.dgrlabs.bezelbub;
 				PRODUCT_NAME = Bezelbub;
 				SDKROOT = macosx;
