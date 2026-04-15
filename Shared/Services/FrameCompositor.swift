@@ -158,40 +158,100 @@ enum FrameCompositor {
         return ctx.makeImage()
     }
 
-    /// Generates sample composited mockups for the empty state display.
-    /// Returns up to two CGImages: an iPhone and an iPad framed with colorful gradients.
+    /// Generates a sample composited mockup for the empty state display:
+    /// a MacBook, iPad, and iPhone in landscape, bottom-aligned and sized to their
+    /// physical proportions, each overlapping the previous. Returns a single CGImage
+    /// (wrapped in an array to match the existing call sites).
     static func generateSampleMockups(devices: [DeviceDefinition]) -> [CGImage] {
-        var results: [CGImage] = []
-
-        let specs: [(id: String, colors: [CGColor])] = [
-            ("iphone17pro", [
-                CGColor(srgbRed: 0.3, green: 0.4, blue: 1.0, alpha: 1.0),
-                CGColor(srgbRed: 0.7, green: 0.2, blue: 0.9, alpha: 1.0),
-            ]),
-            ("ipadair11m2", [
-                CGColor(srgbRed: 1.0, green: 0.5, blue: 0.2, alpha: 1.0),
-                CGColor(srgbRed: 1.0, green: 0.3, blue: 0.5, alpha: 1.0),
-            ]),
+        struct Spec {
+            let id: String
+            let colors: [CGColor]
+            let physicalWidthMM: Double  // horizontal size in chosen orientation
+            let isLandscape: Bool
+        }
+        // Physical widths in the chosen orientation (from Apple specs):
+        //   MacBook Pro 14" M5 landscape: 312.6 mm (long side)
+        //   iPad Air 11" M2 portrait: 178.5 mm (short side)
+        //   iPhone 17 Pro landscape: 150.0 mm (long side)
+        let specs: [Spec] = [
+            Spec(id: "macbookprom514", colors: [
+                CGColor(srgbRed: 0.30, green: 0.45, blue: 1.00, alpha: 1.0),
+                CGColor(srgbRed: 0.65, green: 0.20, blue: 0.90, alpha: 1.0),
+            ], physicalWidthMM: 312.6, isLandscape: true),
+            Spec(id: "ipadair11m2", colors: [
+                CGColor(srgbRed: 1.00, green: 0.55, blue: 0.20, alpha: 1.0),
+                CGColor(srgbRed: 1.00, green: 0.30, blue: 0.50, alpha: 1.0),
+            ], physicalWidthMM: 178.5, isLandscape: false),
+            Spec(id: "iphone17pro", colors: [
+                CGColor(srgbRed: 0.20, green: 0.85, blue: 0.70, alpha: 1.0),
+                CGColor(srgbRed: 0.25, green: 0.70, blue: 0.95, alpha: 1.0),
+            ], physicalWidthMM: 150.0, isLandscape: true),
         ]
 
+        struct Rendered {
+            let image: CGImage
+            let physicalWidthMM: Double
+        }
+        var items: [Rendered] = []
         for spec in specs {
-            guard let device = devices.first(where: { $0.id == spec.id }),
-                  let screenRegion = device.screenRegion,
+            guard let device = devices.first(where: { $0.id == spec.id }) else { return [] }
+            let color = device.defaultColor
+            let bezelFileName = device.bezelFileName(color: color, landscape: spec.isLandscape)
+            guard let region = ScreenRegionDetector.screenRegion(forBezelFileName: bezelFileName),
                   let gradient = makeGradientImage(
-                      width: Int(screenRegion.width),
-                      height: Int(screenRegion.height),
+                      width: Int(region.width),
+                      height: Int(region.height),
                       colors: spec.colors
                   ),
                   let composited = composite(
                       screenshot: gradient,
                       device: device,
-                      color: device.defaultColor,
-                      isLandscape: false
+                      color: color,
+                      isLandscape: spec.isLandscape
                   )
-            else { continue }
-            results.append(composited)
+            else { return [] }
+            items.append(Rendered(image: composited, physicalWidthMM: spec.physicalWidthMM))
         }
 
-        return results
+        // mm → px scale, anchored so the first device (MacBook) is 1400 px wide.
+        let scale = 1400.0 / items[0].physicalWidthMM
+        let widths: [Double] = items.map { $0.physicalWidthMM * scale }
+        let heights: [Double] = zip(items, widths).map { r, w in
+            w * Double(r.image.height) / Double(r.image.width)
+        }
+
+        // Lay out left-to-right; each device overlaps the prior by a fraction of its own width.
+        let overlapFractions: [Double] = [0, 0.40, 0.45]
+        var xOffsets: [Double] = []
+        var cursor: Double = 0
+        for i in 0..<items.count {
+            let x = i == 0 ? 0 : cursor - overlapFractions[i] * widths[i]
+            xOffsets.append(x)
+            cursor = x + widths[i]
+        }
+        let canvasWidth = Int(ceil(cursor))
+        let canvasHeight = Int(ceil(heights.max() ?? 0))
+
+        guard canvasWidth > 0, canvasHeight > 0,
+              let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
+              let ctx = CGContext(
+                  data: nil,
+                  width: canvasWidth,
+                  height: canvasHeight,
+                  bitsPerComponent: 8,
+                  bytesPerRow: 0,
+                  space: colorSpace,
+                  bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+              )
+        else { return [] }
+
+        ctx.interpolationQuality = .high
+        // CGContext origin is bottom-left, so drawing at y=0 bottom-aligns each device.
+        for i in 0..<items.count {
+            let rect = CGRect(x: xOffsets[i], y: 0, width: widths[i], height: heights[i])
+            ctx.draw(items[i].image, in: rect)
+        }
+        guard let image = ctx.makeImage() else { return [] }
+        return [image]
     }
 }

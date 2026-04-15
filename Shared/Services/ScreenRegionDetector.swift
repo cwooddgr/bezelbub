@@ -33,14 +33,10 @@ enum ScreenRegionDetector {
 
         for i in devices.indices {
             let color = devices[i].defaultColor
-            let portraitFileName = devices[i].bezelFileName(color: color, landscape: false)
-            let landscapeFileName = devices[i].bezelFileName(color: color, landscape: true)
-            // landscapeOnly devices use the landscape bezel as canonical; others use portrait,
-            // falling back to landscape for devices that only have landscape bezels (e.g. Macs).
-            let primaryFileName = devices[i].landscapeOnly ? landscapeFileName : portraitFileName
-            if let region = screenRegion(forBezelFileName: primaryFileName) {
-                devices[i].screenRegion = region
-            } else if !devices[i].landscapeOnly, let region = screenRegion(forBezelFileName: landscapeFileName) {
+            // Use portrait bezel as canonical when available; Macs/iMac/Apple TV
+            // have no portrait bezel and use their landscape bezel instead.
+            let fileName = devices[i].bezelFileName(color: color, landscape: !devices[i].hasPortraitBezel)
+            if let region = screenRegion(forBezelFileName: fileName) {
                 devices[i].screenRegion = region
             }
         }

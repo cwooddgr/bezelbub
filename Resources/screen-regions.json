@@ -1,1364 +1,1364 @@
 {
-  "Apple TV - 4K.png" : {
+  "appletv4k-black-l.png" : {
     "height" : 2158,
     "width" : 3840,
     "x" : 103,
     "y" : 120
   },
-  "MacBook Air 13 - Midnight - Landscape.png" : {
-    "height" : 1664,
-    "width" : 2560,
-    "x" : 330,
-    "y" : 218
-  },
-  "MacBook Air M5 13 - Midnight - Landscape.png" : {
-    "height" : 1664,
-    "width" : 2560,
-    "x" : 420,
-    "y" : 288
-  },
-  "MacBook Air M5 13 - Silver - Landscape.png" : {
-    "height" : 1664,
-    "width" : 2560,
-    "x" : 420,
-    "y" : 288
-  },
-  "MacBook Air M5 13 - Sky Blue - Landscape.png" : {
-    "height" : 1664,
-    "width" : 2560,
-    "x" : 420,
-    "y" : 288
-  },
-  "MacBook Air M5 13 - Starlight - Landscape.png" : {
-    "height" : 1664,
-    "width" : 2560,
-    "x" : 420,
-    "y" : 288
-  },
-  "MacBook Air M5 15 - Midnight - Landscape.png" : {
-    "height" : 1864,
-    "width" : 2880,
-    "x" : 329,
-    "y" : 218
-  },
-  "MacBook Air M5 15 - Silver - Landscape.png" : {
-    "height" : 1864,
-    "width" : 2880,
-    "x" : 329,
-    "y" : 218
-  },
-  "MacBook Air M5 15 - Sky Blue - Landscape.png" : {
-    "height" : 1864,
-    "width" : 2880,
-    "x" : 329,
-    "y" : 218
-  },
-  "MacBook Air M5 15 - Starlight - Landscape.png" : {
-    "height" : 1864,
-    "width" : 2880,
-    "x" : 329,
-    "y" : 218
-  },
-  "MacBook Neo - Blush - Landscape.png" : {
-    "height" : 1506,
-    "width" : 2408,
-    "x" : 406,
-    "y" : 297
-  },
-  "MacBook Neo - Citrus - Landscape.png" : {
-    "height" : 1506,
-    "width" : 2408,
-    "x" : 406,
-    "y" : 297
-  },
-  "MacBook Neo - Indigo - Landscape.png" : {
-    "height" : 1506,
-    "width" : 2408,
-    "x" : 406,
-    "y" : 297
-  },
-  "MacBook Neo - Silver - Landscape.png" : {
-    "height" : 1506,
-    "width" : 2408,
-    "x" : 406,
-    "y" : 297
-  },
-  "MacBook Pro 14 - Silver - Landscape.png" : {
-    "height" : 1962,
-    "width" : 3022,
-    "x" : 461,
-    "y" : 301
-  },
-  "MacBook Pro 16 - Silver - Landscape.png" : {
-    "height" : 2232,
-    "width" : 3454,
-    "x" : 443,
-    "y" : 314
-  },
-  "MacBook Pro M5 14 - Silver - Landscape.png" : {
-    "height" : 1964,
-    "width" : 3024,
-    "x" : 418,
-    "y" : 288
-  },
-  "MacBook Pro M5 14 - Space Black - Landscape.png" : {
-    "height" : 1964,
-    "width" : 3024,
-    "x" : 418,
-    "y" : 288
-  },
-  "MacBook Pro M5 16 - Silver - Landscape.png" : {
-    "height" : 2234,
-    "width" : 3456,
-    "x" : 402,
-    "y" : 303
-  },
-  "MacBook Pro M5 16 - Space Black - Landscape.png" : {
-    "height" : 2234,
-    "width" : 3456,
-    "x" : 402,
-    "y" : 303
-  },
-  "iMac 24 - Silver - Landscape.png" : {
+  "imac24-silver-l.png" : {
     "height" : 2519,
     "width" : 4480,
     "x" : 140,
     "y" : 161
   },
-  "iPad - A16 - Blue - Landscape.png" : {
-    "height" : 1639,
-    "width" : 2360,
-    "x" : 200,
-    "y" : 200
-  },
-  "iPad - A16 - Blue - Portrait.png" : {
-    "height" : 2360,
-    "width" : 1639,
-    "x" : 200,
-    "y" : 200
-  },
-  "iPad - A16 - Pink - Landscape.png" : {
-    "height" : 1639,
-    "width" : 2360,
-    "x" : 200,
-    "y" : 200
-  },
-  "iPad - A16 - Pink - Portrait.png" : {
-    "height" : 2360,
-    "width" : 1639,
-    "x" : 200,
-    "y" : 200
-  },
-  "iPad - A16 - Silver - Landscape.png" : {
-    "height" : 1639,
-    "width" : 2360,
-    "x" : 200,
-    "y" : 200
-  },
-  "iPad - A16 - Silver - Portrait.png" : {
-    "height" : 2360,
-    "width" : 1639,
-    "x" : 200,
-    "y" : 200
-  },
-  "iPad - A16 - Yellow - Landscape.png" : {
-    "height" : 1639,
-    "width" : 2360,
-    "x" : 200,
-    "y" : 200
-  },
-  "iPad - A16 - Yellow - Portrait.png" : {
-    "height" : 2360,
-    "width" : 1639,
-    "x" : 200,
-    "y" : 200
-  },
-  "iPad - Silver - Landscape.png" : {
+  "ipad-silver-l.png" : {
     "height" : 1620,
     "width" : 2160,
     "x" : 250,
     "y" : 110
   },
-  "iPad - Silver - Portrait.png" : {
+  "ipad-silver-p.png" : {
     "height" : 2160,
     "width" : 1620,
     "x" : 110,
     "y" : 250
   },
-  "iPad Air 11\" - M2 - Blue - Landscape.png" : {
+  "ipada16-blue-l.png" : {
+    "height" : 1639,
+    "width" : 2360,
+    "x" : 200,
+    "y" : 200
+  },
+  "ipada16-blue-p.png" : {
+    "height" : 2360,
+    "width" : 1639,
+    "x" : 200,
+    "y" : 200
+  },
+  "ipada16-pink-l.png" : {
+    "height" : 1639,
+    "width" : 2360,
+    "x" : 200,
+    "y" : 200
+  },
+  "ipada16-pink-p.png" : {
+    "height" : 2360,
+    "width" : 1639,
+    "x" : 200,
+    "y" : 200
+  },
+  "ipada16-silver-l.png" : {
+    "height" : 1639,
+    "width" : 2360,
+    "x" : 200,
+    "y" : 200
+  },
+  "ipada16-silver-p.png" : {
+    "height" : 2360,
+    "width" : 1639,
+    "x" : 200,
+    "y" : 200
+  },
+  "ipada16-yellow-l.png" : {
+    "height" : 1639,
+    "width" : 2360,
+    "x" : 200,
+    "y" : 200
+  },
+  "ipada16-yellow-p.png" : {
+    "height" : 2360,
+    "width" : 1639,
+    "x" : 200,
+    "y" : 200
+  },
+  "ipadair11m2-blue-l.png" : {
     "height" : 1640,
     "width" : 2360,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M2 - Blue - Portrait.png" : {
+  "ipadair11m2-blue-p.png" : {
     "height" : 2360,
     "width" : 1640,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M2 - Purple - Landscape.png" : {
+  "ipadair11m2-purple-l.png" : {
     "height" : 1640,
     "width" : 2360,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M2 - Purple - Portrait.png" : {
+  "ipadair11m2-purple-p.png" : {
     "height" : 2360,
     "width" : 1640,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M2 - Space Gray - Landscape.png" : {
+  "ipadair11m2-spacegray-l.png" : {
     "height" : 1640,
     "width" : 2360,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M2 - Space Gray - Portrait.png" : {
+  "ipadair11m2-spacegray-p.png" : {
     "height" : 2360,
     "width" : 1640,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M2 - Stardust - Landscape.png" : {
+  "ipadair11m2-stardust-l.png" : {
     "height" : 1640,
     "width" : 2360,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M2 - Stardust - Portrait.png" : {
+  "ipadair11m2-stardust-p.png" : {
     "height" : 2360,
     "width" : 1640,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M4 - Blue - Landscape.png" : {
+  "ipadair11m4-blue-l.png" : {
     "height" : 1640,
     "width" : 2360,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M4 - Blue - Portrait.png" : {
+  "ipadair11m4-blue-p.png" : {
     "height" : 2360,
     "width" : 1640,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M4 - Purple - Landscape.png" : {
+  "ipadair11m4-purple-l.png" : {
     "height" : 1640,
     "width" : 2360,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M4 - Purple - Portrait.png" : {
+  "ipadair11m4-purple-p.png" : {
     "height" : 2360,
     "width" : 1640,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M4 - Space Gray - Landscape.png" : {
+  "ipadair11m4-spacegray-l.png" : {
     "height" : 1640,
     "width" : 2360,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M4 - Space Gray - Portrait.png" : {
+  "ipadair11m4-spacegray-p.png" : {
     "height" : 2360,
     "width" : 1640,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M4 - Starlight - Landscape.png" : {
+  "ipadair11m4-starlight-l.png" : {
     "height" : 1640,
     "width" : 2360,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 11\" - M4 - Starlight - Portrait.png" : {
+  "ipadair11m4-starlight-p.png" : {
     "height" : 2360,
     "width" : 1640,
     "x" : 130,
     "y" : 130
   },
-  "iPad Air 13\" - M2 - Blue - Landscape.png" : {
+  "ipadair13m2-blue-l.png" : {
     "height" : 2048,
     "width" : 2732,
     "x" : 124,
     "y" : 126
   },
-  "iPad Air 13\" - M2 - Blue - Portrait.png" : {
+  "ipadair13m2-blue-p.png" : {
     "height" : 2732,
     "width" : 2048,
     "x" : 126,
     "y" : 124
   },
-  "iPad Air 13\" - M2 - Purple - Landscape.png" : {
+  "ipadair13m2-purple-l.png" : {
     "height" : 2048,
     "width" : 2732,
     "x" : 124,
     "y" : 126
   },
-  "iPad Air 13\" - M2 - Purple - Portrait.png" : {
+  "ipadair13m2-purple-p.png" : {
     "height" : 2732,
     "width" : 2048,
     "x" : 126,
     "y" : 124
   },
-  "iPad Air 13\" - M2 - Space Gray - Landscape.png" : {
+  "ipadair13m2-spacegray-l.png" : {
     "height" : 2048,
     "width" : 2732,
     "x" : 124,
     "y" : 126
   },
-  "iPad Air 13\" - M2 - Space Gray - Portrait.png" : {
+  "ipadair13m2-spacegray-p.png" : {
     "height" : 2732,
     "width" : 2048,
     "x" : 126,
     "y" : 124
   },
-  "iPad Air 13\" - M2 - Stardust - Landscape.png" : {
+  "ipadair13m2-stardust-l.png" : {
     "height" : 2048,
     "width" : 2732,
     "x" : 124,
     "y" : 126
   },
-  "iPad Air 13\" - M2 - Stardust - Portrait.png" : {
+  "ipadair13m2-stardust-p.png" : {
     "height" : 2732,
     "width" : 2048,
     "x" : 126,
     "y" : 124
   },
-  "iPad Air 13\" - M4 - Blue - Landscape.png" : {
+  "ipadair13m4-blue-l.png" : {
     "height" : 2048,
     "width" : 2732,
     "x" : 124,
     "y" : 126
   },
-  "iPad Air 13\" - M4 - Blue - Portrait.png" : {
+  "ipadair13m4-blue-p.png" : {
     "height" : 2732,
     "width" : 2048,
     "x" : 126,
     "y" : 124
   },
-  "iPad Air 13\" - M4 - Purple - Landscape.png" : {
+  "ipadair13m4-purple-l.png" : {
     "height" : 2048,
     "width" : 2732,
     "x" : 124,
     "y" : 126
   },
-  "iPad Air 13\" - M4 - Purple - Portrait.png" : {
+  "ipadair13m4-purple-p.png" : {
     "height" : 2732,
     "width" : 2048,
     "x" : 126,
     "y" : 124
   },
-  "iPad Air 13\" - M4 - Space Gray - Landscape.png" : {
+  "ipadair13m4-spacegray-l.png" : {
     "height" : 2048,
     "width" : 2732,
     "x" : 124,
     "y" : 126
   },
-  "iPad Air 13\" - M4 - Space Gray - Portrait.png" : {
+  "ipadair13m4-spacegray-p.png" : {
     "height" : 2732,
     "width" : 2048,
     "x" : 126,
     "y" : 124
   },
-  "iPad Air 13\" - M4 - Starlight - Landscape.png" : {
+  "ipadair13m4-starlight-l.png" : {
     "height" : 2048,
     "width" : 2732,
     "x" : 124,
     "y" : 126
   },
-  "iPad Air 13\" - M4 - Starlight - Portrait.png" : {
+  "ipadair13m4-starlight-p.png" : {
     "height" : 2732,
     "width" : 2048,
     "x" : 126,
     "y" : 124
   },
-  "iPad Pro 11 - M4 - Silver - Landscape.png" : {
+  "ipadmini-starlight-l.png" : {
+    "height" : 1488,
+    "width" : 2266,
+    "x" : 142,
+    "y" : 146
+  },
+  "ipadmini-starlight-p.png" : {
+    "height" : 2266,
+    "width" : 1488,
+    "x" : 146,
+    "y" : 142
+  },
+  "ipadminia17pro-blue-l.png" : {
+    "height" : 1488,
+    "width" : 2266,
+    "x" : 142,
+    "y" : 146
+  },
+  "ipadminia17pro-blue-p.png" : {
+    "height" : 2266,
+    "width" : 1488,
+    "x" : 146,
+    "y" : 142
+  },
+  "ipadminia17pro-purple-l.png" : {
+    "height" : 1488,
+    "width" : 2266,
+    "x" : 142,
+    "y" : 146
+  },
+  "ipadminia17pro-purple-p.png" : {
+    "height" : 2266,
+    "width" : 1488,
+    "x" : 146,
+    "y" : 142
+  },
+  "ipadminia17pro-spacegray-l.png" : {
+    "height" : 1488,
+    "width" : 2266,
+    "x" : 142,
+    "y" : 146
+  },
+  "ipadminia17pro-spacegray-p.png" : {
+    "height" : 2266,
+    "width" : 1488,
+    "x" : 146,
+    "y" : 142
+  },
+  "ipadminia17pro-starlight-l.png" : {
+    "height" : 1488,
+    "width" : 2266,
+    "x" : 142,
+    "y" : 146
+  },
+  "ipadminia17pro-starlight-p.png" : {
+    "height" : 2266,
+    "width" : 1488,
+    "x" : 146,
+    "y" : 142
+  },
+  "ipadpro11m4-silver-l.png" : {
     "height" : 1668,
     "width" : 2420,
     "x" : 110,
     "y" : 106
   },
-  "iPad Pro 11 - M4 - Silver - Portrait.png" : {
+  "ipadpro11m4-silver-p.png" : {
     "height" : 2420,
     "width" : 1668,
     "x" : 106,
     "y" : 110
   },
-  "iPad Pro 11 - M4 - Space Gray - Landscape.png" : {
+  "ipadpro11m4-spacegray-l.png" : {
     "height" : 1668,
     "width" : 2420,
     "x" : 110,
     "y" : 106
   },
-  "iPad Pro 11 - M4 - Space Gray - Portrait.png" : {
+  "ipadpro11m4-spacegray-p.png" : {
     "height" : 2420,
     "width" : 1668,
     "x" : 106,
     "y" : 110
   },
-  "iPad Pro 11 - M5 - Silver - Landscape.png" : {
+  "ipadpro11m5-silver-l.png" : {
     "height" : 1668,
     "width" : 2420,
     "x" : 110,
     "y" : 106
   },
-  "iPad Pro 11 - M5 - Silver - Portrait.png" : {
+  "ipadpro11m5-silver-p.png" : {
     "height" : 2420,
     "width" : 1668,
     "x" : 106,
     "y" : 110
   },
-  "iPad Pro 11 - M5 - Space Black - Landscape.png" : {
+  "ipadpro11m5-spaceblack-l.png" : {
     "height" : 1668,
     "width" : 2420,
     "x" : 110,
     "y" : 106
   },
-  "iPad Pro 11 - M5 - Space Black - Portrait.png" : {
+  "ipadpro11m5-spaceblack-p.png" : {
     "height" : 2420,
     "width" : 1668,
     "x" : 106,
     "y" : 110
   },
-  "iPad Pro 13 - M4 - Silver - Landscape.png" : {
+  "ipadpro13m4-silver-l.png" : {
     "height" : 2064,
     "width" : 2752,
     "x" : 124,
     "y" : 118
   },
-  "iPad Pro 13 - M4 - Silver - Portrait.png" : {
+  "ipadpro13m4-silver-p.png" : {
     "height" : 2752,
     "width" : 2064,
     "x" : 118,
     "y" : 124
   },
-  "iPad Pro 13 - M4 - Space Gray - Landscape.png" : {
+  "ipadpro13m4-spacegray-l.png" : {
     "height" : 2064,
     "width" : 2752,
     "x" : 124,
     "y" : 118
   },
-  "iPad Pro 13 - M4 - Space Gray - Portrait.png" : {
+  "ipadpro13m4-spacegray-p.png" : {
     "height" : 2752,
     "width" : 2064,
     "x" : 118,
     "y" : 124
   },
-  "iPad Pro 13 - M5 - Silver - Landscape.png" : {
+  "ipadpro13m5-silver-l.png" : {
     "height" : 2064,
     "width" : 2752,
     "x" : 124,
     "y" : 118
   },
-  "iPad Pro 13 - M5 - Silver - Portrait.png" : {
+  "ipadpro13m5-silver-p.png" : {
     "height" : 2752,
     "width" : 2064,
     "x" : 118,
     "y" : 124
   },
-  "iPad Pro 13 - M5 - Space Black - Landscape.png" : {
+  "ipadpro13m5-spaceblack-l.png" : {
     "height" : 2064,
     "width" : 2752,
     "x" : 124,
     "y" : 118
   },
-  "iPad Pro 13 - M5 - Space Black - Portrait.png" : {
+  "ipadpro13m5-spaceblack-p.png" : {
     "height" : 2752,
     "width" : 2064,
     "x" : 118,
     "y" : 124
   },
-  "iPad mini - A17 Pro - Blue - Landscape.png" : {
-    "height" : 1488,
-    "width" : 2266,
-    "x" : 142,
-    "y" : 146
-  },
-  "iPad mini - A17 Pro - Blue - Portrait.png" : {
-    "height" : 2266,
-    "width" : 1488,
-    "x" : 146,
-    "y" : 142
-  },
-  "iPad mini - A17 Pro - Purple - Landscape.png" : {
-    "height" : 1488,
-    "width" : 2266,
-    "x" : 142,
-    "y" : 146
-  },
-  "iPad mini - A17 Pro - Purple - Portrait.png" : {
-    "height" : 2266,
-    "width" : 1488,
-    "x" : 146,
-    "y" : 142
-  },
-  "iPad mini - A17 Pro - Space Gray - Landscape.png" : {
-    "height" : 1488,
-    "width" : 2266,
-    "x" : 142,
-    "y" : 146
-  },
-  "iPad mini - A17 Pro - Space Gray - Portrait.png" : {
-    "height" : 2266,
-    "width" : 1488,
-    "x" : 146,
-    "y" : 142
-  },
-  "iPad mini - A17 Pro - Starlight - Landscape.png" : {
-    "height" : 1488,
-    "width" : 2266,
-    "x" : 142,
-    "y" : 146
-  },
-  "iPad mini - A17 Pro - Starlight - Portrait.png" : {
-    "height" : 2266,
-    "width" : 1488,
-    "x" : 146,
-    "y" : 142
-  },
-  "iPad mini - Starlight - Landscape.png" : {
-    "height" : 1488,
-    "width" : 2266,
-    "x" : 142,
-    "y" : 146
-  },
-  "iPad mini - Starlight - Portrait.png" : {
-    "height" : 2266,
-    "width" : 1488,
-    "x" : 146,
-    "y" : 142
-  },
-  "iPhone 14 - Blue - Landscape.png" : {
+  "iphone14-blue-l.png" : {
     "height" : 1170,
     "width" : 2532,
     "x" : 100,
     "y" : 100
   },
-  "iPhone 14 - Blue - Portrait.png" : {
+  "iphone14-blue-p.png" : {
     "height" : 2532,
     "width" : 1170,
     "x" : 100,
     "y" : 100
   },
-  "iPhone 14 - Midnight - Landscape.png" : {
+  "iphone14-midnight-l.png" : {
     "height" : 1170,
     "width" : 2532,
     "x" : 100,
     "y" : 100
   },
-  "iPhone 14 - Midnight - Portrait.png" : {
+  "iphone14-midnight-p.png" : {
     "height" : 2532,
     "width" : 1170,
     "x" : 100,
     "y" : 100
   },
-  "iPhone 14 - Purple - Landscape.png" : {
+  "iphone14-purple-l.png" : {
     "height" : 1170,
     "width" : 2532,
     "x" : 100,
     "y" : 100
   },
-  "iPhone 14 - Purple - Portrait.png" : {
+  "iphone14-purple-p.png" : {
     "height" : 2532,
     "width" : 1170,
     "x" : 100,
     "y" : 100
   },
-  "iPhone 14 - Red - Landscape.png" : {
+  "iphone14-red-l.png" : {
     "height" : 1170,
     "width" : 2532,
     "x" : 100,
     "y" : 100
   },
-  "iPhone 14 - Red - Portrait.png" : {
+  "iphone14-red-p.png" : {
     "height" : 2532,
     "width" : 1170,
     "x" : 100,
     "y" : 100
   },
-  "iPhone 14 - Starlight - Landscape.png" : {
+  "iphone14-starlight-l.png" : {
     "height" : 1170,
     "width" : 2532,
     "x" : 100,
     "y" : 100
   },
-  "iPhone 14 - Starlight - Portrait.png" : {
+  "iphone14-starlight-p.png" : {
     "height" : 2532,
     "width" : 1170,
     "x" : 100,
     "y" : 100
   },
-  "iPhone 14 Plus - Blue - Landscape.png" : {
+  "iphone14plus-blue-l.png" : {
     "height" : 1284,
     "width" : 2776,
     "x" : 101,
     "y" : 90
   },
-  "iPhone 14 Plus - Blue - Portrait.png" : {
+  "iphone14plus-blue-p.png" : {
     "height" : 2776,
     "width" : 1284,
     "x" : 90,
     "y" : 101
   },
-  "iPhone 14 Plus - Midnight - Landscape.png" : {
+  "iphone14plus-midnight-l.png" : {
     "height" : 1284,
     "width" : 2776,
     "x" : 101,
     "y" : 90
   },
-  "iPhone 14 Plus - Midnight - Portrait.png" : {
+  "iphone14plus-midnight-p.png" : {
     "height" : 2776,
     "width" : 1284,
     "x" : 90,
     "y" : 101
   },
-  "iPhone 14 Plus - Purple - Landscape.png" : {
+  "iphone14plus-purple-l.png" : {
     "height" : 1284,
     "width" : 2776,
     "x" : 101,
     "y" : 90
   },
-  "iPhone 14 Plus - Purple - Portrait.png" : {
+  "iphone14plus-purple-p.png" : {
     "height" : 2776,
     "width" : 1284,
     "x" : 90,
     "y" : 101
   },
-  "iPhone 14 Plus - Red - Landscape.png" : {
+  "iphone14plus-red-l.png" : {
     "height" : 1284,
     "width" : 2776,
     "x" : 101,
     "y" : 90
   },
-  "iPhone 14 Plus - Red - Portrait.png" : {
+  "iphone14plus-red-p.png" : {
     "height" : 2776,
     "width" : 1284,
     "x" : 90,
     "y" : 101
   },
-  "iPhone 14 Plus - Starlight - Landscape.png" : {
+  "iphone14plus-starlight-l.png" : {
     "height" : 1284,
     "width" : 2776,
     "x" : 101,
     "y" : 90
   },
-  "iPhone 14 Plus - Starlight - Portrait.png" : {
+  "iphone14plus-starlight-p.png" : {
     "height" : 2776,
     "width" : 1284,
     "x" : 90,
     "y" : 101
   },
-  "iPhone 14 Pro - Deep Purple - Landscape.png" : {
+  "iphone14pro-deeppurple-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 79,
     "y" : 79
   },
-  "iPhone 14 Pro - Deep Purple - Portrait.png" : {
+  "iphone14pro-deeppurple-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 80,
     "y" : 80
   },
-  "iPhone 14 Pro - Gold - Landscape.png" : {
+  "iphone14pro-gold-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 79,
     "y" : 79
   },
-  "iPhone 14 Pro - Gold - Portrait.png" : {
+  "iphone14pro-gold-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 80,
     "y" : 80
   },
-  "iPhone 14 Pro - Silver - Landscape.png" : {
+  "iphone14pro-silver-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 79,
     "y" : 79
   },
-  "iPhone 14 Pro - Silver - Portrait.png" : {
+  "iphone14pro-silver-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 80,
     "y" : 80
   },
-  "iPhone 14 Pro - Space Black - Landscape.png" : {
+  "iphone14pro-spaceblack-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 79,
     "y" : 79
   },
-  "iPhone 14 Pro - Space Black - Portrait.png" : {
+  "iphone14pro-spaceblack-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 80,
     "y" : 80
   },
-  "iPhone 14 Pro Max - Deep Purple - Landscape.png" : {
+  "iphone14promax-deeppurple-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 70,
     "y" : 80
   },
-  "iPhone 14 Pro Max - Deep Purple - Portrait.png" : {
+  "iphone14promax-deeppurple-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 80,
     "y" : 70
   },
-  "iPhone 14 Pro Max - Gold - Landscape.png" : {
+  "iphone14promax-gold-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 70,
     "y" : 80
   },
-  "iPhone 14 Pro Max - Gold - Portrait.png" : {
+  "iphone14promax-gold-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 80,
     "y" : 70
   },
-  "iPhone 14 Pro Max - Silver - Landscape.png" : {
+  "iphone14promax-silver-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 70,
     "y" : 80
   },
-  "iPhone 14 Pro Max - Silver - Portrait.png" : {
+  "iphone14promax-silver-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 80,
     "y" : 70
   },
-  "iPhone 14 Pro Max - Space Black - Landscape.png" : {
+  "iphone14promax-spaceblack-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 70,
     "y" : 80
   },
-  "iPhone 14 Pro Max - Space Black - Portrait.png" : {
+  "iphone14promax-spaceblack-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 80,
     "y" : 70
   },
-  "iPhone 15 - Black - Landscape.png" : {
+  "iphone15-black-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 - Black - Portrait.png" : {
+  "iphone15-black-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 - Blue - Landscape.png" : {
+  "iphone15-blue-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 - Blue - Portrait.png" : {
+  "iphone15-blue-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 - Green - Landscape.png" : {
+  "iphone15-green-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 - Green - Portrait.png" : {
+  "iphone15-green-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 - Pink - Landscape.png" : {
+  "iphone15-pink-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 - Pink - Portrait.png" : {
+  "iphone15-pink-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 - Yellow - Landscape.png" : {
+  "iphone15-yellow-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 - Yellow - Portrait.png" : {
+  "iphone15-yellow-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Plus - Black - Landscape.png" : {
+  "iphone15plus-black-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Plus - Black - Portrait.png" : {
+  "iphone15plus-black-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Plus - Blue - Landscape.png" : {
+  "iphone15plus-blue-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Plus - Blue - Portrait.png" : {
+  "iphone15plus-blue-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Plus - Green - Landscape.png" : {
+  "iphone15plus-green-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Plus - Green - Portrait.png" : {
+  "iphone15plus-green-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Plus - Pink - Landscape.png" : {
+  "iphone15plus-pink-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Plus - Pink - Portrait.png" : {
+  "iphone15plus-pink-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Plus - Yellow - Landscape.png" : {
+  "iphone15plus-yellow-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Plus - Yellow - Portrait.png" : {
+  "iphone15plus-yellow-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro - Black Titanium - Landscape.png" : {
+  "iphone15pro-blacktitanium-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro - Black Titanium - Portrait.png" : {
+  "iphone15pro-blacktitanium-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro - Blue Titanium - Landscape.png" : {
+  "iphone15pro-bluetitanium-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro - Blue Titanium - Portrait.png" : {
+  "iphone15pro-bluetitanium-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro - Natural Titanium - Landscape.png" : {
+  "iphone15pro-naturaltitanium-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro - Natural Titanium - Portrait.png" : {
+  "iphone15pro-naturaltitanium-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro - White Titanium - Landscape.png" : {
+  "iphone15pro-whitetitanium-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro - White Titanium - Portrait.png" : {
+  "iphone15pro-whitetitanium-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro Max - Black Titanium - Landscape.png" : {
+  "iphone15promax-blacktitanium-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro Max - Black Titanium - Portrait.png" : {
+  "iphone15promax-blacktitanium-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro Max - Blue Titanium - Landscape.png" : {
+  "iphone15promax-bluetitanium-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro Max - Blue Titanium - Portrait.png" : {
+  "iphone15promax-bluetitanium-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro Max - Natural Titanium - Landscape.png" : {
+  "iphone15promax-naturaltitanium-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro Max - Natural Titanium - Portrait.png" : {
+  "iphone15promax-naturaltitanium-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro Max - White Titanium - Landscape.png" : {
+  "iphone15promax-whitetitanium-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 15 Pro Max - White Titanium - Portrait.png" : {
+  "iphone15promax-whitetitanium-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 120,
     "y" : 120
   },
-  "iPhone 16 - Black - Landscape.png" : {
+  "iphone16-black-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 90,
     "y" : 90
   },
-  "iPhone 16 - Black - Portrait.png" : {
+  "iphone16-black-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 90,
     "y" : 90
   },
-  "iPhone 16 - Pink - Landscape.png" : {
+  "iphone16-pink-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 90,
     "y" : 90
   },
-  "iPhone 16 - Pink - Portrait.png" : {
+  "iphone16-pink-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 90,
     "y" : 90
   },
-  "iPhone 16 - Teal - Landscape.png" : {
+  "iphone16-teal-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 90,
     "y" : 90
   },
-  "iPhone 16 - Teal - Portrait.png" : {
+  "iphone16-teal-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 90,
     "y" : 90
   },
-  "iPhone 16 - Ultramarine - Landscape.png" : {
+  "iphone16-ultramarine-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 90,
     "y" : 90
   },
-  "iPhone 16 - Ultramarine - Portrait.png" : {
+  "iphone16-ultramarine-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 90,
     "y" : 90
   },
-  "iPhone 16 - White - Landscape.png" : {
+  "iphone16-white-l.png" : {
     "height" : 1179,
     "width" : 2556,
     "x" : 90,
     "y" : 90
   },
-  "iPhone 16 - White - Portrait.png" : {
+  "iphone16-white-p.png" : {
     "height" : 2556,
     "width" : 1179,
     "x" : 90,
     "y" : 90
   },
-  "iPhone 16 Plus - Black - Landscape.png" : {
-    "height" : 1290,
-    "width" : 2796,
-    "x" : 87,
-    "y" : 90
-  },
-  "iPhone 16 Plus - Black - Portrait.png" : {
-    "height" : 2796,
-    "width" : 1290,
-    "x" : 90,
-    "y" : 87
-  },
-  "iPhone 16 Plus - Pink - Landscape.png" : {
+  "iphone16plus-black-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 87,
     "y" : 90
   },
-  "iPhone 16 Plus - Pink - Portrait.png" : {
+  "iphone16plus-black-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 90,
     "y" : 87
   },
-  "iPhone 16 Plus - Teal - Landscape.png" : {
+  "iphone16plus-pink-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 87,
     "y" : 90
   },
-  "iPhone 16 Plus - Teal - Portrait.png" : {
+  "iphone16plus-pink-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 90,
     "y" : 87
   },
-  "iPhone 16 Plus - Ultramarine - Landscape.png" : {
+  "iphone16plus-teal-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 87,
     "y" : 90
   },
-  "iPhone 16 Plus - Ultramarine - Portrait.png" : {
+  "iphone16plus-teal-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 90,
     "y" : 87
   },
-  "iPhone 16 Plus - White - Landscape.png" : {
+  "iphone16plus-ultramarine-l.png" : {
     "height" : 1290,
     "width" : 2796,
     "x" : 87,
     "y" : 90
   },
-  "iPhone 16 Plus - White - Portrait.png" : {
+  "iphone16plus-ultramarine-p.png" : {
     "height" : 2796,
     "width" : 1290,
     "x" : 90,
     "y" : 87
   },
-  "iPhone 16 Pro - Black Titanium - Landscape.png" : {
+  "iphone16plus-white-l.png" : {
+    "height" : 1290,
+    "width" : 2796,
+    "x" : 87,
+    "y" : 90
+  },
+  "iphone16plus-white-p.png" : {
+    "height" : 2796,
+    "width" : 1290,
+    "x" : 90,
+    "y" : 87
+  },
+  "iphone16pro-blacktitanium-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 16 Pro - Black Titanium - Portrait.png" : {
+  "iphone16pro-blacktitanium-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 16 Pro - Desert Titanium - Landscape.png" : {
+  "iphone16pro-deserttitanium-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 16 Pro - Desert Titanium - Portrait.png" : {
+  "iphone16pro-deserttitanium-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 16 Pro - Natural Titanium - Landscape.png" : {
+  "iphone16pro-naturaltitanium-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 16 Pro - Natural Titanium - Portrait.png" : {
+  "iphone16pro-naturaltitanium-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 16 Pro - White Titanium - Landscape.png" : {
+  "iphone16pro-whitetitanium-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 16 Pro - White Titanium - Portrait.png" : {
+  "iphone16pro-whitetitanium-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 16 Pro Max - Black Titanium - Landscape.png" : {
+  "iphone16promax-blacktitanium-l.png" : {
     "height" : 1320,
     "width" : 2868,
     "x" : 66,
     "y" : 75
   },
-  "iPhone 16 Pro Max - Black Titanium - Portrait.png" : {
+  "iphone16promax-blacktitanium-p.png" : {
     "height" : 2868,
     "width" : 1320,
     "x" : 75,
     "y" : 66
   },
-  "iPhone 16 Pro Max - Desert Titanium - Landscape.png" : {
+  "iphone16promax-deserttitanium-l.png" : {
     "height" : 1320,
     "width" : 2868,
     "x" : 66,
     "y" : 75
   },
-  "iPhone 16 Pro Max - Desert Titanium - Portrait.png" : {
+  "iphone16promax-deserttitanium-p.png" : {
     "height" : 2868,
     "width" : 1320,
     "x" : 75,
     "y" : 66
   },
-  "iPhone 16 Pro Max - Natural Titanium - Landscape.png" : {
+  "iphone16promax-naturaltitanium-l.png" : {
     "height" : 1320,
     "width" : 2868,
     "x" : 66,
     "y" : 75
   },
-  "iPhone 16 Pro Max - Natural Titanium - Portrait.png" : {
+  "iphone16promax-naturaltitanium-p.png" : {
     "height" : 2868,
     "width" : 1320,
     "x" : 75,
     "y" : 66
   },
-  "iPhone 16 Pro Max - White Titanium - Landscape.png" : {
+  "iphone16promax-whitetitanium-l.png" : {
     "height" : 1320,
     "width" : 2868,
     "x" : 66,
     "y" : 75
   },
-  "iPhone 16 Pro Max - White Titanium - Portrait.png" : {
+  "iphone16promax-whitetitanium-p.png" : {
     "height" : 2868,
     "width" : 1320,
     "x" : 75,
     "y" : 66
   },
-  "iPhone 17 - Black - Landscape.png" : {
+  "iphone17-black-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 17 - Black - Portrait.png" : {
+  "iphone17-black-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 17 - Lavender - Landscape.png" : {
+  "iphone17-lavender-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 17 - Lavender - Portrait.png" : {
+  "iphone17-lavender-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 17 - Mist Blue - Landscape.png" : {
+  "iphone17-mistblue-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 17 - Mist Blue - Portrait.png" : {
+  "iphone17-mistblue-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 17 - Sage - Landscape.png" : {
+  "iphone17-sage-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 17 - Sage - Portrait.png" : {
+  "iphone17-sage-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 17 - White - Landscape.png" : {
+  "iphone17-white-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 17 - White - Portrait.png" : {
+  "iphone17-white-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 17 Pro - Cosmic Orange - Landscape.png" : {
+  "iphone17pro-cosmicorange-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 17 Pro - Cosmic Orange - Portrait.png" : {
+  "iphone17pro-cosmicorange-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 17 Pro - Deep Blue - Landscape.png" : {
+  "iphone17pro-deepblue-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 17 Pro - Deep Blue - Portrait.png" : {
+  "iphone17pro-deepblue-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 17 Pro - Silver - Landscape.png" : {
+  "iphone17pro-silver-l.png" : {
     "height" : 1206,
     "width" : 2622,
     "x" : 69,
     "y" : 72
   },
-  "iPhone 17 Pro - Silver - Portrait.png" : {
+  "iphone17pro-silver-p.png" : {
     "height" : 2622,
     "width" : 1206,
     "x" : 72,
     "y" : 69
   },
-  "iPhone 17 Pro Max - Cosmic Orange - Landscape.png" : {
+  "iphone17promax-cosmicorange-l.png" : {
     "height" : 1320,
     "width" : 2868,
     "x" : 66,
     "y" : 75
   },
-  "iPhone 17 Pro Max - Cosmic Orange - Portrait.png" : {
+  "iphone17promax-cosmicorange-p.png" : {
     "height" : 2868,
     "width" : 1320,
     "x" : 75,
     "y" : 66
   },
-  "iPhone 17 Pro Max - Deep Blue - Landscape.png" : {
+  "iphone17promax-deepblue-l.png" : {
     "height" : 1320,
     "width" : 2868,
     "x" : 66,
     "y" : 75
   },
-  "iPhone 17 Pro Max - Deep Blue - Portrait.png" : {
+  "iphone17promax-deepblue-p.png" : {
     "height" : 2868,
     "width" : 1320,
     "x" : 75,
     "y" : 66
   },
-  "iPhone 17 Pro Max - Silver - Landscape.png" : {
+  "iphone17promax-silver-l.png" : {
     "height" : 1320,
     "width" : 2868,
     "x" : 66,
     "y" : 75
   },
-  "iPhone 17 Pro Max - Silver - Portrait.png" : {
+  "iphone17promax-silver-p.png" : {
     "height" : 2868,
     "width" : 1320,
     "x" : 75,
     "y" : 66
   },
-  "iPhone Air - Cloud White - Landscape.png" : {
+  "iphoneair-cloudwhite-l.png" : {
     "height" : 1260,
     "width" : 2736,
     "x" : 72,
     "y" : 60
   },
-  "iPhone Air - Cloud White - Portrait.png" : {
+  "iphoneair-cloudwhite-p.png" : {
     "height" : 2736,
     "width" : 1260,
     "x" : 60,
     "y" : 72
   },
-  "iPhone Air - Light Gold - Landscape.png" : {
+  "iphoneair-lightgold-l.png" : {
     "height" : 1260,
     "width" : 2736,
     "x" : 72,
     "y" : 60
   },
-  "iPhone Air - Light Gold - Portrait.png" : {
+  "iphoneair-lightgold-p.png" : {
     "height" : 2736,
     "width" : 1260,
     "x" : 60,
     "y" : 72
   },
-  "iPhone Air - Sky Blue - Landscape.png" : {
+  "iphoneair-skyblue-l.png" : {
     "height" : 1260,
     "width" : 2736,
     "x" : 72,
     "y" : 60
   },
-  "iPhone Air - Sky Blue - Portrait.png" : {
+  "iphoneair-skyblue-p.png" : {
     "height" : 2736,
     "width" : 1260,
     "x" : 60,
     "y" : 72
   },
-  "iPhone Air - Space Black - Landscape.png" : {
+  "iphoneair-spaceblack-l.png" : {
     "height" : 1260,
     "width" : 2736,
     "x" : 72,
     "y" : 60
   },
-  "iPhone Air - Space Black - Portrait.png" : {
+  "iphoneair-spaceblack-p.png" : {
     "height" : 2736,
     "width" : 1260,
     "x" : 60,
     "y" : 72
+  },
+  "macbookair13-midnight-l.png" : {
+    "height" : 1664,
+    "width" : 2560,
+    "x" : 330,
+    "y" : 218
+  },
+  "macbookairm513-midnight-l.png" : {
+    "height" : 1664,
+    "width" : 2560,
+    "x" : 420,
+    "y" : 288
+  },
+  "macbookairm513-silver-l.png" : {
+    "height" : 1664,
+    "width" : 2560,
+    "x" : 420,
+    "y" : 288
+  },
+  "macbookairm513-skyblue-l.png" : {
+    "height" : 1664,
+    "width" : 2560,
+    "x" : 420,
+    "y" : 288
+  },
+  "macbookairm513-starlight-l.png" : {
+    "height" : 1664,
+    "width" : 2560,
+    "x" : 420,
+    "y" : 288
+  },
+  "macbookairm515-midnight-l.png" : {
+    "height" : 1864,
+    "width" : 2880,
+    "x" : 329,
+    "y" : 218
+  },
+  "macbookairm515-silver-l.png" : {
+    "height" : 1864,
+    "width" : 2880,
+    "x" : 329,
+    "y" : 218
+  },
+  "macbookairm515-skyblue-l.png" : {
+    "height" : 1864,
+    "width" : 2880,
+    "x" : 329,
+    "y" : 218
+  },
+  "macbookairm515-starlight-l.png" : {
+    "height" : 1864,
+    "width" : 2880,
+    "x" : 329,
+    "y" : 218
+  },
+  "macbookneo-blush-l.png" : {
+    "height" : 1506,
+    "width" : 2408,
+    "x" : 406,
+    "y" : 297
+  },
+  "macbookneo-citrus-l.png" : {
+    "height" : 1506,
+    "width" : 2408,
+    "x" : 406,
+    "y" : 297
+  },
+  "macbookneo-indigo-l.png" : {
+    "height" : 1506,
+    "width" : 2408,
+    "x" : 406,
+    "y" : 297
+  },
+  "macbookneo-silver-l.png" : {
+    "height" : 1506,
+    "width" : 2408,
+    "x" : 406,
+    "y" : 297
+  },
+  "macbookpro14-silver-l.png" : {
+    "height" : 1962,
+    "width" : 3022,
+    "x" : 461,
+    "y" : 301
+  },
+  "macbookpro16-silver-l.png" : {
+    "height" : 2232,
+    "width" : 3454,
+    "x" : 443,
+    "y" : 314
+  },
+  "macbookprom514-silver-l.png" : {
+    "height" : 1964,
+    "width" : 3024,
+    "x" : 418,
+    "y" : 288
+  },
+  "macbookprom514-spaceblack-l.png" : {
+    "height" : 1964,
+    "width" : 3024,
+    "x" : 418,
+    "y" : 288
+  },
+  "macbookprom516-silver-l.png" : {
+    "height" : 2234,
+    "width" : 3456,
+    "x" : 402,
+    "y" : 303
+  },
+  "macbookprom516-spaceblack-l.png" : {
+    "height" : 2234,
+    "width" : 3456,
+    "x" : 402,
+    "y" : 303
   }
 }
