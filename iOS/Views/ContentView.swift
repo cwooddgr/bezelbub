@@ -178,7 +178,8 @@ struct ContentView: View {
                                 guard let composited = appState.compositedImage else { return }
                                 exportSizeModel = ExportSizeModel(
                                     width: composited.width,
-                                    height: composited.height
+                                    height: composited.height,
+                                    mode: .video
                                 )
                             } label: {
                                 Image(systemName: "square.and.arrow.up")

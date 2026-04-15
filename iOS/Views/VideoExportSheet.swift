@@ -4,6 +4,13 @@ struct VideoExportSheet: View {
     @Bindable var model: ExportSizeModel
     var onExport: () -> Void
     @Environment(\.dismiss) private var dismiss
+    @State private var validationAlert: ValidationAlert?
+
+    private struct ValidationAlert: Identifiable {
+        let id = UUID()
+        let title: String
+        let message: String
+    }
 
     private var widthBinding: Binding<Int> {
         Binding(
@@ -67,10 +74,24 @@ struct VideoExportSheet: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Export") {
+                        if let error = model.validationError {
+                            validationAlert = ValidationAlert(
+                                title: error.localizedDescription,
+                                message: error.localizedRecoverySuggestion ?? ""
+                            )
+                            return
+                        }
                         dismiss()
                         onExport()
                     }
                 }
+            }
+            .alert(item: $validationAlert) { alert in
+                Alert(
+                    title: Text(alert.title),
+                    message: Text(alert.message),
+                    dismissButton: .default(Text("OK"))
+                )
             }
         }
         .presentationDetents([.medium, .large])

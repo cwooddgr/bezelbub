@@ -236,7 +236,7 @@ struct ContentView: View {
     private func saveImage() {
         guard let composited = appState.compositedImage else { return }
 
-        let sizeModel = ExportSizeModel(width: composited.width, height: composited.height)
+        let sizeModel = ExportSizeModel(width: composited.width, height: composited.height, mode: .image)
         let accessory = NSHostingView(rootView: ExportSizeAccessoryView(model: sizeModel))
         accessory.frame.size = accessory.fittingSize
 
@@ -245,8 +245,11 @@ struct ContentView: View {
         panel.nameFieldStringValue = (appState.sourceFileName ?? "screenshot") + "-framed.png"
         panel.directoryURL = appState.sourceDirectoryURL
         panel.accessoryView = accessory
+        let delegate = ExportSizeValidator(model: sizeModel)
+        panel.delegate = delegate
 
         if panel.runModal() == .OK, let url = panel.url {
+            _ = delegate
             if sizeModel.sizeChanged {
                 if let resized = FrameCompositor.resize(image: composited, to: sizeModel.targetSize) {
                     _ = FrameCompositor.savePNG(image: resized, to: url)
@@ -260,7 +263,7 @@ struct ContentView: View {
     private func exportVideo() {
         guard let composited = appState.compositedImage else { return }
 
-        let sizeModel = ExportSizeModel(width: composited.width, height: composited.height)
+        let sizeModel = ExportSizeModel(width: composited.width, height: composited.height, mode: .video)
         let accessory = NSHostingView(rootView: ExportSizeAccessoryView(model: sizeModel))
         accessory.frame.size = accessory.fittingSize
 
@@ -269,10 +272,22 @@ struct ContentView: View {
         panel.nameFieldStringValue = (appState.sourceFileName ?? "recording") + "-framed.mp4"
         panel.directoryURL = appState.sourceDirectoryURL
         panel.accessoryView = accessory
+        let delegate = ExportSizeValidator(model: sizeModel)
+        panel.delegate = delegate
 
         if panel.runModal() == .OK, let url = panel.url {
+            _ = delegate
             let size: CGSize? = sizeModel.sizeChanged ? sizeModel.targetSize : nil
             appState.exportVideo(to: url, size: size)
         }
+    }
+}
+
+private final class ExportSizeValidator: NSObject, NSOpenSavePanelDelegate {
+    let model: ExportSizeModel
+    init(model: ExportSizeModel) { self.model = model }
+
+    func panel(_ sender: Any, validate url: URL) throws {
+        if let error = model.validationError { throw error }
     }
 }
