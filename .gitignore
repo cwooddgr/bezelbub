@@ -24,3 +24,6 @@ build/
 
 # Apple source bezels (duplicated in Resources/Bezels/)
 Apple Product Bezels/
+
+# App Store screenshots and Keynote sources (large, local only)
+App Store Screenshots/
