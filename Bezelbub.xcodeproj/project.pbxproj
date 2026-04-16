@@ -458,7 +458,7 @@
 				CODE_SIGN_ENTITLEMENTS = "iOS/Bezelbub-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = iOS/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
@@ -482,7 +482,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = BezelbubShareExtension/BezelbubShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = BezelbubShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -565,7 +565,7 @@
 				CODE_SIGN_ENTITLEMENTS = "iOS/Bezelbub-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = iOS/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 DGR Labs, LLC. All rights reserved.";
@@ -589,7 +589,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = BezelbubShareExtension/BezelbubShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 2CTUXD4C44;
 				INFOPLIST_FILE = BezelbubShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
