@@ -1,8 +1,10 @@
 import SwiftUI
 
-struct VideoExportSheet: View {
+struct ImageExportSheet: View {
     @Bindable var model: ExportSizeModel
-    var onExport: () -> Void
+    var onCopy: () -> Void
+    var onSaveToPhotos: () -> Void
+    var onShare: () -> Void
     @Environment(\.dismiss) private var dismiss
     @State private var validationAlert: ValidationAlert?
 
@@ -31,6 +33,18 @@ struct VideoExportSheet: View {
             get: { model.scale },
             set: { model.setScalePreservingAspect($0) }
         )
+    }
+
+    private func validated(_ action: @escaping () -> Void) {
+        if let error = model.validationError {
+            validationAlert = ValidationAlert(
+                title: error.localizedDescription,
+                message: error.localizedRecoverySuggestion ?? ""
+            )
+            return
+        }
+        dismiss()
+        action()
     }
 
     var body: some View {
@@ -77,31 +91,34 @@ struct VideoExportSheet: View {
                             Text("·")
                             Button("Reset") { model.reset() }
                                 .accessibilityLabel("Reset Size")
-                                .accessibilityHint("Resets to original video dimensions")
+                                .accessibilityHint("Resets to original image dimensions")
                         }
                     }
                 }
 
-
+                Section {
+                    Button {
+                        validated(onCopy)
+                    } label: {
+                        Label("Copy", systemImage: "doc.on.doc")
+                    }
+                    Button {
+                        validated(onSaveToPhotos)
+                    } label: {
+                        Label("Save to Photos", systemImage: "square.and.arrow.down")
+                    }
+                    Button {
+                        validated(onShare)
+                    } label: {
+                        Label("Share...", systemImage: "square.and.arrow.up")
+                    }
+                }
             }
-            .navigationTitle("Export Video")
+            .navigationTitle("Export Image")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Export") {
-                        if let error = model.validationError {
-                            validationAlert = ValidationAlert(
-                                title: error.localizedDescription,
-                                message: error.localizedRecoverySuggestion ?? ""
-                            )
-                            return
-                        }
-                        dismiss()
-                        onExport()
-                    }
                 }
             }
             .alert(item: $validationAlert) { alert in

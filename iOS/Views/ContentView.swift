@@ -21,6 +21,7 @@ struct ContentView: View {
     @State private var photoSaveDelegate: PhotoSaveDelegate?
     @State private var exportedVideoURL: URL?
     @State private var exportSizeModel: ExportSizeModel?
+    @State private var imageSizeModel: ExportSizeModel?
     @State private var exportError: String?
     @State private var localBGColor: Color = .white
     @State private var bgColorDebounce: DispatchWorkItem?
@@ -187,31 +188,18 @@ struct ContentView: View {
                             .disabled(appState.isExporting)
                             .accessibilityLabel("Export Video")
                         } else {
-                            Menu {
-                                Button {
-                                    copyImage()
-                                } label: {
-                                    Label("Copy", systemImage: "doc.on.doc")
-                                }
-
-                                Button {
-                                    saveToPhotos()
-                                } label: {
-                                    Label("Save to Photos", systemImage: "square.and.arrow.down")
-                                }
-
-                                Button {
-                                    if let composited = appState.compositedImage {
-                                        shareItem = ShareItem(items: [UIImage(cgImage: composited)])
-                                    }
-                                } label: {
-                                    Label("Share...", systemImage: "square.and.arrow.up")
-                                }
+                            Button {
+                                guard let composited = appState.compositedImage else { return }
+                                imageSizeModel = ExportSizeModel(
+                                    width: composited.width,
+                                    height: composited.height,
+                                    mode: .image
+                                )
                             } label: {
                                 Image(systemName: "square.and.arrow.up")
                             }
-                            .accessibilityLabel("Share")
-                            .accessibilityHint("Opens sharing options")
+                            .accessibilityLabel("Export Image")
+                            .accessibilityHint("Opens export options with size controls")
                         }
                     }
                 }
@@ -249,6 +237,15 @@ struct ContentView: View {
         .sheet(item: $exportSizeModel) { model in
             VideoExportSheet(model: model) {
                 performVideoExport(model: model)
+            }
+        }
+        .sheet(item: $imageSizeModel) { model in
+            ImageExportSheet(model: model) {
+                copyImage(model: model)
+            } onSaveToPhotos: {
+                saveToPhotos(model: model)
+            } onShare: {
+                shareImage(model: model)
             }
         }
         .onChange(of: appState.isExporting) { wasExporting, isExporting in
@@ -385,16 +382,23 @@ struct ContentView: View {
 
     // MARK: - Actions
 
-    private func copyImage() {
-        guard let composited = appState.compositedImage else { return }
-        let uiImage = UIImage(cgImage: composited)
-        UIPasteboard.general.image = uiImage
+    private func exportedImage(model: ExportSizeModel) -> CGImage? {
+        guard let composited = appState.compositedImage else { return nil }
+        if model.sizeChanged {
+            return FrameCompositor.resize(image: composited, to: model.targetSize)
+        }
+        return composited
+    }
+
+    private func copyImage(model: ExportSizeModel) {
+        guard let image = exportedImage(model: model) else { return }
+        UIPasteboard.general.image = UIImage(cgImage: image)
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     }
 
-    private func saveToPhotos() {
-        guard let composited = appState.compositedImage else { return }
-        let uiImage = UIImage(cgImage: composited)
+    private func saveToPhotos(model: ExportSizeModel) {
+        guard let image = exportedImage(model: model) else { return }
+        let uiImage = UIImage(cgImage: image)
         let delegate = PhotoSaveDelegate { [self] error in
             photoSaveDelegate = nil
             if let error {
@@ -409,6 +413,11 @@ struct ContentView: View {
         }
         photoSaveDelegate = delegate
         UIImageWriteToSavedPhotosAlbum(uiImage, delegate, #selector(PhotoSaveDelegate.image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+
+    private func shareImage(model: ExportSizeModel) {
+        guard let image = exportedImage(model: model) else { return }
+        shareItem = ShareItem(items: [UIImage(cgImage: image)])
     }
 
     private func performVideoExport(model: ExportSizeModel) {

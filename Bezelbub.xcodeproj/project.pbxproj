@@ -42,6 +42,7 @@
 		BB39DFEEAAC549C151BC9F4F /* BezelOverlayInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55F56B2D937CABAD03CED25 /* BezelOverlayInstruction.swift */; };
 		C1F37CDA44236E652B12FD38 /* VideoFrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90FD3B82D2917F552AE902 /* VideoFrameCompositor.swift */; };
 		C526498B7A0243B8A73AA14B /* screen-regions.json in Resources */ = {isa = PBXBuildFile; fileRef = 21DBC54512D0785272D54CC8 /* screen-regions.json */; };
+		CC23E42770920B7BF62305C7 /* ImageExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577CB4BCE1492EC29A986CD8 /* ImageExportSheet.swift */; };
 		CCFB62964B756B9E11857D93 /* DeviceMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */; };
 		CFA2AA00FCDB2689E26DAF98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D2364C0610086B4A6FF2F50 /* Assets.xcassets */; };
 		D4AF7691464D6620180A3BD0 /* BezelOverlayCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC47BE4C4D1D906E1690A590 /* BezelOverlayCompositor.swift */; };
@@ -92,6 +93,7 @@
 		3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRegionDetector.swift; sourceTree = "<group>"; };
 		465F701ED71381B1207E9674 /* DeviceDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDefinition.swift; sourceTree = "<group>"; };
 		5071F363F33E5DBE583B3D51 /* Bezelbub-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Bezelbub-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		577CB4BCE1492EC29A986CD8 /* ImageExportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExportSheet.swift; sourceTree = "<group>"; };
 		61202F6ADEFB3BDEB52800B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		638F038B33402030765C275F /* Bezelbub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bezelbub.entitlements; sourceTree = "<group>"; };
 		6D2364C0610086B4A6FF2F50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				61202F6ADEFB3BDEB52800B6 /* ContentView.swift */,
+				577CB4BCE1492EC29A986CD8 /* ImageExportSheet.swift */,
 				CE3B239CEFBB092ACE6B17D3 /* VideoExportSheet.swift */,
 			);
 			path = Views;
@@ -411,6 +414,7 @@
 				CCFB62964B756B9E11857D93 /* DeviceMatcher.swift in Sources */,
 				164A972BA74FD6EB832A1C1C /* ExportSizeModel.swift in Sources */,
 				A13BC31C287F514DFD9B7E52 /* FrameCompositor.swift in Sources */,
+				CC23E42770920B7BF62305C7 /* ImageExportSheet.swift in Sources */,
 				84AC81359FD8DA3A11B2BCB3 /* ScreenRegionDetector.swift in Sources */,
 				735FECFD31E7AB9709F0AF5C /* VideoExportSheet.swift in Sources */,
 				E7F5BADE64418652BEBDBBFB /* VideoFrameCompositor.swift in Sources */,
