@@ -129,6 +129,6 @@ struct ImageExportSheet: View {
                 )
             }
         }
-        .presentationDetents([.medium])
+        .presentationDetents([.large])
     }
 }
