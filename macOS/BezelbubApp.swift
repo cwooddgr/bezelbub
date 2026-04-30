@@ -1,18 +1,22 @@
 import SwiftUI
+import AppKit
+
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        true
+    }
+}
 
 @main
 struct BezelbubApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @State private var appState = AppState()
-    @Environment(\.openWindow) private var openWindow
 
     var body: some Scene {
         WindowGroup(id: "main") {
             ContentView()
                 .environment(appState)
                 .onAppear {
-                    appState.ensureWindowVisible = { [openWindow] in
-                        openWindow(id: "main")
-                    }
                     // Delay briefly so onOpenURL can fire first when
                     // the app is launched by dropping a file on the dock.
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

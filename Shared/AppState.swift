@@ -27,7 +27,6 @@ final class AppState {
     #if os(macOS)
     // Open panel (modeless, so drag-and-drop still works on the main window)
     @ObservationIgnored private var openPanel: NSOpenPanel?
-    @ObservationIgnored var ensureWindowVisible: (() -> Void)?
     #endif
     @ObservationIgnored private var debounceWork: DispatchWorkItem?
 
@@ -102,11 +101,6 @@ final class AppState {
             guard let self else { return }
             self.openPanel = nil
             if response == .OK, let url = panel.url {
-                // Ensure the app has a visible window before processing.
-                // After Cmd-W closes the only window, there's nowhere to show results.
-                if !NSApp.windows.contains(where: { $0.isVisible && !($0 is NSPanel) }) {
-                    self.ensureWindowVisible?()
-                }
                 self.processFile(url: url)
             }
         }
@@ -132,13 +126,15 @@ final class AppState {
         stopVideoAccess()
         #endif
 
-        guard url.startAccessingSecurityScopedResource() || true else { return }
-        defer { url.stopAccessingSecurityScopedResource() }
+        let didStartAccess = url.startAccessingSecurityScopedResource()
+        defer {
+            if didStartAccess { url.stopAccessingSecurityScopedResource() }
+        }
 
         guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
               let image = CGImageSourceCreateImageAtIndex(source, 0, nil)
         else {
-            errorMessage = "Could not load image."
+            errorMessage = "Couldn't read this image. Try dragging it from Finder, or use File > Open."
             return
         }
 
@@ -156,7 +152,7 @@ final class AppState {
                   return ctx.makeImage()
               })()
         else {
-            errorMessage = "Could not load image."
+            errorMessage = "Couldn't read this image. Try dragging it from Finder, or use File > Open."
             return
         }
 

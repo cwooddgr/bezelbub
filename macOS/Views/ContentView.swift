@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct ContentView: View {
     @Environment(AppState.self) private var appState
@@ -198,10 +199,8 @@ struct ContentView: View {
             .padding(.vertical, 10)
         }
         .background(.bar)
-        .dropDestination(for: URL.self) { urls, _ in
-            guard let url = urls.first else { return false }
-            appState.processFile(url: url)
-            return true
+        .onDrop(of: [.fileURL, .image, .url], isTargeted: nil) { providers in
+            handleDrop(providers: providers)
         }
         .onAppear {
             eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { event in
@@ -224,6 +223,57 @@ struct ContentView: View {
             }
         }
         .frame(minWidth: 400, minHeight: 350)
+    }
+
+    private func handleDrop(providers: [NSItemProvider]) -> Bool {
+        guard let provider = providers.first else { return false }
+
+        let canLoadImage = provider.canLoadObject(ofClass: NSImage.self)
+
+        if provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
+            _ = provider.loadObject(ofClass: URL.self) { url, _ in
+                if let url {
+                    Task { @MainActor in
+                        appState.processFile(url: url)
+                    }
+                } else if canLoadImage {
+                    // Promised-file drags (e.g. Photos) don't resolve to a URL;
+                    // fall back to loading the image data directly.
+                    loadImageData(from: provider)
+                } else {
+                    showDropFallbackError()
+                }
+            }
+            return true
+        }
+
+        if canLoadImage {
+            loadImageData(from: provider)
+            return true
+        }
+
+        showDropFallbackError()
+        return false
+    }
+
+    private func loadImageData(from provider: NSItemProvider) {
+        _ = provider.loadObject(ofClass: NSImage.self) { image, _ in
+            guard let nsImage = image as? NSImage,
+                  let cgImage = nsImage.cgImage(forProposedRect: nil, context: nil, hints: nil)
+            else {
+                showDropFallbackError()
+                return
+            }
+            Task { @MainActor in
+                appState.processImage(cgImage: cgImage)
+            }
+        }
+    }
+
+    private func showDropFallbackError() {
+        Task { @MainActor in
+            appState.errorMessage = "Drag images from Finder, or use File > Open."
+        }
     }
 
     private func copyImage() {
