@@ -141,7 +141,9 @@ final class AppState {
         // Force-realize pixel data while security-scoped access is still active.
         // CGImage loads data lazily, so without this the sandbox revokes access
         // before the background compositing thread reads the pixels.
-        guard let colorSpace = image.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB),
+        // Always draw into sRGB — CGContext doesn't support indexed color
+        // spaces, which "optimized" palette PNGs use.
+        guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
               let ctx = CGContext(
                   data: nil, width: image.width, height: image.height,
                   bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
