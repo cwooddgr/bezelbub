@@ -72,7 +72,16 @@ Everything runs on-device. No accounts, no uploads, no telemetry, no tracking.
 Universal Purchase — buy once, use on Mac, iPhone, and iPad.
 ```
 
-## What's New in This Version — v3.1.0 (4000 chars max)
+## What's New in This Version — v3.2.1 (4000 chars max)
+
+```
+• Paste screenshots from the clipboard on Mac — copy any image and press ⌘V, or use Edit ▸ Paste.
+• Mac and iMac screenshots now match by aspect ratio, so captures taken at any scaled ("More Space") display resolution are detected correctly instead of falling back to Apple TV — and they're scaled to fill the bezel instead of being letterboxed.
+• Your selected device and color are kept when you load another screenshot that fits the same device.
+• Fixes for loading palette ("optimized") PNGs, plus polish across macOS, iOS, and the Share Extension.
+```
+
+## What's New — v3.1.0 (previous, for reference)
 
 ```
 • 11 new device bezels, including iPad (A16), iPad mini (A17 Pro), iPad Air M4 (11" and 13"), iPad Pro M5 (11" and 13"), MacBook Pro M5 (14" and 16"), MacBook Air M5 (13" and 15"), and MacBook Neo.
