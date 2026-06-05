@@ -10,20 +10,35 @@ enum DeviceMatcher {
         let portraitW = min(screenshotWidth, screenshotHeight)
         let portraitH = max(screenshotWidth, screenshotHeight)
         let isLandscape = screenshotWidth > screenshotHeight
+        // Orientation-independent aspect (always ≥ 1) for ranking candidates.
+        let screenshotAspect = Double(portraitH) / Double(portraitW)
 
-        var matches: [Match] = []
+        // Track each match's aspect error and catalog index so we can order by
+        // closest aspect first, breaking ties toward the newest device.
+        var matches: [(match: Match, aspectError: Double, index: Int)] = []
 
-        for device in devices {
+        for (index, device) in devices.enumerated() {
             guard let region = device.screenRegion else { continue }
 
-            if device.landscapeOnly {
-                // Only match landscape screenshots; use aspect ratio (±2%) to handle
-                // both 1920×1080 and 3840×2160 with the same bezel.
+            let regionLong = Double(max(region.width, region.height))
+            let regionShort = Double(min(region.width, region.height))
+            let regionAspect = regionLong / regionShort
+            let aspectError = abs(screenshotAspect - regionAspect) / regionAspect
+
+            if !device.hasPortraitBezel {
+                // Display devices (Apple TV, Macs/iMac) have no portrait bezel and
+                // are captured at many scaled resolutions, so match by aspect ratio
+                // (±2%) rather than exact pixels — e.g. Apple TV accepts both
+                // 1920×1080 and 3840×2160, and an iMac at any "More Space" scaled
+                // setting still resolves to the same 16:9 bezel. The screenshot is
+                // rescaled to the bezel's screen region at composite time.
+                //
+                // 16:9 displays (Apple TV, iMac) are mutually ambiguous, as are the
+                // ~16:10 MacBooks; the matcher returns every candidate so the user
+                // can disambiguate with the device picker.
                 guard isLandscape else { continue }
-                let regionAspect = region.width / region.height
-                let screenshotAspect = Double(screenshotWidth) / Double(screenshotHeight)
-                if abs(screenshotAspect - regionAspect) / regionAspect < 0.02 {
-                    matches.append(Match(device: device, isLandscape: true))
+                if aspectError < 0.02 {
+                    matches.append((Match(device: device, isLandscape: true), aspectError, index))
                 }
             } else {
                 let regionW = Int(region.width)
@@ -32,12 +47,20 @@ enum DeviceMatcher {
                 let regionPortraitH = max(regionW, regionH)
                 // Allow ±1px tolerance — iOS screenshots can differ by 1px from display resolution
                 if abs(portraitW - regionPortraitW) <= 1 && abs(portraitH - regionPortraitH) <= 1 {
-                    matches.append(Match(device: device, isLandscape: isLandscape))
+                    matches.append((Match(device: device, isLandscape: isLandscape), aspectError, index))
                 }
             }
         }
 
-        // Prefer newest devices first (later entries in catalog)
-        return matches.reversed()
+        // Closest aspect first so the default selection is the best fit; ties
+        // (e.g. Apple TV vs iMac, both 16:9, or two iPhones sharing a resolution)
+        // break toward the newest device (later catalog entry).
+        return matches
+            .sorted { lhs, rhs in
+                lhs.aspectError != rhs.aspectError
+                    ? lhs.aspectError < rhs.aspectError
+                    : lhs.index > rhs.index
+            }
+            .map(\.match)
     }
 }
