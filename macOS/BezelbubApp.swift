@@ -39,6 +39,12 @@ struct BezelbubApp: App {
                 }
                 .keyboardShortcut("o", modifiers: .command)
             }
+            CommandGroup(replacing: .pasteboard) {
+                Button("Paste") {
+                    appState.pasteImage()
+                }
+                .keyboardShortcut("v", modifiers: .command)
+            }
         }
     }
 }

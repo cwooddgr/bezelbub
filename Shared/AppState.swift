@@ -110,6 +110,27 @@ final class AppState {
         openPanel?.cancel(nil)
         openPanel = nil
     }
+
+    func pasteImage() {
+        let pasteboard = NSPasteboard.general
+
+        // Prefer a file URL on the pasteboard (e.g. a file copied in Finder),
+        // mirroring how handleDrop routes .fileURL through processFile.
+        if let url = pasteboard.readObjects(forClasses: [NSURL.self], options: nil)?.first as? URL,
+           url.isFileURL {
+            processFile(url: url)
+            return
+        }
+
+        // Otherwise read raw image data from the pasteboard.
+        if let image = NSImage(pasteboard: pasteboard),
+           let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) {
+            processImage(cgImage: cgImage)
+            return
+        }
+
+        errorMessage = "No image found in the clipboard. Copy a screenshot, then paste."
+    }
     #endif
 
     #if !SHARE_EXTENSION
