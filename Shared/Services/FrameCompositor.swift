@@ -80,6 +80,25 @@ enum FrameCompositor {
             // Crop 1px from left and right for pixel-perfect fit in the screen hole
             let cropRect = CGRect(x: 1, y: 0, width: base.width - 2, height: base.height)
             screenshotToDraw = base.cropping(to: cropRect) ?? base
+        } else if !device.hasPortraitBezel {
+            // Other display devices (Macs/iMac) are matched by aspect ratio, so the
+            // screenshot's resolution rarely equals the bezel's screen region exactly.
+            // Aspect-fill (cover) the region so it's completely filled — uniform scale,
+            // centered, with the mask clipping the ≤2% overflow. Native-resolution
+            // captures (scale ≈ 1) are left untouched to stay pixel-perfect.
+            var base = screenshot
+            let scale = max(
+                screenRegion.width / CGFloat(base.width),
+                screenRegion.height / CGFloat(base.height)
+            )
+            if scale > 1.001 || scale < 0.999 {
+                let targetSize = CGSize(
+                    width: (CGFloat(base.width) * scale).rounded(),
+                    height: (CGFloat(base.height) * scale).rounded()
+                )
+                if let scaled = resize(image: base, to: targetSize) { base = scaled }
+            }
+            screenshotToDraw = base
         } else {
             screenshotToDraw = screenshot
         }
