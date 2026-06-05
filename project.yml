@@ -43,8 +43,8 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: co.dgrlabs.bezelbub
       INFOPLIST_FILE: macOS/Info.plist
       PRODUCT_NAME: Bezelbub
-      MARKETING_VERSION: "3.1.1"
-      CURRENT_PROJECT_VERSION: "12"
+      MARKETING_VERSION: "3.2.0"
+      CURRENT_PROJECT_VERSION: "13"
       COMBINE_HIDPI_IMAGES: YES
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       CODE_SIGN_ENTITLEMENTS: macOS/Bezelbub.entitlements
