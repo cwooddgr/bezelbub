@@ -195,8 +195,7 @@ final class AppState {
             return
         }
 
-        let match = matches[0]
-        selectDevice(match.device, isLandscape: match.isLandscape)
+        selectMatchRetainingPreferences()
     }
 
     func processImage(cgImage: CGImage) {
@@ -224,8 +223,28 @@ final class AppState {
             return
         }
 
-        let match = matches[0]
-        selectDevice(match.device, isLandscape: match.isLandscape)
+        selectMatchRetainingPreferences()
+    }
+
+    /// Picks a match from the current `matches`, preferring the device and color
+    /// the user already had selected so that loading a new screenshot doesn't
+    /// reset their framing choices. Falls back to the first match / default color
+    /// when the previous selection isn't valid for the new screenshot.
+    private func selectMatchRetainingPreferences() {
+        let previousDeviceID = selectedDevice?.id
+        let previousColorID = selectedColor?.id
+
+        let match = matches.first { $0.device.id == previousDeviceID } ?? matches[0]
+
+        selectedDevice = match.device
+        isLandscape = match.isLandscape
+        if let previousColorID,
+           let retained = match.device.colors.first(where: { $0.id == previousColorID }) {
+            selectedColor = retained
+        } else {
+            selectedColor = match.device.defaultColor
+        }
+        recomposite()
     }
 
     #if !SHARE_EXTENSION
