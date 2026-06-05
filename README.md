@@ -5,8 +5,9 @@ A macOS and iOS app that wraps your screenshots and screen recordings in realist
 
 ## Features
 
-- **Auto-detection** — Matches screenshots and videos to the correct device by resolution
+- **Auto-detection** — Matches screenshots and videos to the correct device by resolution, keeping your current device and color when you load another screenshot that fits the same device
 - **Drag and drop** (macOS) — Drop a screenshot or screen recording onto the app window or dock icon
+- **Paste** (macOS) — Paste a screenshot straight from the clipboard with ⌘V, or via Edit ▸ Paste
 - **Photos & Share Extension** (iOS) — Import from Photos, or frame images directly from any app via the system share sheet
 - **Video framing** — Export MOV/MP4 screen recordings with device bezels overlaid, audio preserved
 - **Rotation** — Rotate videos to fix incorrect orientation (Option-click for counter-clockwise)

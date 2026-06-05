@@ -46,7 +46,7 @@ Bezelbub wraps your screenshots and screen recordings in real Apple device bezel
 Built for developers, designers, product managers, indie makers, and anyone who needs to show their work framed in a real device.
 
 AUTOMATIC DEVICE MATCHING
-Drop in a screenshot or screen recording and Bezelbub detects the resolution, picks the right device model, and selects portrait or landscape. No picker, no calibration, no guesswork.
+Drop in a screenshot or screen recording and Bezelbub detects the resolution, picks the right device model, and selects portrait or landscape. No picker, no calibration, no guesswork. Load another screenshot for the same device and it keeps the device and color you already chose.
 
 38+ DEVICE MODELS, EVERY COLOR
 Complete coverage of modern Apple hardware — iPhone 14 through iPhone 17, iPhone Air, iPad, iPad (A16), iPad mini, iPad mini (A17 Pro), iPad Air M2/M4 in 11" and 13", iPad Pro M4/M5 in 11" and 13", MacBook Air, MacBook Pro, MacBook Neo, iMac 24", and Apple TV 4K — each in every color Apple ships.
@@ -61,7 +61,7 @@ PIXEL-PERFECT OUT OF THE BOX
 A custom screen-region detection pipeline analyzes every bezel image and builds anti-aliased masks at build time. No visible seams at the rounded corners, no halos, no manual tweaking.
 
 NATIVE ON EVERY PLATFORM
-Built with SwiftUI and AVFoundation. Native on Mac, iPhone, and iPad — no wrappers, no web views. Drag-and-drop on Mac, PhotosPicker on iOS, and platform-appropriate share, copy, and export flows on each.
+Built with SwiftUI and AVFoundation. Native on Mac, iPhone, and iPad — no wrappers, no web views. Drag-and-drop and clipboard paste (⌘V) on Mac, PhotosPicker on iOS, and platform-appropriate share, copy, and export flows on each.
 
 ACCESSIBILITY
 VoiceOver labels across the editor, export controls, and Share Extension.
