@@ -29,7 +29,13 @@ A macOS and iOS app that wraps your screenshots and screen recordings in realist
 - Xcode 16.0+
 - [XcodeGen](https://github.com/yonaskolb/XcodeGen)
 
+## Architecture
+
+The device-framing engine lives in **`BezelbubKit`**, a UI-free Swift package (`BezelbubKit/`). It does the pure transformation — screenshot + device id + orientation → framed image — with no SwiftUI, app state, or GUI session, so it runs fully offscreen. The macOS app, the iOS app, the Share Extension, and the `bezelbub` CLI are all thin clients of that package; bezel/mask assets ship inside it and resolve via `Bundle.module`.
+
 ## Building
+
+The apps are generated with [XcodeGen](https://github.com/yonaskolb/XcodeGen):
 
 ```sh
 xcodegen generate
@@ -39,6 +45,30 @@ open Bezelbub.xcodeproj
 Schemes:
 - **Bezelbub** — macOS app
 - **Bezelbub-iOS** — iOS app and Share Extension
+
+The engine and CLI build with SwiftPM:
+
+```sh
+cd BezelbubKit
+swift build            # BezelbubKit library + bezelbub CLI
+swift test             # engine round-trip tests
+```
+
+## Headless CLI (`bezelbub`)
+
+`bezelbub` frames screenshots from the command line — no GUI — so other tools and AI agents can use it. Every input is a flag with a sensible default, output is available as JSON, and errors go to stderr with distinct nonzero exit codes.
+
+```sh
+# Discover valid device ids and colors
+bezelbub devices [--json]
+
+# Frame a screenshot
+bezelbub frame --input shot.png --device iphone17pro \
+               [--color "Cosmic Orange"] \
+               [--orientation portrait|landscape|auto] \
+               [--background "#FFFFFF"] \
+               [--output framed.png] [--json]
+```
 
 ## License
 
