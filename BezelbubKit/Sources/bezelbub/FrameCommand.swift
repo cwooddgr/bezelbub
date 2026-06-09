@@ -157,6 +157,16 @@ struct Frame: ParsableCommand {
                 "Framed \(device.id) (\(resolvedColor.id), \(orientationName)) → "
                     + "\(outputURL.path) [\(framed.width)×\(framed.height)]"
             )
+            if color == nil && device.colors.count > 1 {
+                let others = device.colors
+                    .filter { $0.id != resolvedColor.id }
+                    .map { "\"\($0.id)\"" }
+                    .joined(separator: ", ")
+                print(
+                    "Used \(device.id)'s default color; it also comes in \(others). "
+                        + "Re-run with --color <name> to use one."
+                )
+            }
         }
     }
 
