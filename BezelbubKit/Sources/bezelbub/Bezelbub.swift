@@ -8,7 +8,32 @@ struct Bezelbub: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "bezelbub",
         abstract: "Composite Apple device bezels onto screenshots.",
-        version: "1.0.0",
-        subcommands: [Frame.self, Devices.self]
+        discussion: """
+        Headless and agent-friendly: nothing prompts interactively, every input \
+        is a flag, --json makes output machine-readable, and errors go to \
+        stderr with concrete suggestions (valid ids, matching devices, nearest \
+        sizes) so a failed call tells you how to fix the next one.
+
+        Typical workflow:
+          bezelbub devices --json            # device ids, colors, screen sizes
+          bezelbub devices --input shot.png  # which devices fit this screenshot?
+          bezelbub frame --input shot.png    # frame it (device auto-detected)
+          bezelbub frame --input shot.png --device iphone17pro --color Silver
+
+        `frame` is the default subcommand, so `bezelbub --input shot.png` works.
+
+        Exit codes:
+          0   success
+          1   invalid flag value (e.g. malformed --background)
+          2   unknown, ambiguous, or undetectable device (stderr lists candidates)
+          3   unknown color (stderr lists the device's valid colors)
+          4   input image unreadable
+          5   compositing failed
+          6   output could not be written
+          64  malformed arguments (standard EX_USAGE)
+        """,
+        version: "1.1.0",
+        subcommands: [Frame.self, Devices.self],
+        defaultSubcommand: Frame.self
     )
 }

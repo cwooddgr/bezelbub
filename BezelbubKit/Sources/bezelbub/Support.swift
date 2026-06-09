@@ -2,6 +2,7 @@ import ArgumentParser
 import BezelbubKit
 import CoreGraphics
 import Foundation
+import ImageIO
 
 // MARK: - Orientation
 
@@ -15,9 +16,11 @@ enum Orientation: String, ExpressibleByArgument, CaseIterable {
 // MARK: - Exit codes
 
 /// Stable, distinct exit codes so scripts and agents can branch on failure type
-/// rather than parsing stderr text. 1 is reserved for ArgumentParser usage errors.
+/// rather than parsing stderr text. ArgumentParser's own parse failures exit 64
+/// (EX_USAGE); 1 covers other usage errors (e.g. a malformed --background).
 enum ExitStatus: Int32 {
     case usage = 1
+    /// Unknown, ambiguous, or undetectable device — stderr lists candidates.
     case unknownDevice = 2
     case unknownColor = 3
     case unreadableInput = 4
@@ -31,6 +34,55 @@ enum ExitStatus: Int32 {
 func fail(_ message: String, code: ExitStatus) -> ExitCode {
     FileHandle.standardError.write(Data("Error: \(message)\n".utf8))
     return ExitCode(code.rawValue)
+}
+
+// MARK: - Image loading
+
+/// Loads an image and realizes it into sRGB so palette/indexed PNGs composite
+/// correctly (CGContext can't draw indexed color spaces), matching the app.
+func loadImage(at url: URL) -> CGImage? {
+    guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+          let image = CGImageSourceCreateImageAtIndex(source, 0, nil)
+    else {
+        return nil
+    }
+    guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
+          let ctx = CGContext(
+              data: nil, width: image.width, height: image.height,
+              bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
+              bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+          )
+    else {
+        return image
+    }
+    ctx.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+    return ctx.makeImage() ?? image
+}
+
+// MARK: - Suggestion formatting
+
+/// One device per line for error messages and match listings, e.g.
+/// `  iphone17pro — iPhone 17 Pro, screen 1206×2622 px`.
+func deviceList(_ devices: [DeviceDefinition]) -> String {
+    devices.map { device in
+        var line = "  \(device.id) — \(device.displayName)"
+        if let region = device.screenRegion {
+            line += ", screen \(Int(region.width))×\(Int(region.height)) px"
+        }
+        return line
+    }.joined(separator: "\n")
+}
+
+/// Parses `1206x2622` (also accepts `×` or uppercase `X`) into a pixel size.
+func parseDimensions(_ string: String) -> (width: Int, height: Int)? {
+    let parts = string.lowercased().split(whereSeparator: { $0 == "x" || $0 == "×" })
+    guard parts.count == 2,
+          let width = Int(parts[0]), let height = Int(parts[1]),
+          width > 0, height > 0
+    else {
+        return nil
+    }
+    return (width, height)
 }
 
 // MARK: - Hex color parsing
@@ -77,6 +129,16 @@ struct FrameResult: Encodable {
     let output: String
     let width: Int
     let height: Int
+}
+
+/// `bezelbub devices --input/--dimensions --json` result envelope: the queried
+/// size, the devices whose screens match it, and (only when `matches` is
+/// empty) the nearest devices by aspect ratio.
+struct DeviceMatchResult: Encodable {
+    let width: Int
+    let height: Int
+    let matches: [DeviceInfo]
+    let nearest: [DeviceInfo]
 }
 
 /// One entry of `bezelbub devices --json`.

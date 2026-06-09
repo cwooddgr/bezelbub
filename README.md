@@ -56,7 +56,7 @@ swift test             # engine round-trip tests
 
 ## Headless CLI (`bezelbub`)
 
-`bezelbub` frames screenshots from the command line — no GUI — so other tools and AI agents can use it. Every input is a flag with a sensible default, output is available as JSON, and errors go to stderr with distinct nonzero exit codes.
+`bezelbub` frames screenshots from the command line — no GUI — so other tools and AI agents can use it. Every input is a flag with a sensible default, output is available as JSON, and errors go to stderr with distinct nonzero exit codes *and* concrete suggestions (valid ids, matching devices, nearest screen sizes), so a failed call tells the caller how to fix the next one.
 
 Install via [Homebrew](https://brew.sh):
 
@@ -65,16 +65,24 @@ brew install cwooddgr/tap/bezelbub
 ```
 
 ```sh
-# Discover valid device ids and colors
+# Discover valid device ids, colors, and screen sizes
 bezelbub devices [--json]
 
-# Frame a screenshot
+# Which devices fit this screenshot?
+bezelbub devices --input shot.png            # or --dimensions 1206x2622
+
+# Frame a screenshot — the device is auto-detected from its pixel size
+bezelbub frame --input shot.png
+
+# Or specify everything explicitly
 bezelbub frame --input shot.png --device iphone17pro \
                [--color "Cosmic Orange"] \
                [--orientation portrait|landscape|auto] \
                [--background "#FFFFFF"] \
                [--output framed.png] [--json]
 ```
+
+`frame` is the default subcommand, so `bezelbub --input shot.png` works too. If the screenshot's size matches several devices, the error lists the candidates; if it matches none, the nearest devices by aspect ratio are suggested. `bezelbub --help` documents the exit codes and the full workflow.
 
 ## License
 

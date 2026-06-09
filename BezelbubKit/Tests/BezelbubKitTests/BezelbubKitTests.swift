@@ -62,6 +62,54 @@ final class BezelbubKitTests: XCTestCase {
         XCTAssertGreaterThan(framed.height, Int(region.height))
     }
 
+    // MARK: - Suggestions
+
+    // A one-typo device id should still surface the intended device.
+    func testSuggestDevicesToleratesTypo() {
+        let devices = DeviceCatalog.allDevices
+        let suggestions = DeviceCatalog.suggestDevices(matching: "iphone17por", in: devices)
+        XCTAssertTrue(
+            suggestions.contains { $0.id == "iphone17pro" },
+            "Expected 'iphone17por' to suggest iphone17pro, got \(suggestions.map(\.id))"
+        )
+    }
+
+    // A display-name fragment should match by substring across the family.
+    func testSuggestDevicesMatchesDisplayNameSubstring() {
+        let devices = DeviceCatalog.allDevices
+        let suggestions = DeviceCatalog.suggestDevices(matching: "macbook", in: devices)
+        XCTAssertFalse(suggestions.isEmpty)
+        XCTAssertTrue(suggestions.allSatisfy { $0.id.hasPrefix("macbook") })
+    }
+
+    // Spaces and case in a display name shouldn't matter: "iPhone Air" → iphoneair.
+    func testSuggestDevicesNormalizesDisplayName() {
+        let devices = DeviceCatalog.allDevices
+        let suggestions = DeviceCatalog.suggestDevices(matching: "iPhone Air", in: devices)
+        XCTAssertEqual(suggestions.first?.id, "iphoneair")
+    }
+
+    func testSuggestColorsToleratesTypo() throws {
+        let device = try XCTUnwrap(DeviceCatalog.allDevices.first { $0.id == "iphone16" })
+        let suggestions = DeviceCatalog.suggestColors(matching: "blak", in: device)
+        XCTAssertEqual(suggestions.first?.id, "Black")
+    }
+
+    // An arbitrary portrait size matches nothing exactly, but nearest-by-aspect
+    // should return portrait-capable devices only (no landscape-only Macs/TV).
+    func testNearestExcludesLandscapeOnlyForPortraitInput() {
+        let devices = DeviceCatalog.hydrated()
+        let nearest = DeviceMatcher.nearest(
+            screenshotWidth: 1000, screenshotHeight: 2000, devices: devices
+        )
+        XCTAssertFalse(nearest.isEmpty)
+        XCTAssertTrue(
+            nearest.allSatisfy { $0.device.hasPortraitBezel },
+            "Portrait input should never suggest landscape-only devices, got "
+                + "\(nearest.map(\.device.id))"
+        )
+    }
+
     // MARK: - Helpers
 
     private func makeSolidImage(width: Int, height: Int) -> CGImage? {

@@ -60,13 +60,15 @@ swift build --product bezelbub   # just the CLI
 ### CLI usage
 
 ```sh
-bezelbub devices [--json]
-bezelbub frame --input <path> --device <id> [--color <name>] \
+bezelbub devices [--input <path> | --dimensions WxH] [--json]
+bezelbub frame --input <path> [--device <id>] [--color <name>] \
                [--orientation portrait|landscape|auto] [--background <hex>] \
                [--output <path>] [--json]
 ```
 
-Agent-friendly: every input is a flag with a default, `--json` gives machine-readable output, errors go to stderr with distinct nonzero exit codes (2 unknown device, 3 unknown color, 4 unreadable input, 5 composite failed, 6 write failed; argument-parsing errors use ArgumentParser's EX_USAGE 64).
+`frame` is the default subcommand (`bezelbub --input shot.png` works). `--device` is optional: omitted, it's auto-detected from the screenshot's pixel size; ambiguous or unmatched sizes fail with candidate/nearest-device lists. `devices --input/--dimensions` answers "which devices fit this screenshot" directly (JSON shape: `{width, height, matches, nearest}`).
+
+Agent-friendly: every input is a flag with a default, `--json` gives machine-readable output, errors go to stderr with concrete suggestions (did-you-mean ids via `DeviceCatalog.suggestDevices/suggestColors`, dimension matches) and distinct nonzero exit codes (2 unknown/ambiguous/undetectable device, 3 unknown color, 4 unreadable input, 5 composite failed, 6 write failed; argument-parsing errors use ArgumentParser's EX_USAGE 64). Exit codes are documented in `bezelbub --help`.
 
 ### Regenerating bezel assets
 
