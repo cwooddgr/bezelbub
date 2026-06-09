@@ -58,6 +58,12 @@ swift test             # engine round-trip tests
 
 `bezelbub` frames screenshots from the command line — no GUI — so other tools and AI agents can use it. Every input is a flag with a sensible default, output is available as JSON, and errors go to stderr with distinct nonzero exit codes.
 
+Install via [Homebrew](https://brew.sh):
+
+```sh
+brew install cwooddgr/tap/bezelbub
+```
+
 ```sh
 # Discover valid device ids and colors
 bezelbub devices [--json]
