@@ -13,10 +13,13 @@ struct Devices: ParsableCommand {
           bezelbub devices --input shot.png         # which devices fit this screenshot?
           bezelbub devices --dimensions 1206x2622   # same, without an image on disk
 
-        When filtering, devices whose screen pixel size matches the query are \
-        listed; if none match, the nearest devices by aspect ratio are shown \
-        instead (in JSON, under "nearest"). Filtering exits 0 either way — an \
-        empty "matches" array is the signal, not the exit code.
+        When filtering, iPhones/iPads match when their screen pixel size equals \
+        the query (±1px); display devices (Macs, iMac, Apple TV) are captured at \
+        many scaled resolutions, so they match by aspect ratio and the screenshot \
+        is rescaled when framed. If nothing matches, the nearest devices by \
+        aspect ratio are shown instead (in JSON, under "nearest"). Filtering \
+        exits 0 either way — an empty "matches" array is the signal, not the \
+        exit code.
         """
     )
 
@@ -65,12 +68,7 @@ struct Devices: ParsableCommand {
     /// neither flag is set (full listing).
     private func querySize() throws -> (width: Int, height: Int)? {
         if let input {
-            guard let image = loadImage(at: URL(fileURLWithPath: input)) else {
-                throw fail(
-                    "Could not read input image at \(input). Expected a PNG, JPEG, or HEIC file.",
-                    code: .unreadableInput
-                )
-            }
+            let image = try loadInputImage(atPath: input)
             return (image.width, image.height)
         }
         if let dimensions {
@@ -90,7 +88,7 @@ struct Devices: ParsableCommand {
             screenshotWidth: size.width,
             screenshotHeight: size.height,
             devices: devices
-        ).map(\.device)
+        )
         let nearest = matches.isEmpty
             ? DeviceMatcher.nearest(
                 screenshotWidth: size.width,
@@ -103,7 +101,7 @@ struct Devices: ParsableCommand {
             let result = DeviceMatchResult(
                 width: size.width,
                 height: size.height,
-                matches: matches.map(DeviceInfo.init),
+                matches: matches.map { DeviceInfo($0.device) },
                 nearest: nearest.map(DeviceInfo.init)
             )
             print(try JSON.string(result))
@@ -113,9 +111,21 @@ struct Devices: ParsableCommand {
         if matches.isEmpty {
             print("No device screen matches \(size.width)×\(size.height) px. Nearest by aspect ratio:")
             print(deviceList(nearest))
-        } else {
-            print("Devices matching \(size.width)×\(size.height) px:")
-            print(deviceList(matches))
+            return
+        }
+
+        let exact = matches.filter { !$0.matchedByAspectRatio }.map(\.device)
+        let byAspect = matches.filter(\.matchedByAspectRatio).map(\.device)
+        if !exact.isEmpty {
+            print("Devices whose screen is exactly \(size.width)×\(size.height) px:")
+            print(deviceList(exact))
+        }
+        if !byAspect.isEmpty {
+            print(
+                "Devices matching \(size.width)×\(size.height) px by aspect ratio "
+                    + "(the screenshot is rescaled to the screen when framed):"
+            )
+            print(deviceList(byAspect))
         }
     }
 }

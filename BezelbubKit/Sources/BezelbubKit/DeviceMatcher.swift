@@ -4,6 +4,11 @@ public enum DeviceMatcher {
     public struct Match {
         public let device: DeviceDefinition
         public let isLandscape: Bool
+        /// True when the device was matched by aspect ratio (display devices —
+        /// Macs, iMac, Apple TV — whose screenshots arrive at many scaled
+        /// resolutions and are rescaled at composite time), false when the
+        /// screenshot's pixel size matched the device's screen exactly (±1px).
+        public let matchedByAspectRatio: Bool
     }
 
     public static func match(screenshotWidth: Int, screenshotHeight: Int, devices: [DeviceDefinition]) -> [Match] {
@@ -38,7 +43,10 @@ public enum DeviceMatcher {
                 // can disambiguate with the device picker.
                 guard isLandscape else { continue }
                 if aspectError < 0.02 {
-                    matches.append((Match(device: device, isLandscape: true), aspectError, index))
+                    matches.append((
+                        Match(device: device, isLandscape: true, matchedByAspectRatio: true),
+                        aspectError, index
+                    ))
                 }
             } else {
                 let regionW = Int(region.width)
@@ -47,7 +55,10 @@ public enum DeviceMatcher {
                 let regionPortraitH = max(regionW, regionH)
                 // Allow ±1px tolerance — iOS screenshots can differ by 1px from display resolution
                 if abs(portraitW - regionPortraitW) <= 1 && abs(portraitH - regionPortraitH) <= 1 {
-                    matches.append((Match(device: device, isLandscape: isLandscape), aspectError, index))
+                    matches.append((
+                        Match(device: device, isLandscape: isLandscape, matchedByAspectRatio: false),
+                        aspectError, index
+                    ))
                 }
             }
         }

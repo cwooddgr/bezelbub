@@ -38,6 +38,30 @@ func fail(_ message: String, code: ExitStatus) -> ExitCode {
 
 // MARK: - Image loading
 
+/// Loads the `--input` image, distinguishing "no such file" from "file isn't a
+/// readable image" so a caller can self-correct. Finder hides known extensions
+/// by default, so when the path is missing an extension that does exist on
+/// disk, the error suggests the real filename.
+func loadInputImage(atPath path: String) throws -> CGImage {
+    let url = URL(fileURLWithPath: path)
+    guard FileManager.default.fileExists(atPath: url.path) else {
+        var message = "No file exists at \(path)."
+        let extensions = ["png", "PNG", "jpg", "jpeg", "JPG", "JPEG", "heic", "HEIC"]
+        if let actual = extensions.map({ url.appendingPathExtension($0) })
+            .first(where: { FileManager.default.fileExists(atPath: $0.path) }) {
+            message += " Did you mean \(actual.path)? (Finder hides known file extensions by default.)"
+        }
+        throw fail(message, code: .unreadableInput)
+    }
+    guard let image = loadImage(at: url) else {
+        throw fail(
+            "Could not read \(path) as an image. Expected a PNG, JPEG, or HEIC file.",
+            code: .unreadableInput
+        )
+    }
+    return image
+}
+
 /// Loads an image and realizes it into sRGB so palette/indexed PNGs composite
 /// correctly (CGContext can't draw indexed color spaces), matching the app.
 func loadImage(at url: URL) -> CGImage? {

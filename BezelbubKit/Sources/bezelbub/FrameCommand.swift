@@ -56,12 +56,7 @@ struct Frame: ParsableCommand {
         // Future stdin/base64 support slots in here: if `input == "-"`, read raw
         // bytes from FileHandle.standardInput and use CGImageSourceCreateWithData.
         let inputURL = URL(fileURLWithPath: input)
-        guard let screenshot = loadImage(at: inputURL) else {
-            throw fail(
-                "Could not read input image at \(input). Expected a PNG, JPEG, or HEIC file.",
-                code: .unreadableInput
-            )
-        }
+        let screenshot = try loadInputImage(atPath: input)
 
         // --- Resolve device (explicit id, or auto-detect from pixel size) ---
         let (device, autoDetected) = try resolveDevice(in: devices, screenshot: screenshot)

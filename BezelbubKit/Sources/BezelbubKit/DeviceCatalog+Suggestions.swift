@@ -112,7 +112,10 @@ public extension DeviceMatcher {
                 let regionAspect = Double(max(region.width, region.height))
                     / Double(min(region.width, region.height))
                 let error = abs(aspect - regionAspect) / regionAspect
-                return (Match(device: device, isLandscape: isLandscape), error)
+                return (
+                    Match(device: device, isLandscape: isLandscape, matchedByAspectRatio: true),
+                    error
+                )
             }
             .sorted { $0.aspectError < $1.aspectError }
             .prefix(limit)
