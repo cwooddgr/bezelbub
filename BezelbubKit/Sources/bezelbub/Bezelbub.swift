@@ -8,7 +8,7 @@ struct Bezelbub: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "bezelbub",
         abstract: "Composite Apple device bezels onto screenshots.",
-        version: "0.1.0",
+        version: "1.0.0",
         subcommands: [Frame.self, Devices.self]
     )
 }
