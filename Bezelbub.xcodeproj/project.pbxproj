@@ -10,47 +10,29 @@
 		065439B71423C26748DB591D /* BezelOverlayCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC47BE4C4D1D906E1690A590 /* BezelOverlayCompositor.swift */; };
 		07171232EE0687CE9BE6397D /* BezelOverlayInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55F56B2D937CABAD03CED25 /* BezelOverlayInstruction.swift */; };
 		09688EC1A5ACCA02DEDF2E7E /* ExportSizeAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCD2162C54740DCDE3267A7 /* ExportSizeAccessoryView.swift */; };
-		12F062B3B736D0AE84650AE3 /* Masks in Resources */ = {isa = PBXBuildFile; fileRef = 188830798FBDF3A45B2A58FC /* Masks */; };
 		164A972BA74FD6EB832A1C1C /* ExportSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */; };
-		1A25300357F8B75AD7C32523 /* Bezels in Resources */ = {isa = PBXBuildFile; fileRef = 315F6AB6180227B409B8278E /* Bezels */; };
+		19648CA0B2653BA7EA86C505 /* BezelbubKit in Frameworks */ = {isa = PBXBuildFile; productRef = DF4011992283D7AA50B18FE6 /* BezelbubKit */; };
 		24D1B0C626E8D70B41C89E4F /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEE59BF678487F35F7F7597 /* ShareViewController.swift */; };
-		2C7B2A89132371DE36F2D267 /* Masks in Resources */ = {isa = PBXBuildFile; fileRef = 188830798FBDF3A45B2A58FC /* Masks */; };
-		327B98799D01DC920A353AD3 /* FrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B182D82C51C36235B3EF967 /* FrameCompositor.swift */; };
-		38F05F3486506BFF8FA81AF7 /* screen-regions.json in Resources */ = {isa = PBXBuildFile; fileRef = 21DBC54512D0785272D54CC8 /* screen-regions.json */; };
 		42AD27688EECAE44C64608E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39BBDA3AB8A423E4620B0461 /* Assets.xcassets */; };
-		42CC3DEC949F30F8B3ADE0AE /* DeviceMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */; };
-		464BFF8175BEF395C93EA99F /* ScreenRegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */; };
 		54160930C7131803E3586866 /* BezelbubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3944F8B78A9E2B6BCC67E60B /* BezelbubApp.swift */; };
-		5AD62F2763027E53D4E32ABF /* DeviceDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465F701ED71381B1207E9674 /* DeviceDefinition.swift */; };
 		5B509F0B66C92B4D1233B88F /* BezelbubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3306004E9B006EE26A720505 /* BezelbubApp.swift */; };
-		5BAD7D929AEFB14CBA468B9C /* DeviceDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465F701ED71381B1207E9674 /* DeviceDefinition.swift */; };
 		6522B1972F07F6EC59A35E28 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E2B35ED96C5D90F85408D0 /* AppState.swift */; };
 		6E60987700E17BF7DAD28023 /* ExportSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */; };
 		735FECFD31E7AB9709F0AF5C /* VideoExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3B239CEFBB092ACE6B17D3 /* VideoExportSheet.swift */; };
-		7405FF8189A77D9BA0A95681 /* Bezels in Resources */ = {isa = PBXBuildFile; fileRef = 315F6AB6180227B409B8278E /* Bezels */; };
-		7858A5E0BD3D20EFE488B67C /* screen-regions.json in Resources */ = {isa = PBXBuildFile; fileRef = 21DBC54512D0785272D54CC8 /* screen-regions.json */; };
-		84AC81359FD8DA3A11B2BCB3 /* ScreenRegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */; };
 		8812193B5E3CC3F606DAFE75 /* BezelbubShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A18F927CC62EE90481CDA011 /* BezelbubShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9150F022E1A21BE53D510F92 /* FrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B182D82C51C36235B3EF967 /* FrameCompositor.swift */; };
+		94257632D0E3A621D1FDD633 /* BezelbubKit in Frameworks */ = {isa = PBXBuildFile; productRef = F869ABEB4CD842BCA513553B /* BezelbubKit */; };
 		98DB363B057E388C27E90F3E /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E2B35ED96C5D90F85408D0 /* AppState.swift */; };
-		A13BC31C287F514DFD9B7E52 /* FrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B182D82C51C36235B3EF967 /* FrameCompositor.swift */; };
-		ABE72E61C307CAD6DBE2FE0E /* ScreenRegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */; };
 		ACBF56DDA4EF7390D30C5002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFFE949642129EBFEA4C1E1 /* ContentView.swift */; };
-		ACEE2F270A6B6F2CF10A0014 /* Bezels in Resources */ = {isa = PBXBuildFile; fileRef = 315F6AB6180227B409B8278E /* Bezels */; };
-		B6F1B828CC7764DD83F93DF4 /* DeviceMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */; };
 		B6F61BF45C6614B3DE4B6296 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E2B35ED96C5D90F85408D0 /* AppState.swift */; };
 		BB39DFEEAAC549C151BC9F4F /* BezelOverlayInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55F56B2D937CABAD03CED25 /* BezelOverlayInstruction.swift */; };
 		C1F37CDA44236E652B12FD38 /* VideoFrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90FD3B82D2917F552AE902 /* VideoFrameCompositor.swift */; };
-		C526498B7A0243B8A73AA14B /* screen-regions.json in Resources */ = {isa = PBXBuildFile; fileRef = 21DBC54512D0785272D54CC8 /* screen-regions.json */; };
 		CC23E42770920B7BF62305C7 /* ImageExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577CB4BCE1492EC29A986CD8 /* ImageExportSheet.swift */; };
-		CCFB62964B756B9E11857D93 /* DeviceMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */; };
 		CFA2AA00FCDB2689E26DAF98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D2364C0610086B4A6FF2F50 /* Assets.xcassets */; };
 		D4AF7691464D6620180A3BD0 /* BezelOverlayCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC47BE4C4D1D906E1690A590 /* BezelOverlayCompositor.swift */; };
-		DAF3335095B8BA3B48AD48AF /* Masks in Resources */ = {isa = PBXBuildFile; fileRef = 188830798FBDF3A45B2A58FC /* Masks */; };
+		D658F7644F5C341D85863DDE /* BezelbubKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0DFF7F6195676F3DA6A03463 /* BezelbubKit */; };
 		DE94BB55A11D663DEE3A6738 /* ExportSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */; };
 		DF2B9ABD923173B757B22E72 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61202F6ADEFB3BDEB52800B6 /* ContentView.swift */; };
 		E7F5BADE64418652BEBDBBFB /* VideoFrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90FD3B82D2917F552AE902 /* VideoFrameCompositor.swift */; };
-		ECCA747FFDAD2E46EC703154 /* DeviceDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465F701ED71381B1207E9674 /* DeviceDefinition.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,25 +60,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		188830798FBDF3A45B2A58FC /* Masks */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Masks; path = Resources/Masks; sourceTree = SOURCE_ROOT; };
 		1A8016D8E20AEC37FAE032A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		1B182D82C51C36235B3EF967 /* FrameCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCompositor.swift; sourceTree = "<group>"; };
 		1DCD2162C54740DCDE3267A7 /* ExportSizeAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSizeAccessoryView.swift; sourceTree = "<group>"; };
-		21DBC54512D0785272D54CC8 /* screen-regions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "screen-regions.json"; sourceTree = "<group>"; };
 		24E2B35ED96C5D90F85408D0 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		2F90FD3B82D2917F552AE902 /* VideoFrameCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameCompositor.swift; sourceTree = "<group>"; };
-		315F6AB6180227B409B8278E /* Bezels */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Bezels; path = Resources/Bezels; sourceTree = SOURCE_ROOT; };
 		3306004E9B006EE26A720505 /* BezelbubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezelbubApp.swift; sourceTree = "<group>"; };
 		372E1FDDB68E56A28177388D /* Bezelbub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezelbub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3944F8B78A9E2B6BCC67E60B /* BezelbubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezelbubApp.swift; sourceTree = "<group>"; };
 		39BBDA3AB8A423E4620B0461 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRegionDetector.swift; sourceTree = "<group>"; };
-		465F701ED71381B1207E9674 /* DeviceDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDefinition.swift; sourceTree = "<group>"; };
 		5071F363F33E5DBE583B3D51 /* Bezelbub-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Bezelbub-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		577CB4BCE1492EC29A986CD8 /* ImageExportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExportSheet.swift; sourceTree = "<group>"; };
 		61202F6ADEFB3BDEB52800B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		638F038B33402030765C275F /* Bezelbub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bezelbub.entitlements; sourceTree = "<group>"; };
 		6D2364C0610086B4A6FF2F50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7CC352E709ECF09A7A6008DC /* BezelbubKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BezelbubKit; path = BezelbubKit; sourceTree = SOURCE_ROOT; };
 		867C438292AAC0E6B5D36503 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8F9797F68B3DD12D4A97FD80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSizeModel.swift; sourceTree = "<group>"; };
@@ -104,23 +81,47 @@
 		ACEE59BF678487F35F7F7597 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		C5B71CEC1869D991FEC634CF /* BezelbubShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BezelbubShareExtension.entitlements; sourceTree = "<group>"; };
 		CA8E38085E9D6CA1F6085DEC /* Bezelbub-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bezelbub-iOS.entitlements"; sourceTree = "<group>"; };
-		CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMatcher.swift; sourceTree = "<group>"; };
 		CBFFE949642129EBFEA4C1E1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CE3B239CEFBB092ACE6B17D3 /* VideoExportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoExportSheet.swift; sourceTree = "<group>"; };
 		EC47BE4C4D1D906E1690A590 /* BezelOverlayCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezelOverlayCompositor.swift; sourceTree = "<group>"; };
 		F55F56B2D937CABAD03CED25 /* BezelOverlayInstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezelOverlayInstruction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFrameworksBuildPhase section */
+		1378B519B496F4A4D4DE9544 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19648CA0B2653BA7EA86C505 /* BezelbubKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C46B05BC79276BEC104D90D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94257632D0E3A621D1FDD633 /* BezelbubKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76C6C910E132D1F2D97DF425 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D658F7644F5C341D85863DDE /* BezelbubKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
 		1E7DBD0C525009EBC1E19A94 = {
 			isa = PBXGroup;
 			children = (
-				315F6AB6180227B409B8278E /* Bezels */,
-				188830798FBDF3A45B2A58FC /* Masks */,
 				3B9704F97FA1FA0AECB6BF45 /* BezelbubShareExtension */,
 				EB5214187513FDB9318AB795 /* iOS */,
 				85716587414E5ABB391CA0F3 /* macOS */,
-				B2856D51FEB03135BD4E1BAE /* Resources */,
+				54CE117EFA8CE2E2320BFB85 /* Packages */,
 				70710EFF6084872B031BB822 /* Shared */,
 				DF26978FE47FDCED5C36A9B8 /* Products */,
 			);
@@ -143,6 +144,14 @@
 				1DCD2162C54740DCDE3267A7 /* ExportSizeAccessoryView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		54CE117EFA8CE2E2320BFB85 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				7CC352E709ECF09A7A6008DC /* BezelbubKit */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		669FF50DAA1EB1088AEA6A5D /* Views */ = {
@@ -177,18 +186,9 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
-		B2856D51FEB03135BD4E1BAE /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				21DBC54512D0785272D54CC8 /* screen-regions.json */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		D14C3246CF68A87E63A89CCC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				465F701ED71381B1207E9674 /* DeviceDefinition.swift */,
 				9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */,
 			);
 			path = Models;
@@ -221,9 +221,6 @@
 			children = (
 				EC47BE4C4D1D906E1690A590 /* BezelOverlayCompositor.swift */,
 				F55F56B2D937CABAD03CED25 /* BezelOverlayInstruction.swift */,
-				CB67A0A276935D8686D0A61E /* DeviceMatcher.swift */,
-				1B182D82C51C36235B3EF967 /* FrameCompositor.swift */,
-				3FCF702D21C712B52ED2729D /* ScreenRegionDetector.swift */,
 				2F90FD3B82D2917F552AE902 /* VideoFrameCompositor.swift */,
 			);
 			path = Services;
@@ -238,6 +235,7 @@
 			buildPhases = (
 				52A90B6986635FEB289186DE /* Sources */,
 				8DD8454DE5DA3E95A5B2BE02 /* Resources */,
+				76C6C910E132D1F2D97DF425 /* Frameworks */,
 				77ACC1D5DF877F5C15B9D003 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -247,6 +245,7 @@
 			);
 			name = "Bezelbub-iOS";
 			packageProductDependencies = (
+				0DFF7F6195676F3DA6A03463 /* BezelbubKit */,
 			);
 			productName = "Bezelbub-iOS";
 			productReference = 5071F363F33E5DBE583B3D51 /* Bezelbub-iOS.app */;
@@ -258,6 +257,7 @@
 			buildPhases = (
 				3CD95971DC8148C6BAB932B1 /* Sources */,
 				97E64886B8229ECF45B68F27 /* Resources */,
+				1378B519B496F4A4D4DE9544 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -265,6 +265,7 @@
 			);
 			name = Bezelbub;
 			packageProductDependencies = (
+				DF4011992283D7AA50B18FE6 /* BezelbubKit */,
 			);
 			productName = Bezelbub;
 			productReference = 372E1FDDB68E56A28177388D /* Bezelbub.app */;
@@ -275,7 +276,7 @@
 			buildConfigurationList = 7498E97742B2361E67DFB573 /* Build configuration list for PBXNativeTarget "BezelbubShareExtension" */;
 			buildPhases = (
 				24631C2E0F238D12698B66DF /* Sources */,
-				008F0AB55F23CEB547D3A680 /* Resources */,
+				5C46B05BC79276BEC104D90D /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -283,6 +284,7 @@
 			);
 			name = BezelbubShareExtension;
 			packageProductDependencies = (
+				F869ABEB4CD842BCA513553B /* BezelbubKit */,
 			);
 			productName = BezelbubShareExtension;
 			productReference = A18F927CC62EE90481CDA011 /* BezelbubShareExtension.appex */;
@@ -321,6 +323,9 @@
 			);
 			mainGroup = 1E7DBD0C525009EBC1E19A94;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				71DD8B19D64C90A795ABE21D /* XCLocalSwiftPackageReference "BezelbubKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
@@ -333,24 +338,11 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		008F0AB55F23CEB547D3A680 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1A25300357F8B75AD7C32523 /* Bezels in Resources */,
-				2C7B2A89132371DE36F2D267 /* Masks in Resources */,
-				7858A5E0BD3D20EFE488B67C /* screen-regions.json in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8DD8454DE5DA3E95A5B2BE02 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				42AD27688EECAE44C64608E8 /* Assets.xcassets in Resources */,
-				7405FF8189A77D9BA0A95681 /* Bezels in Resources */,
-				12F062B3B736D0AE84650AE3 /* Masks in Resources */,
-				38F05F3486506BFF8FA81AF7 /* screen-regions.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,9 +351,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFA2AA00FCDB2689E26DAF98 /* Assets.xcassets in Resources */,
-				ACEE2F270A6B6F2CF10A0014 /* Bezels in Resources */,
-				DAF3335095B8BA3B48AD48AF /* Masks in Resources */,
-				C526498B7A0243B8A73AA14B /* screen-regions.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,11 +362,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6522B1972F07F6EC59A35E28 /* AppState.swift in Sources */,
-				5BAD7D929AEFB14CBA468B9C /* DeviceDefinition.swift in Sources */,
-				B6F1B828CC7764DD83F93DF4 /* DeviceMatcher.swift in Sources */,
 				6E60987700E17BF7DAD28023 /* ExportSizeModel.swift in Sources */,
-				9150F022E1A21BE53D510F92 /* FrameCompositor.swift in Sources */,
-				ABE72E61C307CAD6DBE2FE0E /* ScreenRegionDetector.swift in Sources */,
 				24D1B0C626E8D70B41C89E4F /* ShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,12 +376,8 @@
 				BB39DFEEAAC549C151BC9F4F /* BezelOverlayInstruction.swift in Sources */,
 				5B509F0B66C92B4D1233B88F /* BezelbubApp.swift in Sources */,
 				ACBF56DDA4EF7390D30C5002 /* ContentView.swift in Sources */,
-				5AD62F2763027E53D4E32ABF /* DeviceDefinition.swift in Sources */,
-				42CC3DEC949F30F8B3ADE0AE /* DeviceMatcher.swift in Sources */,
 				09688EC1A5ACCA02DEDF2E7E /* ExportSizeAccessoryView.swift in Sources */,
 				DE94BB55A11D663DEE3A6738 /* ExportSizeModel.swift in Sources */,
-				327B98799D01DC920A353AD3 /* FrameCompositor.swift in Sources */,
-				464BFF8175BEF395C93EA99F /* ScreenRegionDetector.swift in Sources */,
 				C1F37CDA44236E652B12FD38 /* VideoFrameCompositor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -410,12 +391,8 @@
 				07171232EE0687CE9BE6397D /* BezelOverlayInstruction.swift in Sources */,
 				54160930C7131803E3586866 /* BezelbubApp.swift in Sources */,
 				DF2B9ABD923173B757B22E72 /* ContentView.swift in Sources */,
-				ECCA747FFDAD2E46EC703154 /* DeviceDefinition.swift in Sources */,
-				CCFB62964B756B9E11857D93 /* DeviceMatcher.swift in Sources */,
 				164A972BA74FD6EB832A1C1C /* ExportSizeModel.swift in Sources */,
-				A13BC31C287F514DFD9B7E52 /* FrameCompositor.swift in Sources */,
 				CC23E42770920B7BF62305C7 /* ImageExportSheet.swift in Sources */,
-				84AC81359FD8DA3A11B2BCB3 /* ScreenRegionDetector.swift in Sources */,
 				735FECFD31E7AB9709F0AF5C /* VideoExportSheet.swift in Sources */,
 				E7F5BADE64418652BEBDBBFB /* VideoFrameCompositor.swift in Sources */,
 			);
@@ -739,6 +716,28 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		71DD8B19D64C90A795ABE21D /* XCLocalSwiftPackageReference "BezelbubKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = BezelbubKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0DFF7F6195676F3DA6A03463 /* BezelbubKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BezelbubKit;
+		};
+		DF4011992283D7AA50B18FE6 /* BezelbubKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BezelbubKit;
+		};
+		F869ABEB4CD842BCA513553B /* BezelbubKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BezelbubKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D37BF3BC9B51D25D046D6366 /* Project object */;
 }

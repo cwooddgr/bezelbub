@@ -1,45 +1,45 @@
 import Foundation
 import CoreGraphics
 
-struct DeviceColor: Identifiable, Hashable {
-    let id: String
-    let displayName: String
-    let fileComponent: String
+public struct DeviceColor: Identifiable, Hashable {
+    public let id: String
+    public let displayName: String
+    public let fileComponent: String
 
-    init(_ name: String, file: String? = nil) {
+    public init(_ name: String, file: String? = nil) {
         self.id = name
         self.displayName = name
         self.fileComponent = file ?? name
     }
 }
 
-struct DeviceDefinition: Identifiable {
-    let id: String
-    let displayName: String
-    let colors: [DeviceColor]
-    let defaultColorID: String
-    var screenRegion: CGRect?
+public struct DeviceDefinition: Identifiable {
+    public let id: String
+    public let displayName: String
+    public let colors: [DeviceColor]
+    public let defaultColorID: String
+    public var screenRegion: CGRect?
     /// When true, the device has special screenshot handling: variable-resolution
     /// inputs are upscaled to match the bezel's screen region and matched by aspect
     /// ratio (e.g. Apple TV accepts both 1080p and 4K). Implies no portrait bezel.
-    var landscapeOnly: Bool = false
+    public var landscapeOnly: Bool = false
     /// Whether a portrait bezel PNG exists for this device. Macs/iMac ship landscape-only
     /// bezels but are otherwise "normal" (pixel-matched, no screenshot rescaling).
-    var hasPortraitBezel: Bool = true
+    public var hasPortraitBezel: Bool = true
 
-    var defaultColor: DeviceColor {
+    public var defaultColor: DeviceColor {
         colors.first { $0.id == defaultColorID } ?? colors[0]
     }
 
-    func bezelFileName(color: DeviceColor, landscape: Bool) -> String {
+    public func bezelFileName(color: DeviceColor, landscape: Bool) -> String {
         let slug = color.fileComponent.lowercased().replacingOccurrences(of: " ", with: "")
         let useLandscape = landscape || !hasPortraitBezel
         return "\(id)-\(slug)-\(useLandscape ? "l" : "p").png"
     }
 }
 
-enum DeviceCatalog {
-    static let allDevices: [DeviceDefinition] = [
+public enum DeviceCatalog {
+    public static let allDevices: [DeviceDefinition] = [
         // MARK: - iPhone 14 family
         DeviceDefinition(
             id: "iphone14",
@@ -441,4 +441,11 @@ enum DeviceCatalog {
             hasPortraitBezel: false
         ),
     ]
+
+    /// The catalog with each device's `screenRegion` populated from the bundled
+    /// regions map. Callers should use this for matching and compositing —
+    /// `allDevices` alone has `nil` screen regions until hydrated.
+    public static func hydrated() -> [DeviceDefinition] {
+        ScreenRegionDetector.detectAll(devices: allDevices)
+    }
 }

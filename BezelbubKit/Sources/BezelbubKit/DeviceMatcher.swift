@@ -1,12 +1,12 @@
 import CoreGraphics
 
-enum DeviceMatcher {
-    struct Match {
-        let device: DeviceDefinition
-        let isLandscape: Bool
+public enum DeviceMatcher {
+    public struct Match {
+        public let device: DeviceDefinition
+        public let isLandscape: Bool
     }
 
-    static func match(screenshotWidth: Int, screenshotHeight: Int, devices: [DeviceDefinition]) -> [Match] {
+    public static func match(screenshotWidth: Int, screenshotHeight: Int, devices: [DeviceDefinition]) -> [Match] {
         let portraitW = min(screenshotWidth, screenshotHeight)
         let portraitH = max(screenshotWidth, screenshotHeight)
         let isLandscape = screenshotWidth > screenshotHeight

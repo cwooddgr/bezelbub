@@ -2,13 +2,13 @@ import CoreGraphics
 import Foundation
 import ImageIO
 
-enum ScreenRegionDetector {
+public enum ScreenRegionDetector {
     // MARK: - Bundled Regions (precomputed by Scripts/generate-screen-regions.swift)
 
-    static let bundledRegions: [String: CGRect] = loadBundledRegions()
+    public static let bundledRegions: [String: CGRect] = loadBundledRegions()
 
     private static func loadBundledRegions() -> [String: CGRect] {
-        guard let url = Bundle.main.url(forResource: "screen-regions", withExtension: "json"),
+        guard let url = Bundle.module.url(forResource: "screen-regions", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let dict = try? JSONDecoder().decode([String: CodableRect].self, from: data)
         else {
@@ -20,7 +20,7 @@ enum ScreenRegionDetector {
 
     /// Look up a precomputed screen region by bezel filename.
     /// Falls back to runtime flood-fill if not found (should not happen with up-to-date JSON).
-    static func screenRegion(forBezelFileName fileName: String) -> CGRect? {
+    public static func screenRegion(forBezelFileName fileName: String) -> CGRect? {
         if let region = bundledRegions[fileName] {
             return region
         }
@@ -28,7 +28,7 @@ enum ScreenRegionDetector {
         return detectScreenRegion(bezelFileName: fileName)
     }
 
-    static func detectAll(devices: [DeviceDefinition]) -> [DeviceDefinition] {
+    public static func detectAll(devices: [DeviceDefinition]) -> [DeviceDefinition] {
         var devices = devices
 
         for i in devices.indices {
@@ -44,8 +44,8 @@ enum ScreenRegionDetector {
         return devices
     }
 
-    static func bezelURL(fileName: String) -> URL? {
-        guard let bezelsURL = Bundle.main.url(forResource: "Bezels", withExtension: nil) else {
+    public static func bezelURL(fileName: String) -> URL? {
+        guard let bezelsURL = Bundle.module.url(forResource: "Bezels", withExtension: nil) else {
             return nil
         }
         let url = bezelsURL.appendingPathComponent(fileName)
@@ -129,7 +129,7 @@ enum ScreenRegionDetector {
 
     /// Look up a precomputed screen mask by bezel filename.
     /// Falls back to runtime flood-fill if not found.
-    static func screenMask(forBezelFileName fileName: String) -> CGImage? {
+    public static func screenMask(forBezelFileName fileName: String) -> CGImage? {
         if let mask = bundledMask(forBezelFileName: fileName) {
             return mask
         }
@@ -138,7 +138,7 @@ enum ScreenRegionDetector {
     }
 
     private static func bundledMask(forBezelFileName fileName: String) -> CGImage? {
-        guard let masksURL = Bundle.main.url(forResource: "Masks", withExtension: nil) else {
+        guard let masksURL = Bundle.module.url(forResource: "Masks", withExtension: nil) else {
             return nil
         }
         let url = masksURL.appendingPathComponent(fileName)

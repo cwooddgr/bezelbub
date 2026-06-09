@@ -11,6 +11,10 @@ settings:
   DEVELOPMENT_TEAM: 2CTUXD4C44
   CODE_SIGN_STYLE: Automatic
 
+packages:
+  BezelbubKit:
+    path: BezelbubKit
+
 schemes:
   Bezelbub:
     build:
@@ -29,14 +33,6 @@ targets:
     sources:
       - path: Shared
       - path: macOS
-      - path: Resources/Bezels
-        buildPhase: resources
-        type: folder
-      - path: Resources/Masks
-        buildPhase: resources
-        type: folder
-      - path: Resources/screen-regions.json
-        buildPhase: resources
     settings:
       DEVELOPMENT_TEAM: 2CTUXD4C44
       CODE_SIGN_STYLE: Automatic
@@ -50,6 +46,8 @@ targets:
       CODE_SIGN_ENTITLEMENTS: macOS/Bezelbub.entitlements
       ENABLE_HARDENED_RUNTIME: YES
       INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright \u00a9 2026 DGR Labs, LLC. All rights reserved."
+    dependencies:
+      - package: BezelbubKit
 
   Bezelbub-iOS:
     type: application
@@ -57,14 +55,6 @@ targets:
     sources:
       - path: Shared
       - path: iOS
-      - path: Resources/Bezels
-        buildPhase: resources
-        type: folder
-      - path: Resources/Masks
-        buildPhase: resources
-        type: folder
-      - path: Resources/screen-regions.json
-        buildPhase: resources
     settings:
       DEVELOPMENT_TEAM: 2CTUXD4C44
       CODE_SIGN_STYLE: Automatic
@@ -81,6 +71,7 @@ targets:
       INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
     dependencies:
       - target: BezelbubShareExtension
+      - package: BezelbubKit
 
   BezelbubShareExtension:
     type: app-extension
@@ -92,14 +83,6 @@ targets:
           - "Services/BezelOverlayCompositor.swift"
           - "Services/BezelOverlayInstruction.swift"
       - path: BezelbubShareExtension
-      - path: Resources/Bezels
-        buildPhase: resources
-        type: folder
-      - path: Resources/Masks
-        buildPhase: resources
-        type: folder
-      - path: Resources/screen-regions.json
-        buildPhase: resources
     settings:
       DEVELOPMENT_TEAM: 2CTUXD4C44
       CODE_SIGN_STYLE: Automatic
@@ -111,3 +94,5 @@ targets:
       CODE_SIGN_ENTITLEMENTS: BezelbubShareExtension/BezelbubShareExtension.entitlements
       SKIP_INSTALL: YES
       OTHER_SWIFT_FLAGS: "-DSHARE_EXTENSION"
+    dependencies:
+      - package: BezelbubKit

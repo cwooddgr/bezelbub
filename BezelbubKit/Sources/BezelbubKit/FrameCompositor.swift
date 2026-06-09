@@ -3,8 +3,8 @@ import Foundation
 import ImageIO
 import UniformTypeIdentifiers
 
-enum FrameCompositor {
-    static func composite(
+public enum FrameCompositor {
+    public static func composite(
         screenshot: CGImage,
         device: DeviceDefinition,
         color: DeviceColor,
@@ -123,7 +123,7 @@ enum FrameCompositor {
         return ctx.makeImage()
     }
 
-    static func resize(image: CGImage, to size: CGSize) -> CGImage? {
+    public static func resize(image: CGImage, to size: CGSize) -> CGImage? {
         let width = Int(size.width)
         let height = Int(size.height)
         guard width > 0, height > 0,
@@ -144,7 +144,7 @@ enum FrameCompositor {
         return ctx.makeImage()
     }
 
-    static func savePNG(image: CGImage, to url: URL) -> Bool {
+    public static func savePNG(image: CGImage, to url: URL) -> Bool {
         guard let dest = CGImageDestinationCreateWithURL(url as CFURL, UTType.png.identifier as CFString, 1, nil) else {
             return false
         }
@@ -181,7 +181,7 @@ enum FrameCompositor {
     /// a MacBook, iPad, and iPhone in landscape, bottom-aligned and sized to their
     /// physical proportions, each overlapping the previous. Returns a single CGImage
     /// (wrapped in an array to match the existing call sites).
-    static func generateSampleMockups(devices: [DeviceDefinition]) -> [CGImage] {
+    public static func generateSampleMockups(devices: [DeviceDefinition]) -> [CGImage] {
         struct Spec {
             let id: String
             let colors: [CGColor]

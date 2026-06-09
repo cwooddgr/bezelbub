@@ -1,9 +1,9 @@
 #!/usr/bin/env swift
 
 // generate-screen-regions.swift
-// Flood-fills all bezel PNGs in Resources/Bezels/ to detect screen regions
-// and screen masks. Writes regions to Resources/screen-regions.json and
-// grayscale mask PNGs to Resources/Masks/.
+// Flood-fills all bezel PNGs in BezelbubKit/Sources/BezelbubKit/Resources/Bezels/
+// to detect screen regions and screen masks. Writes regions to
+// .../Resources/screen-regions.json and grayscale mask PNGs to .../Resources/Masks/.
 //
 // Usage:
 //   swift Scripts/generate-screen-regions.swift           # incremental
@@ -17,9 +17,12 @@ import ImageIO
 
 let scriptDir = URL(fileURLWithPath: #file).deletingLastPathComponent()
 let projectDir = scriptDir.deletingLastPathComponent()
-let bezelsDir = projectDir.appendingPathComponent("Resources/Bezels")
-let masksDir = projectDir.appendingPathComponent("Resources/Masks")
-let outputPath = projectDir.appendingPathComponent("Resources/screen-regions.json")
+// Resources live inside the BezelbubKit Swift package and are served to all
+// targets (apps, share extension, CLI) via Bundle.module.
+let resourcesDir = projectDir.appendingPathComponent("BezelbubKit/Sources/BezelbubKit/Resources")
+let bezelsDir = resourcesDir.appendingPathComponent("Bezels")
+let masksDir = resourcesDir.appendingPathComponent("Masks")
+let outputPath = resourcesDir.appendingPathComponent("screen-regions.json")
 
 let forceRegenerate = CommandLine.arguments.contains("--force")
 
