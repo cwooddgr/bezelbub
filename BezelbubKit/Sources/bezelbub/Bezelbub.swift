@@ -32,7 +32,7 @@ struct Bezelbub: ParsableCommand {
           6   output could not be written
           64  malformed arguments (standard EX_USAGE)
         """,
-        version: "1.1.0",
+        version: "1.1.1",
         subcommands: [Frame.self, Devices.self],
         defaultSubcommand: Frame.self
     )
