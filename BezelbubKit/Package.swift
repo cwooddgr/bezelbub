@@ -9,6 +9,12 @@ let package = Package(
     ],
     products: [
         .library(name: "BezelbubKit", targets: ["BezelbubKit"]),
+        .executable(name: "bezelbub", targets: ["bezelbub"]),
+    ],
+    dependencies: [
+        // Only the `bezelbub` CLI uses this; it is not linked into the
+        // library, so the apps never pull ArgumentParser into their binary.
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
     ],
     targets: [
         .target(
@@ -21,6 +27,16 @@ let package = Package(
                 .copy("Resources/Bezels"),
                 .copy("Resources/Masks"),
                 .copy("Resources/screen-regions.json"),
+            ],
+            swiftSettings: [
+                .swiftLanguageMode(.v5),
+            ]
+        ),
+        .executableTarget(
+            name: "bezelbub",
+            dependencies: [
+                "BezelbubKit",
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ],
             swiftSettings: [
                 .swiftLanguageMode(.v5),
