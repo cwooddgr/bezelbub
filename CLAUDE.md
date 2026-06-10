@@ -7,14 +7,14 @@ The device-framing engine lives in a UI-free Swift package (`BezelbubKit`) so it
 ## Project Structure
 
 - `BezelbubKit/` — **UI-free engine** as a local SwiftPM package (the single source of truth for framing logic and bezel assets)
-  - `Sources/BezelbubKit/` — `FrameCompositor` (the pure screenshot→framed-image transform, Core Graphics), `DeviceMatcher`, `DeviceDefinition`/`DeviceCatalog`, `ScreenRegionDetector`. No SwiftUI, no app state.
+  - `Sources/BezelbubKit/` — `FrameCompositor` (the pure screenshot→framed-image transform, Core Graphics), `DeviceMatcher`, `DeviceDefinition`/`DeviceCatalog`, `ScreenRegionDetector`. No SwiftUI, no app state, no AVFoundation.
   - `Sources/BezelbubKit/Resources/` — `Bezels/`, `Masks/`, `screen-regions.json`, served to every consumer via `Bundle.module`
+  - `Sources/BezelbubVideoKit/` — video framing as a **separate library product** (`VideoFrameCompositor`, `BezelOverlayCompositor`, `BezelOverlayInstruction`; AVFoundation/CoreImage) so still-image consumers like the share extension don't link the video pipeline
   - `Sources/bezelbub/` — the `bezelbub` CLI (swift-argument-parser); `frame` and `devices` subcommands
-  - `Tests/BezelbubKitTests/` — engine round-trip tests
-- `Shared/` — Cross-platform **app** code (compiled into the app targets; imports `BezelbubKit`)
-  - `AppState.swift` — Application state (uses `#if os()` for platform-specific bits)
+  - `Tests/BezelbubKitTests/` — engine round-trip tests (image + video)
+- `Shared/` — Cross-platform **app** code (compiled into the app targets; imports `BezelbubKit` + `BezelbubVideoKit`)
+  - `AppState.swift` — Application state (uses `#if os()` for platform-specific bits; the share extension compiles it with `-DSHARE_EXTENSION`, which guards out the video/`BezelbubVideoKit` parts)
   - `Models/` — App-layer models (`ExportSizeModel`)
-  - `Services/` — App-layer services (`VideoFrameCompositor`, `BezelOverlayCompositor`, `BezelOverlayInstruction`)
 - `macOS/` — macOS-specific code
   - `BezelbubApp.swift` — macOS app entry point
   - `Views/` — macOS SwiftUI views (`ContentView`, `ExportSizeAccessoryView`)
@@ -33,9 +33,11 @@ The device-framing engine lives in a UI-free Swift package (`BezelbubKit`) so it
 
 The pure transformation `(screenshot, device id, orientation, styling) → framed image` lives in **`BezelbubKit`** and has no dependency on SwiftUI, app state, AVFoundation, or a GUI session — it's Core Graphics bitmap work, so it runs fully offscreen (SSH, launchd, CI). Bezel/mask assets ship inside the package and resolve via `Bundle.module`, so there's one copy regardless of consumer.
 
+Video framing (`(video, device id, orientation, styling) → framed MP4`, audio preserved) lives in the sibling product **`BezelbubVideoKit`** in the same package. It's AVFoundation/CoreImage work: macOS composites via `AVVideoCompositionCoreAnimationTool`, iOS via a custom `AVVideoCompositing` (CALayer alpha doesn't composite correctly on iOS).
+
 Clients:
-- The **macOS / iOS apps** and **share extension** depend on the `BezelbubKit` library product (declared in `project.yml` under `packages:`). `AppState` and the views are adapters over the engine.
-- The **`bezelbub` CLI** (`Sources/bezelbub/`) depends on `BezelbubKit` + swift-argument-parser. swift-argument-parser is a dependency of the CLI target only — it is **not** linked into the apps (verified: absent from the archived app binary), though it does appear in the package's resolved graph.
+- The **macOS / iOS apps** depend on both library products; the **share extension** depends only on `BezelbubKit` (declared in `project.yml` under each target's `dependencies:`). `AppState` and the views are adapters over the engine.
+- The **`bezelbub` CLI** (`Sources/bezelbub/`) depends on `BezelbubKit` + `BezelbubVideoKit` + swift-argument-parser. swift-argument-parser is a dependency of the CLI target only — it is **not** linked into the apps (verified: absent from the archived app binary), though it does appear in the package's resolved graph.
 
 A future MCP server is meant to wrap the CLI (a clean process boundary) or link `BezelbubKit` directly.
 
@@ -63,12 +65,12 @@ swift build --product bezelbub   # just the CLI
 bezelbub devices [--input <path> | --dimensions WxH] [--json]
 bezelbub frame --input <path> [--device <id>] [--color <name>] \
                [--orientation portrait|landscape|auto] [--background <hex>] \
-               [--output <path>] [--json]
+               [--output-size <width|WxH|N%>] [--output <path>] [--json]
 ```
 
-`frame` is the default subcommand (`bezelbub --input shot.png` works). `--device` is optional: omitted, it's auto-detected from the screenshot's pixel size; ambiguous or unmatched sizes fail with candidate/nearest-device lists. `devices --input/--dimensions` answers "which devices fit this screenshot" directly (JSON shape: `{width, height, matches, nearest}`).
+`frame` is the default subcommand (`bezelbub --input shot.png` works). Image inputs (PNG/JPEG/HEIC) write a framed PNG; video inputs (`.mov`/`.mp4`/`.m4v`, routed by extension) write a framed MP4 with audio preserved — video can't be transparent, so `--background` defaults to black there (images default to transparent). `--device` is optional: omitted, it's auto-detected from the input's pixel size; ambiguous or unmatched sizes fail with candidate/nearest-device lists. `--output-size` scales the output preserving the bezel's aspect (a width, an exact `WxH`, or a percentage; limits mirror the app: 16–16384 px image, 16–7680 px video). `devices --input/--dimensions` answers "which devices fit this input" directly (JSON shape: `{width, height, matches, nearest}`).
 
-Agent-friendly: every input is a flag with a default, `--json` gives machine-readable output, errors go to stderr with concrete suggestions (did-you-mean ids via `DeviceCatalog.suggestDevices/suggestColors`, dimension matches) and distinct nonzero exit codes (2 unknown/ambiguous/undetectable device, 3 unknown color, 4 unreadable input, 5 composite failed, 6 write failed; argument-parsing errors use ArgumentParser's EX_USAGE 64). Exit codes are documented in `bezelbub --help`.
+Agent-friendly: every input is a flag with a default, `--json` gives machine-readable output (`kind` says image or video), errors go to stderr with concrete suggestions (did-you-mean ids via `DeviceCatalog.suggestDevices/suggestColors`, dimension matches) and distinct nonzero exit codes (2 unknown/ambiguous/undetectable device, 3 unknown color, 4 unreadable input, 5 composite/export failed, 6 write failed; argument-parsing errors use ArgumentParser's EX_USAGE 64). Exit codes are documented in `bezelbub --help`. Video export progress goes to stderr only when it's a TTY, so piped/agent callers see clean output.
 
 ### Regenerating bezel assets
 

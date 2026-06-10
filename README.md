@@ -31,7 +31,7 @@ A macOS and iOS app that wraps your screenshots and screen recordings in realist
 
 ## Architecture
 
-The device-framing engine lives in **`BezelbubKit`**, a UI-free Swift package (`BezelbubKit/`). It does the pure transformation — screenshot + device id + orientation → framed image — with no SwiftUI, app state, or GUI session, so it runs fully offscreen. The macOS app, the iOS app, the Share Extension, and the `bezelbub` CLI are all thin clients of that package; bezel/mask assets ship inside it and resolve via `Bundle.module`.
+The device-framing engine lives in **`BezelbubKit`**, a UI-free Swift package (`BezelbubKit/`). It does the pure transformation — screenshot + device id + orientation → framed image — with no SwiftUI, app state, or GUI session, so it runs fully offscreen. Video framing lives in a sibling product, **`BezelbubVideoKit`** (AVFoundation-based), so still-image consumers like the Share Extension don't pull in the video pipeline. The macOS app, the iOS app, the Share Extension, and the `bezelbub` CLI are all thin clients of these packages; bezel/mask assets ship inside `BezelbubKit` and resolve via `Bundle.module`.
 
 ## Building
 
@@ -56,7 +56,7 @@ swift test             # engine round-trip tests
 
 ## Headless CLI (`bezelbub`)
 
-`bezelbub` frames screenshots from the command line — no GUI — so other tools and AI agents can use it. Every input is a flag with a sensible default, output is available as JSON, and errors go to stderr with distinct nonzero exit codes *and* concrete suggestions (valid ids, matching devices, nearest screen sizes), so a failed call tells the caller how to fix the next one.
+`bezelbub` frames screenshots and screen recordings from the command line — no GUI — so other tools and AI agents can use it. Every input is a flag with a sensible default, output is available as JSON, and errors go to stderr with distinct nonzero exit codes *and* concrete suggestions (valid ids, matching devices, nearest screen sizes), so a failed call tells the caller how to fix the next one.
 
 Install via [Homebrew](https://brew.sh):
 
@@ -68,21 +68,25 @@ brew install cwooddgr/tap/bezelbub
 # Discover valid device ids, colors, and screen sizes
 bezelbub devices [--json]
 
-# Which devices fit this screenshot?
-bezelbub devices --input shot.png            # or --dimensions 1206x2622
+# Which devices fit this screenshot or recording?
+bezelbub devices --input shot.png            # or demo.mp4, or --dimensions 1206x2622
 
 # Frame a screenshot — the device is auto-detected from its pixel size
 bezelbub frame --input shot.png
+
+# Frame a screen recording (.mov/.mp4/.m4v) — audio is preserved, output is MP4
+bezelbub frame --input demo.mp4
 
 # Or specify everything explicitly
 bezelbub frame --input shot.png --device iphone17pro \
                [--color "Cosmic Orange"] \
                [--orientation portrait|landscape|auto] \
                [--background "#FFFFFF"] \
+               [--output-size 1920|1920x988|50%] \
                [--output framed.png] [--json]
 ```
 
-`frame` is the default subcommand, so `bezelbub --input shot.png` works too. If the screenshot's size matches several devices, the error lists the candidates; if it matches none, the nearest devices by aspect ratio are suggested. `bezelbub --help` documents the exit codes and the full workflow.
+`frame` is the default subcommand, so `bezelbub --input shot.png` works too. If the input's size matches several devices, the error lists the candidates; if it matches none, the nearest devices by aspect ratio are suggested. `--output-size` scales the result while preserving the bezel's aspect ratio (limits match the app: 16,384 px for images, 7,680 px for video). Video output can't be transparent, so `--background` defaults to black there. `bezelbub --help` documents the exit codes and the full workflow.
 
 ## License
 

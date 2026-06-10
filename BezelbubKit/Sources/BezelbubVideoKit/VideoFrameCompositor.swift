@@ -5,10 +5,10 @@ import CoreImage
 import ImageIO
 import QuartzCore
 
-enum VideoFrameCompositor {
+public enum VideoFrameCompositor {
 
     /// Returns the actual pixel dimensions of the video after applying its preferred transform.
-    static func videoDimensions(asset: AVAsset) async throws -> (width: Int, height: Int) {
+    public static func videoDimensions(asset: AVAsset) async throws -> (width: Int, height: Int) {
         guard let track = try await asset.loadTracks(withMediaType: .video).first else {
             throw VideoExportError.noVideoTrack
         }
@@ -20,7 +20,7 @@ enum VideoFrameCompositor {
     }
 
     /// Extracts the first frame of the video as a CGImage for preview.
-    static func firstFrame(asset: AVAsset) async throws -> CGImage {
+    public static func firstFrame(asset: AVAsset) async throws -> CGImage {
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true
         generator.requestedTimeToleranceBefore = .zero
@@ -31,7 +31,7 @@ enum VideoFrameCompositor {
     }
 
     /// Rotates a CGImage by the given number of degrees (must be a multiple of 90).
-    static func rotateImage(_ image: CGImage, byDegrees degrees: Int) -> CGImage? {
+    public static func rotateImage(_ image: CGImage, byDegrees degrees: Int) -> CGImage? {
         let radians = CGFloat(degrees) * .pi / 180.0
         let swapped = degrees == 90 || degrees == 270
         let newWidth = swapped ? image.height : image.width
@@ -54,7 +54,7 @@ enum VideoFrameCompositor {
     }
 
     /// Exports the video with the device bezel overlaid, preserving audio.
-    static func export(
+    public static func export(
         asset: AVAsset,
         device: DeviceDefinition,
         color: DeviceColor,
@@ -370,7 +370,7 @@ enum VideoFrameCompositor {
         }
     }
 
-    enum VideoExportError: LocalizedError {
+    public enum VideoExportError: LocalizedError {
         case noVideoTrack
         case bezelNotFound
         case screenRegionNotFound
@@ -379,7 +379,7 @@ enum VideoFrameCompositor {
         case exportFailed
         case exportCancelled
 
-        var errorDescription: String? {
+        public var errorDescription: String? {
             switch self {
             case .noVideoTrack: "No video track found in file."
             case .bezelNotFound: "Could not load device bezel image."

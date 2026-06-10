@@ -9,6 +9,9 @@ let package = Package(
     ],
     products: [
         .library(name: "BezelbubKit", targets: ["BezelbubKit"]),
+        // Video framing lives in its own product so consumers that only frame
+        // stills (e.g. the share extension) don't pull in AVFoundation code.
+        .library(name: "BezelbubVideoKit", targets: ["BezelbubVideoKit"]),
         .executable(name: "bezelbub", targets: ["bezelbub"]),
     ],
     dependencies: [
@@ -32,10 +35,18 @@ let package = Package(
                 .swiftLanguageMode(.v5),
             ]
         ),
+        .target(
+            name: "BezelbubVideoKit",
+            dependencies: ["BezelbubKit"],
+            swiftSettings: [
+                .swiftLanguageMode(.v5),
+            ]
+        ),
         .executableTarget(
             name: "bezelbub",
             dependencies: [
                 "BezelbubKit",
+                "BezelbubVideoKit",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ],
             swiftSettings: [
@@ -44,7 +55,7 @@ let package = Package(
         ),
         .testTarget(
             name: "BezelbubKitTests",
-            dependencies: ["BezelbubKit"],
+            dependencies: ["BezelbubKit", "BezelbubVideoKit"],
             swiftSettings: [
                 .swiftLanguageMode(.v5),
             ]

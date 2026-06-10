@@ -48,6 +48,9 @@ targets:
       INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright \u00a9 2026 DGR Labs, LLC. All rights reserved."
     dependencies:
       - package: BezelbubKit
+        product: BezelbubKit
+      - package: BezelbubKit
+        product: BezelbubVideoKit
 
   Bezelbub-iOS:
     type: application
@@ -72,16 +75,15 @@ targets:
     dependencies:
       - target: BezelbubShareExtension
       - package: BezelbubKit
+        product: BezelbubKit
+      - package: BezelbubKit
+        product: BezelbubVideoKit
 
   BezelbubShareExtension:
     type: app-extension
     platform: iOS
     sources:
       - path: Shared
-        excludes:
-          - "Services/VideoFrameCompositor.swift"
-          - "Services/BezelOverlayCompositor.swift"
-          - "Services/BezelOverlayInstruction.swift"
       - path: BezelbubShareExtension
     settings:
       DEVELOPMENT_TEAM: 2CTUXD4C44

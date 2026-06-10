@@ -2,16 +2,17 @@ import ArgumentParser
 import BezelbubKit
 import Foundation
 
-struct Devices: ParsableCommand {
+struct Devices: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "devices",
-        abstract: "List device ids, colors, and screen sizes; optionally filter to a screenshot's matches.",
+        abstract: "List device ids, colors, and screen sizes; optionally filter to an input's matches.",
         discussion: """
         Examples:
           bezelbub devices                          # full catalog, human-readable
           bezelbub devices --json                   # full catalog, machine-readable
           bezelbub devices --input shot.png         # which devices fit this screenshot?
-          bezelbub devices --dimensions 1206x2622   # same, without an image on disk
+          bezelbub devices --input demo.mp4         # which devices fit this recording?
+          bezelbub devices --dimensions 1206x2622   # same, without a file on disk
 
         When filtering, iPhones/iPads match when their screen pixel size equals \
         the query (±1px); display devices (Macs, iMac, Apple TV) are captured at \
@@ -23,7 +24,7 @@ struct Devices: ParsableCommand {
         """
     )
 
-    @Option(help: "Filter to devices whose screen matches this screenshot's pixel size.")
+    @Option(help: "Filter to devices whose screen matches this screenshot's or video's pixel size.")
     var input: String?
 
     @Option(help: "Filter to devices matching a pixel size like 1206x2622 (width x height).")
@@ -38,10 +39,10 @@ struct Devices: ParsableCommand {
         }
     }
 
-    func run() throws {
+    func run() async throws {
         let devices = DeviceCatalog.hydrated()
 
-        if let size = try querySize() {
+        if let size = try await querySize() {
             try listMatches(for: size, in: devices)
             return
         }
@@ -66,8 +67,12 @@ struct Devices: ParsableCommand {
 
     /// The pixel size to filter by, from `--input` or `--dimensions`; nil when
     /// neither flag is set (full listing).
-    private func querySize() throws -> (width: Int, height: Int)? {
+    private func querySize() async throws -> (width: Int, height: Int)? {
         if let input {
+            if case .video = InputKind(path: input) {
+                let (_, width, height) = try await loadInputVideo(atPath: input)
+                return (width, height)
+            }
             let image = try loadInputImage(atPath: input)
             return (image.width, image.height)
         }

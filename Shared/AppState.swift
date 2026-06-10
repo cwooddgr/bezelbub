@@ -4,6 +4,7 @@ import CoreGraphics
 import ImageIO
 #if !SHARE_EXTENSION
 import AVFoundation
+import BezelbubVideoKit
 #endif
 import UniformTypeIdentifiers
 
