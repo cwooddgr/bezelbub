@@ -1,0 +1,70 @@
+{
+  "manifest_version": "0.3",
+  "name": "bezelbub-mcp",
+  "display_name": "Bezelbub",
+  "version": "0.1.0",
+  "description": "Frame screenshots and screen recordings in Apple device bezels (iPhone, iPad, Mac, iMac, Apple TV mockups).",
+  "long_description": "Bezelbub composites realistic Apple device bezels onto screenshots and screen recordings — device mockups for App Store pages, marketing sites, and demo videos.\n\nTools: frame a screenshot as a framed PNG, frame a screen recording as a framed MP4 (or a transparent HEVC-with-alpha .mov, with an optional VP9/WebM copy for Chrome/Firefox), and list/match the device catalog (38 devices: iPhone 14–17 families, iPads, MacBooks, iMac, Apple TV).\n\nRequires the bezelbub CLI on this Mac: `brew install cwooddgr/tap/bezelbub`. macOS only — the engine is a macOS-native binary.",
+  "author": {
+    "name": "DGR Labs",
+    "url": "https://dgrlabs.co"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cwooddgr/bezelbub.git"
+  },
+  "homepage": "https://dgrlabs.co",
+  "keywords": [
+    "bezel",
+    "device mockup",
+    "device frame",
+    "screenshot",
+    "screen recording",
+    "iphone",
+    "ipad",
+    "mac",
+    "app store",
+    "transparent video",
+    "hevc alpha"
+  ],
+  "license": "MIT",
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/index.js"],
+      "env": {
+        "BEZELBUB_CLI_PATH": "${user_config.bezelbub_cli_path}"
+      }
+    }
+  },
+  "user_config": {
+    "bezelbub_cli_path": {
+      "type": "file",
+      "title": "bezelbub CLI path",
+      "description": "Path to the bezelbub binary. Leave blank if it is installed via Homebrew (brew install cwooddgr/tap/bezelbub) — the server finds it in /opt/homebrew/bin or /usr/local/bin automatically.",
+      "required": false
+    }
+  },
+  "tools": [
+    {
+      "name": "frame_image",
+      "description": "Frame a screenshot in an Apple device bezel (device mockup); writes a framed PNG."
+    },
+    {
+      "name": "frame_video",
+      "description": "Frame a screen recording in a device bezel; framed MP4, or transparent HEVC-alpha .mov with optional WebM copy."
+    },
+    {
+      "name": "list_devices",
+      "description": "List available device bezels, or match a screenshot/recording/pixel size to devices."
+    }
+  ],
+  "compatibility": {
+    "platforms": ["darwin"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}

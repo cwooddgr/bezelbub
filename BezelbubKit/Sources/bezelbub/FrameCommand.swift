@@ -17,7 +17,8 @@ struct Frame: AsyncParsableCommand {
         HEVC-with-alpha in a QuickTime .mov instead — transparent video plays \
         in Safari and Apple frameworks only; add --webm (requires ffmpeg on \
         PATH) to also write a VP9/WebM copy for Chrome and Firefox, or convert \
-        manually: ffmpeg -i framed.mov -c:v libvpx-vp9 -pix_fmt yuva420p out.webm
+        manually with ffmpeg 8+ (older ffmpeg silently decodes HEVC alpha as \
+        opaque): ffmpeg -i framed.mov -c:v libvpx-vp9 -pix_fmt yuva420p out.webm
 
         If --device is omitted, the device is auto-detected from the input's \
         pixel dimensions. Detection succeeds when exactly one device's screen \

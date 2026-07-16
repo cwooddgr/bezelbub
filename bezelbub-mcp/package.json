@@ -1,0 +1,62 @@
+{
+  "name": "@dgrlabs/bezelbub-mcp",
+  "version": "0.1.0",
+  "mcpName": "io.github.cwooddgr/bezelbub-mcp",
+  "description": "MCP server for Bezelbub: frame screenshots and screen recordings in Apple device bezels (iPhone, iPad, Mac, iMac, Apple TV device mockups), including transparent HEVC-alpha video export. macOS only.",
+  "type": "module",
+  "bin": {
+    "bezelbub-mcp": "dist/index.js"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "manifest.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "test": "npm run build && node test/e2e.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "os": [
+    "darwin"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "bezel",
+    "device-mockup",
+    "device-frame",
+    "screenshot",
+    "screen-recording",
+    "iphone",
+    "ipad",
+    "mac",
+    "app-store",
+    "hevc-alpha",
+    "transparent-video",
+    "macos"
+  ],
+  "author": {
+    "name": "DGR Labs",
+    "url": "https://dgrlabs.co"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cwooddgr/bezelbub.git",
+    "directory": "bezelbub-mcp"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "typescript": "^7.0.2"
+  }
+}
