@@ -15,10 +15,12 @@
 		42AD27688EECAE44C64608E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39BBDA3AB8A423E4620B0461 /* Assets.xcassets */; };
 		54160930C7131803E3586866 /* BezelbubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3944F8B78A9E2B6BCC67E60B /* BezelbubApp.swift */; };
 		5B509F0B66C92B4D1233B88F /* BezelbubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3306004E9B006EE26A720505 /* BezelbubApp.swift */; };
+		5FED1F0177BDBCF3D99BDA84 /* CheckerboardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0737C7D542818425B50F0414 /* CheckerboardBackground.swift */; };
 		6522B1972F07F6EC59A35E28 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E2B35ED96C5D90F85408D0 /* AppState.swift */; };
 		6E60987700E17BF7DAD28023 /* ExportSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */; };
 		71BA0614BC666C48D78ACA5B /* BezelbubVideoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 79666C7D110A4DC1E08530C1 /* BezelbubVideoKit */; };
 		735FECFD31E7AB9709F0AF5C /* VideoExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3B239CEFBB092ACE6B17D3 /* VideoExportSheet.swift */; };
+		7DE95DDA08D308AADB7CB90E /* CheckerboardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0737C7D542818425B50F0414 /* CheckerboardBackground.swift */; };
 		8812193B5E3CC3F606DAFE75 /* BezelbubShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A18F927CC62EE90481CDA011 /* BezelbubShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		94257632D0E3A621D1FDD633 /* BezelbubKit in Frameworks */ = {isa = PBXBuildFile; productRef = F869ABEB4CD842BCA513553B /* BezelbubKit */; };
 		98DB363B057E388C27E90F3E /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E2B35ED96C5D90F85408D0 /* AppState.swift */; };
@@ -26,6 +28,7 @@
 		B6F61BF45C6614B3DE4B6296 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E2B35ED96C5D90F85408D0 /* AppState.swift */; };
 		CC23E42770920B7BF62305C7 /* ImageExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577CB4BCE1492EC29A986CD8 /* ImageExportSheet.swift */; };
 		CFA2AA00FCDB2689E26DAF98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D2364C0610086B4A6FF2F50 /* Assets.xcassets */; };
+		D261E63B3DA5C80B32D0D0EF /* CheckerboardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0737C7D542818425B50F0414 /* CheckerboardBackground.swift */; };
 		D658F7644F5C341D85863DDE /* BezelbubKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0DFF7F6195676F3DA6A03463 /* BezelbubKit */; };
 		DE94BB55A11D663DEE3A6738 /* ExportSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A4722D1855D5F971FE124 /* ExportSizeModel.swift */; };
 		DF2B9ABD923173B757B22E72 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61202F6ADEFB3BDEB52800B6 /* ContentView.swift */; };
@@ -56,6 +59,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0737C7D542818425B50F0414 /* CheckerboardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckerboardBackground.swift; sourceTree = "<group>"; };
 		1A8016D8E20AEC37FAE032A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1DCD2162C54740DCDE3267A7 /* ExportSizeAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSizeAccessoryView.swift; sourceTree = "<group>"; };
 		24E2B35ED96C5D90F85408D0 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
@@ -164,6 +168,7 @@
 			children = (
 				24E2B35ED96C5D90F85408D0 /* AppState.swift */,
 				D14C3246CF68A87E63A89CCC /* Models */,
+				ECFA778B5FDD896794E504DA /* Views */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -208,6 +213,14 @@
 				669FF50DAA1EB1088AEA6A5D /* Views */,
 			);
 			path = iOS;
+			sourceTree = "<group>";
+		};
+		ECFA778B5FDD896794E504DA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0737C7D542818425B50F0414 /* CheckerboardBackground.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,6 +361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6522B1972F07F6EC59A35E28 /* AppState.swift in Sources */,
+				5FED1F0177BDBCF3D99BDA84 /* CheckerboardBackground.swift in Sources */,
 				6E60987700E17BF7DAD28023 /* ExportSizeModel.swift in Sources */,
 				24D1B0C626E8D70B41C89E4F /* ShareViewController.swift in Sources */,
 			);
@@ -359,6 +373,7 @@
 			files = (
 				B6F61BF45C6614B3DE4B6296 /* AppState.swift in Sources */,
 				5B509F0B66C92B4D1233B88F /* BezelbubApp.swift in Sources */,
+				D261E63B3DA5C80B32D0D0EF /* CheckerboardBackground.swift in Sources */,
 				ACBF56DDA4EF7390D30C5002 /* ContentView.swift in Sources */,
 				09688EC1A5ACCA02DEDF2E7E /* ExportSizeAccessoryView.swift in Sources */,
 				DE94BB55A11D663DEE3A6738 /* ExportSizeModel.swift in Sources */,
@@ -371,6 +386,7 @@
 			files = (
 				98DB363B057E388C27E90F3E /* AppState.swift in Sources */,
 				54160930C7131803E3586866 /* BezelbubApp.swift in Sources */,
+				7DE95DDA08D308AADB7CB90E /* CheckerboardBackground.swift in Sources */,
 				DF2B9ABD923173B757B22E72 /* ContentView.swift in Sources */,
 				164A972BA74FD6EB832A1C1C /* ExportSizeModel.swift in Sources */,
 				CC23E42770920B7BF62305C7 /* ImageExportSheet.swift in Sources */,
