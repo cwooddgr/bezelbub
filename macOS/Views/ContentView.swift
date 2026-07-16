@@ -9,6 +9,17 @@ struct ContentView: View {
     @State private var optionKeyDown = false
     @State private var eventMonitor: Any?
     @State private var sampleMockups: [CGImage] = []
+    @State private var exportedVideoURL: URL?
+    @State private var showTransparentExportInfo = false
+    @AppStorage("suppressTransparentExportInfo") private var suppressTransparentExportInfo = false
+
+    /// The exact conversion command offered after a transparent export —
+    /// real paths, ready to paste into a terminal.
+    private var ffmpegCommand: String {
+        guard let url = exportedVideoURL else { return "" }
+        let webm = url.deletingPathExtension().appendingPathExtension("webm")
+        return "ffmpeg -i \"\(url.path)\" -c:v libvpx-vp9 -pix_fmt yuva420p \"\(webm.path)\""
+    }
 
     var body: some View {
         @Bindable var appState = appState
@@ -244,6 +255,32 @@ struct ContentView: View {
                 NSColorPanel.shared.close()
             }
         }
+        .onChange(of: appState.isExporting) { wasExporting, isExporting in
+            if wasExporting && !isExporting && appState.errorMessage == nil
+                && appState.videoBackgroundTransparent
+                && !suppressTransparentExportInfo
+                && exportedVideoURL != nil {
+                showTransparentExportInfo = true
+            }
+        }
+        .alert("Transparent Video Exported", isPresented: $showTransparentExportInfo) {
+            Button("Copy ffmpeg Command") {
+                NSPasteboard.general.clearContents()
+                NSPasteboard.general.setString(ffmpegCommand, forType: .string)
+            }
+            Button("Done") {}
+            Button("Don't Show Again") {
+                suppressTransparentExportInfo = true
+            }
+        } message: {
+            Text(
+                "This video is HEVC with alpha (.mov). Transparency shows in "
+                    + "Safari and Apple apps; Chrome and Firefox need a WebM (VP9) "
+                    + "copy.\n\nConvert it by pasting this into Terminal "
+                    + "(needs ffmpeg 8+, or use the bezelbub CLI's --webm flag):\n\n"
+                    + ffmpegCommand
+            )
+        }
         .frame(minWidth: 400, minHeight: 350)
     }
 
@@ -357,6 +394,7 @@ struct ContentView: View {
         if panel.runModal() == .OK, let url = panel.url {
             _ = delegate
             let size: CGSize? = sizeModel.sizeChanged ? sizeModel.targetSize : nil
+            exportedVideoURL = url
             appState.exportVideo(to: url, size: size)
         }
     }
