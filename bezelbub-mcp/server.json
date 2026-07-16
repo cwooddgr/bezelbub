@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.cwooddgr/bezelbub-mcp",
-  "description": "Frame screenshots and screen recordings in Apple device bezels (device mockups), including transparent HEVC-alpha video export. macOS only.",
+  "description": "Frame screenshots and screen recordings in Apple device bezels (device mockups). macOS only.",
   "repository": {
     "url": "https://github.com/cwooddgr/bezelbub",
     "source": "github"
