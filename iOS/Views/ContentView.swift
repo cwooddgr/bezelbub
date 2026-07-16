@@ -25,6 +25,7 @@ struct ContentView: View {
     @State private var imageSizeModel: ExportSizeModel?
     @State private var exportError: String?
     @State private var showTransparentExportInfo = false
+    @AppStorage("suppressTransparentExportInfo") private var suppressTransparentExportInfo = false
     @State private var localBGColor: Color = .white
     @State private var bgColorDebounce: DispatchWorkItem?
     @State private var sampleMockups: [CGImage] = []
@@ -263,7 +264,7 @@ struct ContentView: View {
                 } else if let url = exportedVideoURL {
                     // Transparent exports get a format explainer first; the
                     // share sheet follows when it's dismissed.
-                    if appState.videoBackgroundTransparent {
+                    if appState.videoBackgroundTransparent && !suppressTransparentExportInfo {
                         showTransparentExportInfo = true
                     } else {
                         shareItem = ShareItem(items: [url])
@@ -273,6 +274,12 @@ struct ContentView: View {
         }
         .alert("Transparent Video Exported", isPresented: $showTransparentExportInfo) {
             Button("Continue") {
+                if let url = exportedVideoURL {
+                    shareItem = ShareItem(items: [url])
+                }
+            }
+            Button("Don't Show Again") {
+                suppressTransparentExportInfo = true
                 if let url = exportedVideoURL {
                     shareItem = ShareItem(items: [url])
                 }
