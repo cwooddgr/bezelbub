@@ -41,6 +41,11 @@ struct ContentView: View {
                         Image(uiImage: uiImage)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
+                            .background {
+                                if appState.isVideoMode && appState.videoBackgroundTransparent {
+                                    CheckerboardBackground()
+                                }
+                            }
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .padding()
                             .overlay(alignment: .bottomLeading) {
