@@ -81,14 +81,16 @@ Omit `--device` and the CLI detects the device from the input's pixel dimensions
 
 `--background transparent` on a video input exports **HEVC with an alpha channel** in a QuickTime `.mov` instead of MP4 — a device-framed screen recording with a fully transparent background, ready to composite over anything. HEVC-with-alpha plays in Safari and Apple frameworks (AVFoundation, AppKit/UIKit) only; Chrome and Firefox don't decode it.
 
-For those browsers, add `--webm` to also write a **VP9/WebM copy that keeps the alpha channel**. The CLI renders a temporary ProRes 4444 master and feeds *that* to `ffmpeg` (which must be on your PATH) — deliberately **not** the HEVC `.mov`, because ffmpeg builds older than 8.0 cannot decode HEVC's alpha layer and silently produce an opaque WebM. (ffmpeg 8+ decodes HEVC alpha correctly, but the ProRes bridge works on any build.) Serve both files and let the browser pick:
+For those browsers, add `--webm` to also write a **VP9/WebM copy that keeps the alpha channel**. The CLI renders a temporary ProRes 4444 master and feeds *that* to `ffmpeg` (which must be on your PATH) — deliberately **not** the HEVC `.mov`, because ffmpeg builds older than 8.0 cannot decode HEVC's alpha layer and silently produce an opaque WebM. (ffmpeg 8+ decodes HEVC alpha correctly, but the ProRes bridge works on any build.) Serve both files, **with the `.mov` listed first**:
 
 ```html
 <video autoplay loop muted playsinline>
-  <source src="demo-framed.webm" type="video/webm" />
   <source src="demo-framed.mov" type="video/quicktime" />
+  <source src="demo-framed.webm" type="video/webm" />
 </video>
 ```
+
+The order matters: Safari can play VP9/WebM but **drops its alpha channel**, so a WebM-first listing renders the transparency as an opaque black background in Safari. Listed `.mov`-first, Safari takes the HEVC-alpha `.mov`, while Chrome and Firefox skip `video/quicktime` (which they can't play) and fall through to the WebM.
 
 An explicit `--output` for a transparent export must end in `.mov`; the WebM lands beside it with a `.webm` extension.
 
