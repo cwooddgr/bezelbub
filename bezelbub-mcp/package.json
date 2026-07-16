@@ -1,5 +1,5 @@
 {
-  "name": "@dgrlabs/bezelbub-mcp",
+  "name": "@dgr_labs/bezelbub-mcp",
   "version": "0.1.0",
   "mcpName": "io.github.cwooddgr/bezelbub-mcp",
   "description": "MCP server for Bezelbub: frame screenshots and screen recordings in Apple device bezels (iPhone, iPad, Mac, iMac, Apple TV device mockups), including transparent HEVC-alpha video export. macOS only.",

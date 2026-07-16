@@ -55,7 +55,7 @@ mcp-publisher publish
   "packages": [
     {
       "registryType": "npm",
-      "identifier": "@dgrlabs/bezelbub-mcp",
+      "identifier": "@dgr_labs/bezelbub-mcp",
       "version": "0.1.0",
       "transport": { "type": "stdio" }
     }

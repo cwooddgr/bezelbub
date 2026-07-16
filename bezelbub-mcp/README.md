@@ -1,4 +1,4 @@
-# @dgrlabs/bezelbub-mcp
+# @dgr_labs/bezelbub-mcp
 
 MCP (Model Context Protocol) server for [Bezelbub](https://dgrlabs.co): frame
 screenshots and screen recordings in realistic Apple device bezels — iPhone,
@@ -34,7 +34,7 @@ with a minimal `PATH`).
 ### Claude Code
 
 ```sh
-claude mcp add bezelbub -- npx -y @dgrlabs/bezelbub-mcp
+claude mcp add bezelbub -- npx -y @dgr_labs/bezelbub-mcp
 ```
 
 ### Claude Desktop
@@ -48,7 +48,7 @@ add:
   "mcpServers": {
     "bezelbub": {
       "command": "npx",
-      "args": ["-y", "@dgrlabs/bezelbub-mcp"]
+      "args": ["-y", "@dgr_labs/bezelbub-mcp"]
     }
   }
 }
