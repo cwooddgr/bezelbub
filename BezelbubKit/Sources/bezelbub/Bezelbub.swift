@@ -37,7 +37,7 @@ struct Bezelbub: AsyncParsableCommand {
           7   --webm conversion failed (ffmpeg missing from PATH or errored)
           64  malformed arguments (standard EX_USAGE)
         """,
-        version: "1.2.0",
+        version: "1.3.0",
         subcommands: [Frame.self, Devices.self],
         defaultSubcommand: Frame.self
     )
