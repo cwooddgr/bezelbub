@@ -28,6 +28,8 @@ enum ExitStatus: Int32 {
     case unreadableInput = 4
     case compositeFailed = 5
     case writeFailed = 6
+    /// `--webm` conversion: ffmpeg missing from PATH, or it exited nonzero.
+    case ffmpegFailed = 7
 }
 
 /// Writes a human-readable message to stderr and returns an `ExitCode` carrying
@@ -212,6 +214,21 @@ func scaleImage(_ image: CGImage, to size: (width: Int, height: Int)) -> CGImage
     return ctx.makeImage()
 }
 
+// MARK: - External tools
+
+/// Finds an executable by walking PATH, mirroring shell lookup. Used to locate
+/// ffmpeg for `--webm` before committing to a long export.
+func findExecutable(_ name: String) -> URL? {
+    guard let path = ProcessInfo.processInfo.environment["PATH"] else { return nil }
+    for directory in path.split(separator: ":") where !directory.isEmpty {
+        let candidate = URL(fileURLWithPath: String(directory)).appendingPathComponent(name)
+        if FileManager.default.isExecutableFile(atPath: candidate.path) {
+            return candidate
+        }
+    }
+    return nil
+}
+
 // MARK: - Suggestion formatting
 
 /// One device per line for error messages and match listings, e.g.
@@ -284,6 +301,10 @@ struct FrameResult: Encodable {
     let output: String
     let width: Int
     let height: Int
+    /// Video only: true when the export is HEVC-with-alpha (.mov).
+    let transparent: Bool?
+    /// Path of the VP9/WebM copy when `--webm` ran.
+    let webm: String?
 }
 
 /// `bezelbub devices --input/--dimensions --json` result envelope: the queried

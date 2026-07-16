@@ -155,10 +155,26 @@ struct ContentView: View {
 
                     if appState.isVideoMode {
                         ColorPicker("Background", selection: $appState.videoBackgroundColor, supportsOpacity: false)
-                            .disabled(appState.isExporting)
+                            .disabled(appState.isExporting || appState.videoBackgroundTransparent)
+                            .opacity(appState.videoBackgroundTransparent ? 0.4 : 1)
                             .onChange(of: appState.videoBackgroundColor) {
                                 appState.recompositeDebounced()
                             }
+
+                        Toggle("Transparent", isOn: $appState.videoBackgroundTransparent)
+                            .disabled(appState.isExporting)
+                            .help(
+                                "Export HEVC with alpha (.mov). Plays in Safari and "
+                                    + "Apple apps; convert to WebM for other browsers."
+                            )
+                            .onChange(of: appState.videoBackgroundTransparent) {
+                                appState.recomposite()
+                                if appState.videoBackgroundTransparent {
+                                    NSColorPanel.shared.close()
+                                }
+                            }
+                            .accessibilityLabel("Transparent Background")
+                            .accessibilityHint("Exports HEVC with alpha as a QuickTime movie")
 
                         Button {
                             appState.rotateVideo(clockwise: !optionKeyDown)
@@ -313,14 +329,21 @@ struct ContentView: View {
 
     private func exportVideo() {
         guard let composited = appState.compositedImage else { return }
+        let transparent = appState.videoBackgroundTransparent
 
         let sizeModel = ExportSizeModel(width: composited.width, height: composited.height, mode: .video)
-        let accessory = NSHostingView(rootView: ExportSizeAccessoryView(model: sizeModel))
+        let accessory = NSHostingView(rootView: ExportSizeAccessoryView(
+            model: sizeModel,
+            footnote: transparent
+                ? "HEVC with alpha (.mov) — plays in Safari and Apple apps;\nconvert to WebM for other browsers."
+                : nil
+        ))
         accessory.frame.size = accessory.fittingSize
 
         let panel = NSSavePanel()
-        panel.allowedContentTypes = [.mpeg4Movie]
-        panel.nameFieldStringValue = (appState.sourceFileName ?? "recording") + "-framed.mp4"
+        panel.allowedContentTypes = [transparent ? .quickTimeMovie : .mpeg4Movie]
+        panel.nameFieldStringValue = (appState.sourceFileName ?? "recording")
+            + "-framed." + (transparent ? "mov" : "mp4")
         panel.directoryURL = appState.sourceDirectoryURL
         panel.accessoryView = accessory
         let delegate = ExportSizeValidator(model: sizeModel)

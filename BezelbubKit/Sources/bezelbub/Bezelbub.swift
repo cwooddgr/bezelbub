@@ -22,7 +22,9 @@ struct Bezelbub: AsyncParsableCommand {
           bezelbub frame --input demo.mp4    # frame a screen recording → MP4
 
         `frame` is the default subcommand, so `bezelbub --input shot.png` works. \
-        Video inputs (.mov/.mp4/.m4v) keep their audio and export as MP4.
+        Video inputs (.mov/.mp4/.m4v) keep their audio and export as MP4 — or \
+        as HEVC-with-alpha .mov with --background transparent (add --webm for \
+        a VP9 copy that plays in non-Apple browsers; needs ffmpeg).
 
         Exit codes:
           0   success
@@ -32,6 +34,7 @@ struct Bezelbub: AsyncParsableCommand {
           4   input image or video unreadable
           5   compositing or video export failed
           6   output could not be written
+          7   --webm conversion failed (ffmpeg missing from PATH or errored)
           64  malformed arguments (standard EX_USAGE)
         """,
         version: "1.2.0",

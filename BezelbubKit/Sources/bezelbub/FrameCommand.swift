@@ -12,8 +12,12 @@ struct Frame: AsyncParsableCommand {
         abstract: "Frame a screenshot or screen recording in a device bezel.",
         discussion: """
         Image inputs (PNG/JPEG/HEIC) write a framed PNG. Video inputs \
-        (.mov/.mp4/.m4v) write a framed MP4, preserving audio; video output \
-        can't be transparent, so --background defaults to black there.
+        (.mov/.mp4/.m4v) write a framed MP4, preserving audio; --background \
+        defaults to black there. Pass --background transparent to export \
+        HEVC-with-alpha in a QuickTime .mov instead — transparent video plays \
+        in Safari and Apple frameworks only; add --webm (requires ffmpeg on \
+        PATH) to also write a VP9/WebM copy for Chrome and Firefox, or convert \
+        manually: ffmpeg -i framed.mov -c:v libvpx-vp9 -pix_fmt yuva420p out.webm
 
         If --device is omitted, the device is auto-detected from the input's \
         pixel dimensions. Detection succeeds when exactly one device's screen \
@@ -25,6 +29,7 @@ struct Frame: AsyncParsableCommand {
           bezelbub frame --input shot.png --device iphone17pro --color "Cosmic Orange"
           bezelbub frame --input shot.png --background "#1D1D1F" --json
           bezelbub frame --input recording.mp4 --output-size 50%
+          bezelbub frame --input recording.mp4 --background transparent --webm
 
         Discover valid device ids, colors, and screen sizes with `bezelbub \
         devices`, or ask which devices fit an input before framing: \
@@ -48,8 +53,10 @@ struct Frame: AsyncParsableCommand {
     var orientation: Orientation = .auto
 
     @Option(help: """
-    Background fill as a hex color (e.g. #FFFFFF or #RRGGBBAA). \
-    Default: transparent for images, black for video.
+    Background fill as a hex color (e.g. #FFFFFF or #RRGGBBAA), or \
+    "transparent". Default: transparent for images, black for video. \
+    Transparent video exports HEVC-with-alpha as .mov (plays in Safari and \
+    Apple apps only).
     """)
     var background: String?
 
@@ -66,8 +73,46 @@ struct Frame: AsyncParsableCommand {
     """)
     var output: String?
 
+    @Flag(help: """
+    Also write a VP9/WebM copy of a transparent video export for Chrome/Firefox \
+    playback. Requires --background transparent and ffmpeg on PATH.
+    """)
+    var webm = false
+
     @Flag(help: "Emit a machine-readable JSON result to stdout instead of a text summary.")
     var json = false
+
+    /// Pure flag-combination checks live here so they fail with ArgumentParser's
+    /// standard usage handling (exit 64) before any file is touched.
+    func validate() throws {
+        let isVideo = InputKind(path: input) == .video
+        let transparent = isTransparentBackground
+
+        if webm {
+            guard isVideo else {
+                throw ValidationError("--webm only applies to video inputs (.mov/.mp4/.m4v).")
+            }
+            guard transparent else {
+                throw ValidationError(
+                    "--webm requires --background transparent (WebM output exists to carry "
+                        + "the alpha channel to non-Apple browsers)."
+                )
+            }
+        }
+
+        if isVideo, transparent, let output {
+            guard URL(fileURLWithPath: output).pathExtension.lowercased() == "mov" else {
+                throw ValidationError(
+                    "Transparent video is HEVC-with-alpha, which requires a QuickTime "
+                        + "container — use a .mov extension for --output (got '\(output)')."
+                )
+            }
+        }
+    }
+
+    private var isTransparentBackground: Bool {
+        background?.lowercased() == "transparent"
+    }
 
     func run() async throws {
         let devices = DeviceCatalog.hydrated()
@@ -97,12 +142,14 @@ struct Frame: AsyncParsableCommand {
         case .auto: isLandscape = device.landscapeOnly || screenshot.width > screenshot.height
         }
 
-        // --- Resolve background (images support transparency, so nil = clear) ---
+        // --- Resolve background (images support transparency, so nil = clear;
+        // the explicit "transparent" keyword is a synonym for the default) ---
         let backgroundColor: CGColor?
-        if let background {
+        if let background, !isTransparentBackground {
             guard let parsed = CGColor.fromHex(background) else {
                 throw fail(
-                    "Invalid --background '\(background)'. Use hex like #RRGGBB or #RRGGBBAA.",
+                    "Invalid --background '\(background)'. Use hex like #RRGGBB, "
+                        + "#RRGGBBAA, or \"transparent\".",
                     code: .usage
                 )
             }
@@ -174,6 +221,20 @@ struct Frame: AsyncParsableCommand {
     // MARK: - Video path
 
     private func runVideo(devices: [DeviceDefinition]) async throws {
+        // --- Locate ffmpeg before anything else so --webm fails fast rather
+        // than after a long export ---
+        var ffmpegURL: URL?
+        if webm {
+            guard let found = findExecutable("ffmpeg") else {
+                throw fail(
+                    "--webm needs ffmpeg, which isn't on your PATH. "
+                        + "Install it (brew install ffmpeg) and re-run.",
+                    code: .ffmpegFailed
+                )
+            }
+            ffmpegURL = found
+        }
+
         let inputURL = URL(fileURLWithPath: input)
         let (asset, videoWidth, videoHeight) = try await loadInputVideo(atPath: input)
 
@@ -189,19 +250,24 @@ struct Frame: AsyncParsableCommand {
         case .auto: isLandscape = device.landscapeOnly || videoWidth > videoHeight
         }
 
-        // --- Resolve background (MP4 has no alpha, so default to opaque black
-        // and flatten any alpha component a hex color carries) ---
-        let backgroundColor: CGColor
-        if let background {
+        // --- Resolve background. "transparent" exports HEVC-with-alpha .mov;
+        // a hex color exports opaque MP4 (no alpha there, so any alpha
+        // component the hex carries is flattened) ---
+        let videoBackground: VideoBackground
+        let transparent = isTransparentBackground
+        if transparent {
+            videoBackground = .transparent
+        } else if let background {
             guard let parsed = CGColor.fromHex(background) else {
                 throw fail(
-                    "Invalid --background '\(background)'. Use hex like #RRGGBB or #RRGGBBAA.",
+                    "Invalid --background '\(background)'. Use hex like #RRGGBB, "
+                        + "#RRGGBBAA, or \"transparent\".",
                     code: .usage
                 )
             }
-            backgroundColor = parsed.copy(alpha: 1) ?? parsed
+            videoBackground = .color(parsed.copy(alpha: 1) ?? parsed)
         } else {
-            backgroundColor = CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 1)
+            videoBackground = .color(CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 1))
         }
 
         // --- Resolve --output-size against the bezel's native pixel size ---
@@ -224,7 +290,7 @@ struct Frame: AsyncParsableCommand {
         } else {
             let base = inputURL.deletingPathExtension().lastPathComponent
             outputURL = inputURL.deletingLastPathComponent()
-                .appendingPathComponent("\(base)-framed.mp4")
+                .appendingPathComponent("\(base)-framed.\(transparent ? "mov" : "mp4")")
         }
         if FileManager.default.fileExists(atPath: outputURL.path) {
             do {
@@ -245,7 +311,7 @@ struct Frame: AsyncParsableCommand {
                 device: device,
                 color: resolvedColor,
                 isLandscape: isLandscape,
-                backgroundColor: backgroundColor,
+                background: videoBackground,
                 outputURL: outputURL,
                 outputSize: exportSize,
                 progressHandler: { progress in
@@ -267,6 +333,49 @@ struct Frame: AsyncParsableCommand {
             FileHandle.standardError.write(Data("\r\u{1B}[K".utf8))
         }
 
+        // --- Optional VP9/WebM copy for non-Apple browsers ---
+        // ffmpeg cannot decode HEVC's alpha layer (it comes back fully opaque),
+        // so the conversion renders a ProRes 4444 master — whose alpha every
+        // decoder understands — and feeds that to ffmpeg instead of the final
+        // HEVC .mov.
+        var webmURL: URL?
+        if let ffmpegURL {
+            let target = outputURL.deletingPathExtension().appendingPathExtension("webm")
+            let master = FileManager.default.temporaryDirectory
+                .appendingPathComponent("bezelbub-webm-master-\(UUID().uuidString).mov")
+            defer { try? FileManager.default.removeItem(at: master) }
+            do {
+                try await VideoFrameCompositor.export(
+                    asset: asset,
+                    device: device,
+                    color: resolvedColor,
+                    isLandscape: isLandscape,
+                    background: .transparent,
+                    outputURL: master,
+                    outputSize: exportSize,
+                    exportPreset: AVAssetExportPresetAppleProRes4444LPCM,
+                    progressHandler: { progress in
+                        guard showProgress else { return }
+                        let percent = Int((progress * 100).rounded())
+                        FileHandle.standardError.write(Data("\rRendering WebM master… \(percent)%".utf8))
+                    }
+                )
+            } catch {
+                if showProgress {
+                    FileHandle.standardError.write(Data("\r\u{1B}[K".utf8))
+                }
+                throw fail(
+                    "WebM master export failed — \(error.localizedDescription)",
+                    code: .compositeFailed
+                )
+            }
+            if showProgress {
+                FileHandle.standardError.write(Data("\r\u{1B}[KConverting to WebM (VP9)…\n".utf8))
+            }
+            try runFFmpeg(at: ffmpegURL, input: master, output: target)
+            webmURL = target
+        }
+
         try report(
             kind: "video",
             device: device,
@@ -277,8 +386,56 @@ struct Frame: AsyncParsableCommand {
             isLandscape: isLandscape,
             outputURL: outputURL,
             outputWidth: exportSize.map { Int($0.width) } ?? native.width,
-            outputHeight: exportSize.map { Int($0.height) } ?? native.height
+            outputHeight: exportSize.map { Int($0.height) } ?? native.height,
+            transparent: transparent,
+            webmURL: webmURL
         )
+
+        // A transparent export without --webm only plays in Safari/Apple apps;
+        // nudge interactive users toward the cross-browser pair.
+        if transparent && !webm && showProgress {
+            let tip = "Tip: transparent video plays in Safari and Apple apps only. "
+                + "Add --webm (needs ffmpeg) for a Chrome/Firefox-compatible copy.\n"
+            FileHandle.standardError.write(Data(tip.utf8))
+        }
+    }
+
+    /// Converts a framed ProRes 4444 master into VP9/WebM, preserving the
+    /// alpha channel (yuva420p). ffmpeg noise is captured and only surfaced
+    /// on failure.
+    private func runFFmpeg(at ffmpegURL: URL, input: URL, output: URL) throws {
+        let process = Process()
+        process.executableURL = ffmpegURL
+        process.arguments = [
+            "-y",
+            "-i", input.path,
+            "-c:v", "libvpx-vp9",
+            "-pix_fmt", "yuva420p",
+            output.path,
+        ]
+        let stderrPipe = Pipe()
+        process.standardOutput = FileHandle.nullDevice
+        process.standardError = stderrPipe
+
+        do {
+            try process.run()
+        } catch {
+            throw fail(
+                "Could not launch ffmpeg at \(ffmpegURL.path): \(error.localizedDescription)",
+                code: .ffmpegFailed
+            )
+        }
+        let stderrData = stderrPipe.fileHandleForReading.readDataToEndOfFile()
+        process.waitUntilExit()
+
+        guard process.terminationStatus == 0 else {
+            let noise = String(decoding: stderrData, as: UTF8.self)
+            let tail = noise.split(separator: "\n").suffix(6).joined(separator: "\n")
+            throw fail(
+                "ffmpeg failed converting to WebM (exit \(process.terminationStatus)):\n\(tail)",
+                code: .ffmpegFailed
+            )
+        }
     }
 
     /// Reads the bezel PNG's pixel size from its metadata (no decode) so
@@ -397,7 +554,9 @@ struct Frame: AsyncParsableCommand {
         isLandscape: Bool,
         outputURL: URL,
         outputWidth: Int,
-        outputHeight: Int
+        outputHeight: Int,
+        transparent: Bool? = nil,
+        webmURL: URL? = nil
     ) throws {
         let orientationName = isLandscape ? "landscape" : "portrait"
         if json {
@@ -408,7 +567,9 @@ struct Frame: AsyncParsableCommand {
                 orientation: orientationName,
                 output: outputURL.path,
                 width: outputWidth,
-                height: outputHeight
+                height: outputHeight,
+                transparent: transparent,
+                webm: webmURL?.path
             )
             print(try JSON.string(result))
         } else {
@@ -422,6 +583,9 @@ struct Frame: AsyncParsableCommand {
                 "Framed \(device.id) (\(color.id), \(orientationName)) → "
                     + "\(outputURL.path) [\(outputWidth)×\(outputHeight)]"
             )
+            if let webmURL {
+                print("WebM (VP9) copy → \(webmURL.path)")
+            }
             if self.color == nil && device.colors.count > 1 {
                 let others = device.colors
                     .filter { $0.id != color.id }

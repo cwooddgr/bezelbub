@@ -54,18 +54,32 @@ public enum VideoFrameCompositor {
     }
 
     /// Exports the video with the device bezel overlaid, preserving audio.
+    ///
+    /// A `.color` background writes an opaque MP4. A `.transparent` background
+    /// writes a QuickTime `.mov` (so `outputURL` should carry a `.mov`
+    /// extension), defaulting to HEVC-with-alpha; a caller-supplied
+    /// `exportPreset` overrides that and MUST be alpha-capable (e.g.
+    /// `AVAssetExportPresetAppleProRes4444LPCM` for a lossless master that
+    /// non-Apple tools like ffmpeg can read the alpha out of — they can't
+    /// decode HEVC alpha).
     public static func export(
         asset: AVAsset,
         device: DeviceDefinition,
         color: DeviceColor,
         isLandscape: Bool,
         extraRotation: Int = 0,
-        backgroundColor: CGColor,
+        background: VideoBackground,
         outputURL: URL,
         outputSize: CGSize? = nil,
         exportPreset: String? = nil,
         progressHandler: @escaping @MainActor @Sendable (Double) -> Void
     ) async throws {
+        let isTransparent: Bool
+        if case .transparent = background {
+            isTransparent = true
+        } else {
+            isTransparent = false
+        }
         // --- Load bezel image ---
         let bezelFileName = device.bezelFileName(color: color, landscape: isLandscape)
         guard let bezelURL = ScreenRegionDetector.bezelURL(fileName: bezelFileName),
@@ -242,112 +256,136 @@ public enum VideoFrameCompositor {
             finalBezelImage = bezelImage
         }
 
-        // --- Platform-specific bezel overlay ---
+        // --- Bezel overlay: custom compositor vs. CALayer animationTool ---
         //
-        // macOS: Use AVVideoCompositionCoreAnimationTool with CALayer hierarchy (works well)
-        // iOS: Use custom AVVideoCompositing because animationTool doesn't properly
-        //      composite CALayer alpha transparency on iOS (black screen bug)
-
+        // iOS always uses the custom AVVideoCompositing because animationTool
+        // doesn't properly composite CALayer alpha transparency there (black
+        // screen bug). macOS uses the CALayer path for opaque exports (long
+        // proven) but the custom compositor for transparent ones — it renders
+        // plain Core Image into BGRA buffers, so its alpha handling is
+        // deterministic on both platforms, while the animationTool path's
+        // alpha behavior is unverified.
         #if os(iOS)
-        // --- iOS: Custom compositor path ---
-        // Load precomputed mask as CIImage
-        let maskCIImage: CIImage?
-        if let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName) {
-            maskCIImage = CIImage(cgImage: screenMask)
-        } else {
-            maskCIImage = nil
-        }
-
-        // Create bezel CIImage (with alpha transparency for screen hole)
-        let bezelCIImage = CIImage(cgImage: finalBezelImage)
-
-        // Create solid-color background at render size
-        let bgComponents = backgroundColor.components ?? [0, 0, 0, 1]
-        let bgCIImage = CIImage(color: CIColor(
-            red: bgComponents.count > 0 ? bgComponents[0] : 0,
-            green: bgComponents.count > 1 ? bgComponents[1] : 0,
-            blue: bgComponents.count > 2 ? bgComponents[2] : 0,
-            alpha: bgComponents.count > 3 ? bgComponents[3] : 1
-        )).cropped(to: CGRect(origin: .zero, size: renderSize))
-
-        let bezelInstruction = BezelOverlayInstruction(
-            timeRange: timeRange,
-            sourceTrackID: compositionVideoTrack.trackID,
-            bezelImage: bezelCIImage,
-            maskImage: maskCIImage,
-            videoTransform: t,
-            backgroundColor: bgCIImage,
-            renderSize: renderSize
-        )
-
-        videoComposition.customVideoCompositorClass = BezelOverlayCompositor.self
-        videoComposition.instructions = [bezelInstruction]
+        let useCustomCompositor = true
         #else
-        // --- macOS: CALayer + animationTool path ---
-        let parentLayer = CALayer()
-        parentLayer.frame = CGRect(origin: .zero, size: renderSize)
-        parentLayer.isGeometryFlipped = true
-
-        let videoLayer = CALayer()
-        videoLayer.frame = CGRect(origin: .zero, size: renderSize)
-
-        // Mask the video layer to the screen hole shape (rounded corners)
-        // so video pixels don't poke out behind the bezel's anti-aliased edges.
-        if let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName),
-           let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
-           let ctx = CGContext(
-               data: nil, width: renderWidth, height: renderHeight,
-               bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
-               bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-           ) {
-            let fullRect = CGRect(origin: .zero, size: renderSize)
-            ctx.interpolationQuality = .high
-            ctx.clip(to: fullRect, mask: screenMask)
-            ctx.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
-            ctx.fill(fullRect)
-            if let alphaMask = ctx.makeImage() {
-                let maskLayer = CALayer()
-                maskLayer.frame = fullRect
-                maskLayer.contents = alphaMask
-                videoLayer.mask = maskLayer
-            }
-        }
-
-        parentLayer.backgroundColor = backgroundColor
-        parentLayer.addSublayer(videoLayer)
-
-        let bezelLayer = CALayer()
-        bezelLayer.frame = CGRect(origin: .zero, size: renderSize)
-        bezelLayer.contents = finalBezelImage
-        parentLayer.addSublayer(bezelLayer)
-
-        videoComposition.animationTool = AVVideoCompositionCoreAnimationTool(
-            postProcessingAsVideoLayer: videoLayer,
-            in: parentLayer
-        )
+        let useCustomCompositor = isTransparent
         #endif
 
-        // --- Export ---
-        let resolvedPreset: String
-        if let exportPreset {
-            resolvedPreset = exportPreset
+        if useCustomCompositor {
+            // --- Custom compositor path ---
+            // Load precomputed mask as CIImage
+            let maskCIImage: CIImage?
+            if let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName) {
+                maskCIImage = CIImage(cgImage: screenMask)
+            } else {
+                maskCIImage = nil
+            }
+
+            // Create bezel CIImage (with alpha transparency for screen hole)
+            let bezelCIImage = CIImage(cgImage: finalBezelImage)
+
+            // Background at render size: clear for transparent exports,
+            // otherwise the requested solid color.
+            let bgCIColor: CIColor
+            switch background {
+            case .transparent:
+                bgCIColor = .clear
+            case .color(let backgroundColor):
+                let bgComponents = backgroundColor.components ?? [0, 0, 0, 1]
+                bgCIColor = CIColor(
+                    red: bgComponents.count > 0 ? bgComponents[0] : 0,
+                    green: bgComponents.count > 1 ? bgComponents[1] : 0,
+                    blue: bgComponents.count > 2 ? bgComponents[2] : 0,
+                    alpha: bgComponents.count > 3 ? bgComponents[3] : 1
+                )
+            }
+            let bgCIImage = CIImage(color: bgCIColor)
+                .cropped(to: CGRect(origin: .zero, size: renderSize))
+
+            let bezelInstruction = BezelOverlayInstruction(
+                timeRange: timeRange,
+                sourceTrackID: compositionVideoTrack.trackID,
+                bezelImage: bezelCIImage,
+                maskImage: maskCIImage,
+                videoTransform: t,
+                backgroundColor: bgCIImage,
+                renderSize: renderSize
+            )
+
+            videoComposition.customVideoCompositorClass = BezelOverlayCompositor.self
+            videoComposition.instructions = [bezelInstruction]
         } else {
-            #if os(macOS)
-            resolvedPreset = AVAssetExportPresetHighestQuality
-            #else
-            resolvedPreset = AVAssetExportPresetHighestQuality
-            #endif
+            // --- CALayer + animationTool path (opaque only) ---
+            let parentLayer = CALayer()
+            parentLayer.frame = CGRect(origin: .zero, size: renderSize)
+            parentLayer.isGeometryFlipped = true
+
+            let videoLayer = CALayer()
+            videoLayer.frame = CGRect(origin: .zero, size: renderSize)
+
+            // Mask the video layer to the screen hole shape (rounded corners)
+            // so video pixels don't poke out behind the bezel's anti-aliased edges.
+            if let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName),
+               let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
+               let ctx = CGContext(
+                   data: nil, width: renderWidth, height: renderHeight,
+                   bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
+                   bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+               ) {
+                let fullRect = CGRect(origin: .zero, size: renderSize)
+                ctx.interpolationQuality = .high
+                ctx.clip(to: fullRect, mask: screenMask)
+                ctx.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
+                ctx.fill(fullRect)
+                if let alphaMask = ctx.makeImage() {
+                    let maskLayer = CALayer()
+                    maskLayer.frame = fullRect
+                    maskLayer.contents = alphaMask
+                    videoLayer.mask = maskLayer
+                }
+            }
+
+            if case .color(let backgroundColor) = background {
+                parentLayer.backgroundColor = backgroundColor
+            }
+            parentLayer.addSublayer(videoLayer)
+
+            let bezelLayer = CALayer()
+            bezelLayer.frame = CGRect(origin: .zero, size: renderSize)
+            bezelLayer.contents = finalBezelImage
+            parentLayer.addSublayer(bezelLayer)
+
+            videoComposition.animationTool = AVVideoCompositionCoreAnimationTool(
+                postProcessingAsVideoLayer: videoLayer,
+                in: parentLayer
+            )
+        }
+
+        // --- Export ---
+        // Transparent output requires an alpha-capable preset in a QuickTime
+        // container (HEVC-with-alpha unless the caller picked another, e.g.
+        // ProRes 4444).
+        let resolvedPreset: String
+        let outputFileType: AVFileType
+        if isTransparent {
+            resolvedPreset = exportPreset ?? AVAssetExportPresetHEVCHighestQualityWithAlpha
+            outputFileType = .mov
+        } else {
+            resolvedPreset = exportPreset ?? AVAssetExportPresetHighestQuality
+            outputFileType = .mp4
         }
         guard let exportSession = AVAssetExportSession(
             asset: composition,
             presetName: resolvedPreset
         ) else {
-            throw VideoExportError.exportSessionFailed
+            throw isTransparent
+                ? VideoExportError.alphaExportUnsupported
+                : VideoExportError.exportSessionFailed
         }
 
         exportSession.videoComposition = videoComposition
         exportSession.outputURL = outputURL
-        exportSession.outputFileType = .mp4
+        exportSession.outputFileType = outputFileType
 
         // Poll progress concurrently while exporting
         let progressTask = Task {
@@ -376,6 +414,7 @@ public enum VideoFrameCompositor {
         case screenRegionNotFound
         case compositionFailed
         case exportSessionFailed
+        case alphaExportUnsupported
         case exportFailed
         case exportCancelled
 
@@ -386,6 +425,7 @@ public enum VideoFrameCompositor {
             case .screenRegionNotFound: "Could not detect screen region for device."
             case .compositionFailed: "Failed to create video composition."
             case .exportSessionFailed: "Failed to create export session."
+            case .alphaExportUnsupported: "This system cannot encode HEVC video with alpha, which transparent video export requires."
             case .exportFailed: "Video export failed."
             case .exportCancelled: "Video export was cancelled."
             }

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct VideoExportSheet: View {
     @Bindable var model: ExportSizeModel
+    var isTransparent = false
     var onExport: () -> Void
     @Environment(\.dismiss) private var dismiss
     @State private var validationAlert: ValidationAlert?
@@ -71,13 +72,21 @@ struct VideoExportSheet: View {
                 } header: {
                     Text("Resolution")
                 } footer: {
-                    HStack {
-                        Text("Original: \(model.originalWidth) \u{00d7} \(model.originalHeight)")
-                        if model.sizeChanged {
-                            Text("·")
-                            Button("Reset") { model.reset() }
-                                .accessibilityLabel("Reset Size")
-                                .accessibilityHint("Resets to original video dimensions")
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack {
+                            Text("Original: \(model.originalWidth) \u{00d7} \(model.originalHeight)")
+                            if model.sizeChanged {
+                                Text("·")
+                                Button("Reset") { model.reset() }
+                                    .accessibilityLabel("Reset Size")
+                                    .accessibilityHint("Resets to original video dimensions")
+                            }
+                        }
+                        if isTransparent {
+                            Text(
+                                "Transparent background exports HEVC with alpha (.mov). "
+                                    + "Plays in Safari and Apple apps; convert to WebM for other browsers."
+                            )
                         }
                     }
                 }

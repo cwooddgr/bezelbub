@@ -236,7 +236,7 @@ struct ContentView: View {
             ShareSheet(items: item.items)
         }
         .sheet(item: $exportSizeModel) { model in
-            VideoExportSheet(model: model) {
+            VideoExportSheet(model: model, isTransparent: appState.videoBackgroundTransparent) {
                 performVideoExport(model: model)
             }
         }
@@ -326,7 +326,8 @@ struct ContentView: View {
 
                     if appState.isVideoMode {
                         ColorPicker("BG", selection: $localBGColor, supportsOpacity: false)
-                            .disabled(appState.isExporting)
+                            .disabled(appState.isExporting || appState.videoBackgroundTransparent)
+                            .opacity(appState.videoBackgroundTransparent ? 0.4 : 1)
                             .onAppear { localBGColor = appState.videoBackgroundColor }
                             .onChange(of: localBGColor) {
                                 bgColorDebounce?.cancel()
@@ -337,6 +338,16 @@ struct ContentView: View {
                                 bgColorDebounce = item
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: item)
                             }
+
+                        Toggle("Transparent", isOn: $appState.videoBackgroundTransparent)
+                            .toggleStyle(.switch)
+                            .fixedSize()
+                            .disabled(appState.isExporting)
+                            .onChange(of: appState.videoBackgroundTransparent) {
+                                appState.recomposite()
+                            }
+                            .accessibilityLabel("Transparent Background")
+                            .accessibilityHint("Exports HEVC with alpha as a QuickTime movie")
 
                         Button {
                             appState.rotateVideo(clockwise: true)
@@ -426,7 +437,7 @@ struct ContentView: View {
 
         let tempURL = FileManager.default.temporaryDirectory
             .appendingPathComponent((appState.sourceFileName ?? "recording") + "-framed")
-            .appendingPathExtension("mp4")
+            .appendingPathExtension(appState.videoBackgroundTransparent ? "mov" : "mp4")
 
         // Remove existing temp file
         try? FileManager.default.removeItem(at: tempURL)
@@ -434,7 +445,13 @@ struct ContentView: View {
         exportedVideoURL = tempURL
 
         let size: CGSize? = model.sizeChanged ? model.targetSize : nil
-        appState.exportVideo(to: tempURL, size: size, exportPreset: AVAssetExportPresetHighestQuality)
+        // Transparent exports must keep the engine's HEVC-with-alpha preset;
+        // overriding it with HighestQuality would flatten the alpha.
+        appState.exportVideo(
+            to: tempURL,
+            size: size,
+            exportPreset: appState.videoBackgroundTransparent ? nil : AVAssetExportPresetHighestQuality
+        )
     }
 }
 

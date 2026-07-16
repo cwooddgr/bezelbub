@@ -40,6 +40,8 @@ final class AppState {
     var exportProgress: Double = 0
     var videoRotation: Int = 0  // Extra rotation in degrees (0, 90, 180, 270)
     var videoBackgroundColor: Color = .white
+    // Session-only (not persisted): exports HEVC-with-alpha .mov when true.
+    var videoBackgroundTransparent = false
     var isVideoMode: Bool { videoAsset != nil }
     #endif
     var sourceFileName: String?
@@ -364,7 +366,9 @@ final class AppState {
         isCompositing = true
         let landscape = isLandscape
         #if !SHARE_EXTENSION
-        let bgColor: CGColor? = isVideoMode ? videoBackgroundCGColor() : nil
+        // Transparent video previews like a transparent image (nil background).
+        let bgColor: CGColor? = (isVideoMode && !videoBackgroundTransparent)
+            ? videoBackgroundCGColor() : nil
         #else
         let bgColor: CGColor? = nil
         #endif
@@ -402,7 +406,8 @@ final class AppState {
         exportProgress = 0
         let landscape = isLandscape
         let rotation = videoRotation
-        let bgColor = videoBackgroundCGColor()
+        let background: VideoBackground = videoBackgroundTransparent
+            ? .transparent : .color(videoBackgroundCGColor())
 
         Task { @MainActor in
             do {
@@ -412,7 +417,7 @@ final class AppState {
                     color: color,
                     isLandscape: landscape,
                     extraRotation: rotation,
-                    backgroundColor: bgColor,
+                    background: background,
                     outputURL: outputURL,
                     outputSize: size,
                     exportPreset: exportPreset

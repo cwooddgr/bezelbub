@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ExportSizeAccessoryView: View {
     @Bindable var model: ExportSizeModel
+    var footnote: String?
 
     private var widthBinding: Binding<Int> {
         Binding(
@@ -39,20 +40,28 @@ struct ExportSizeAccessoryView: View {
     }
 
     var body: some View {
-        Grid(alignment: .trailing, verticalSpacing: 8) {
-            GridRow {
-                Text("Width:")
-                dimensionField(value: widthBinding, label: "Width", hint: "Export width in pixels")
+        VStack(spacing: 8) {
+            Grid(alignment: .trailing, verticalSpacing: 8) {
+                GridRow {
+                    Text("Width:")
+                    dimensionField(value: widthBinding, label: "Width", hint: "Export width in pixels")
+                }
+                GridRow {
+                    Text("Height:")
+                    dimensionField(value: heightBinding, label: "Height", hint: "Export height in pixels")
+                }
+                GridRow {
+                    Text("Scale:")
+                    dimensionField(value: scaleBinding, label: "Scale", hint: "Export scale as a percentage of the original size")
+                    Text("%")
+                        .gridColumnAlignment(.leading)
+                }
             }
-            GridRow {
-                Text("Height:")
-                dimensionField(value: heightBinding, label: "Height", hint: "Export height in pixels")
-            }
-            GridRow {
-                Text("Scale:")
-                dimensionField(value: scaleBinding, label: "Scale", hint: "Export scale as a percentage of the original size")
-                Text("%")
-                    .gridColumnAlignment(.leading)
+            if let footnote {
+                Text(footnote)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
             }
         }
         .padding(12)

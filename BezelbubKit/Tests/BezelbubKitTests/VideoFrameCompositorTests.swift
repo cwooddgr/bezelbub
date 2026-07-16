@@ -20,7 +20,7 @@ final class VideoFrameCompositorTests: XCTestCase {
             device: context.device,
             color: context.device.defaultColor,
             isLandscape: false,
-            backgroundColor: CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 1),
+            background: .color(CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 1)),
             outputURL: outputURL,
             progressHandler: { _ in }
         )
@@ -50,7 +50,7 @@ final class VideoFrameCompositorTests: XCTestCase {
             device: context.device,
             color: context.device.defaultColor,
             isLandscape: false,
-            backgroundColor: CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 1),
+            background: .color(CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 1)),
             outputURL: outputURL,
             outputSize: target,
             progressHandler: { _ in }
@@ -60,6 +60,114 @@ final class VideoFrameCompositorTests: XCTestCase {
         let framedSize = try await VideoFrameCompositor.videoDimensions(asset: framed)
         XCTAssertEqual(framedSize.width, Int(target.width), accuracy: 2)
         XCTAssertEqual(framedSize.height, Int(target.height), accuracy: 2)
+    }
+
+    // Transparent export: HEVC-with-alpha in a QuickTime container, with the
+    // alpha channel actually surviving the encode — a corner pixel (outside
+    // the device body) decodes as fully transparent while a screen-center
+    // pixel (video content) decodes as fully opaque.
+    func testTransparentVideoExportPreservesAlpha() async throws {
+        let context = try await makeTestContext()
+
+        let outputURL = context.tempDir.appendingPathComponent("framed.mov")
+        try await VideoFrameCompositor.export(
+            asset: context.asset,
+            device: context.device,
+            color: context.device.defaultColor,
+            isLandscape: false,
+            background: .transparent,
+            outputURL: outputURL,
+            progressHandler: { _ in }
+        )
+
+        XCTAssertTrue(FileManager.default.fileExists(atPath: outputURL.path))
+        let framed = AVURLAsset(url: outputURL)
+
+        // The track must be HEVC and declare an alpha channel.
+        let videoTracks = try await framed.loadTracks(withMediaType: .video)
+        let videoTrack = try XCTUnwrap(videoTracks.first)
+        let formatDescriptions = try await videoTrack.load(.formatDescriptions)
+        let formatDescription = try XCTUnwrap(formatDescriptions.first)
+        let codec = CMFormatDescriptionGetMediaSubType(formatDescription)
+        XCTAssertTrue(
+            codec == kCMVideoCodecType_HEVC || codec == kCMVideoCodecType_HEVCWithAlpha,
+            "Expected HEVC codec, got \(codec)"
+        )
+        let containsAlpha = CMFormatDescriptionGetExtension(
+            formatDescription,
+            extensionKey: kCMFormatDescriptionExtension_ContainsAlphaChannel
+        ) as? Bool
+        XCTAssertEqual(containsAlpha, true, "Format description does not declare an alpha channel")
+
+        // Decode the first frame and probe actual alpha values.
+        let frame = try await firstFrameBGRA(url: outputURL)
+        let cornerAlpha = frame.alpha(x: 4, y: 4)
+        let centerAlpha = frame.alpha(x: frame.width / 2, y: frame.height / 2)
+        XCTAssertLessThanOrEqual(cornerAlpha, 8, "Corner outside the bezel should be transparent")
+        XCTAssertGreaterThanOrEqual(centerAlpha, 247, "Screen content should be opaque")
+
+        // The bezel outline must be anti-aliased: a real edge has pixels with
+        // 0 < alpha < 1, not a hard binary mask.
+        XCTAssertGreaterThan(
+            frame.partialAlphaCount(), 100,
+            "Expected anti-aliased (partial-alpha) pixels along the bezel edge"
+        )
+    }
+
+    // Transparency must survive output scaling: a 50% export still decodes
+    // with transparent surroundings, opaque screen content, and anti-aliased
+    // edges at the smaller size.
+    func testTransparentVideoExportHonorsOutputSizeAndKeepsAlpha() async throws {
+        let context = try await makeTestContext()
+
+        let target = CGSize(
+            width: context.bezelSize.width / 2,
+            height: context.bezelSize.height / 2
+        )
+        let outputURL = context.tempDir.appendingPathComponent("framed-small.mov")
+        try await VideoFrameCompositor.export(
+            asset: context.asset,
+            device: context.device,
+            color: context.device.defaultColor,
+            isLandscape: false,
+            background: .transparent,
+            outputURL: outputURL,
+            outputSize: target,
+            progressHandler: { _ in }
+        )
+
+        let framed = AVURLAsset(url: outputURL)
+        let framedSize = try await VideoFrameCompositor.videoDimensions(asset: framed)
+        XCTAssertEqual(framedSize.width, Int(target.width), accuracy: 2)
+        XCTAssertEqual(framedSize.height, Int(target.height), accuracy: 2)
+
+        let frame = try await firstFrameBGRA(url: outputURL)
+        XCTAssertLessThanOrEqual(frame.alpha(x: 2, y: 2), 8)
+        XCTAssertGreaterThanOrEqual(frame.alpha(x: frame.width / 2, y: frame.height / 2), 247)
+        XCTAssertGreaterThan(frame.partialAlphaCount(), 100)
+    }
+
+    // The ProRes 4444 master that --webm renders for ffmpeg must itself carry
+    // alpha; this isolates the first half of the WebM conversion chain.
+    func testProResTransparentExportKeepsAlpha() async throws {
+        let context = try await makeTestContext()
+
+        let outputURL = context.tempDir.appendingPathComponent("master.mov")
+        try await VideoFrameCompositor.export(
+            asset: context.asset,
+            device: context.device,
+            color: context.device.defaultColor,
+            isLandscape: false,
+            background: .transparent,
+            outputURL: outputURL,
+            exportPreset: AVAssetExportPresetAppleProRes4444LPCM,
+            progressHandler: { _ in }
+        )
+
+        let frame = try await firstFrameBGRA(url: outputURL)
+        XCTAssertLessThanOrEqual(frame.alpha(x: 4, y: 4), 8)
+        XCTAssertGreaterThanOrEqual(frame.alpha(x: frame.width / 2, y: frame.height / 2), 247)
+        XCTAssertGreaterThan(frame.partialAlphaCount(), 100)
     }
 
     // MARK: - Fixtures
@@ -94,7 +202,7 @@ final class VideoFrameCompositorTests: XCTestCase {
         let frameCount = 12
         let fps: Int32 = 30
         let inputURL = tempDir.appendingPathComponent("input.mp4")
-        try await writeSolidVideo(
+        try await TestVideoWriter.writeSolidVideo(
             to: inputURL, width: width, height: height, frameCount: frameCount, fps: fps
         )
 
@@ -116,48 +224,61 @@ final class VideoFrameCompositorTests: XCTestCase {
         )
     }
 
-    private func writeSolidVideo(
-        to url: URL, width: Int, height: Int, frameCount: Int, fps: Int32
-    ) async throws {
-        let writer = try AVAssetWriter(outputURL: url, fileType: .mp4)
-        let input = AVAssetWriterInput(mediaType: .video, outputSettings: [
-            AVVideoCodecKey: AVVideoCodecType.h264,
-            AVVideoWidthKey: width,
-            AVVideoHeightKey: height,
-        ])
-        input.expectsMediaDataInRealTime = false
-        let adaptor = AVAssetWriterInputPixelBufferAdaptor(
-            assetWriterInput: input,
-            sourcePixelBufferAttributes: [
-                kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
-                kCVPixelBufferWidthKey as String: width,
-                kCVPixelBufferHeightKey as String: height,
-            ]
-        )
-        writer.add(input)
-        XCTAssertTrue(writer.startWriting())
-        writer.startSession(atSourceTime: .zero)
+    /// Decodes the first video frame into BGRA bytes so tests can assert on
+    /// per-pixel alpha (AVAssetImageGenerator flattens alpha, AVAssetReader
+    /// doesn't).
+    private struct BGRAFrame {
+        let bytes: [UInt8]
+        let width: Int
+        let height: Int
+        let bytesPerRow: Int
 
-        for frame in 0..<frameCount {
-            while !input.isReadyForMoreMediaData {
-                try await Task.sleep(nanoseconds: 10_000_000)
-            }
-            let pool = try XCTUnwrap(adaptor.pixelBufferPool)
-            var buffer: CVPixelBuffer?
-            CVPixelBufferPoolCreatePixelBuffer(nil, pool, &buffer)
-            let pixelBuffer = try XCTUnwrap(buffer)
-            CVPixelBufferLockBaseAddress(pixelBuffer, [])
-            if let base = CVPixelBufferGetBaseAddress(pixelBuffer) {
-                memset(base, 0x80, CVPixelBufferGetDataSize(pixelBuffer))
-            }
-            CVPixelBufferUnlockBaseAddress(pixelBuffer, [])
-            adaptor.append(pixelBuffer, withPresentationTime: CMTime(value: CMTimeValue(frame), timescale: fps))
+        func alpha(x: Int, y: Int) -> UInt8 {
+            bytes[y * bytesPerRow + x * 4 + 3]
         }
 
-        input.markAsFinished()
-        await writer.finishWriting()
-        XCTAssertEqual(writer.status, .completed)
+        /// Pixels that are neither fully transparent nor fully opaque —
+        /// the signature of an anti-aliased edge. Tolerates codec noise by
+        /// ignoring near-0/near-255 values.
+        func partialAlphaCount() -> Int {
+            var count = 0
+            for y in 0..<height {
+                for x in 0..<width {
+                    let a = alpha(x: x, y: y)
+                    if a > 16 && a < 240 { count += 1 }
+                }
+            }
+            return count
+        }
     }
+
+    private func firstFrameBGRA(url: URL) async throws -> BGRAFrame {
+        let asset = AVURLAsset(url: url)
+        let reader = try AVAssetReader(asset: asset)
+        let tracks = try await asset.loadTracks(withMediaType: .video)
+        let track = try XCTUnwrap(tracks.first)
+        let output = AVAssetReaderTrackOutput(track: track, outputSettings: [
+            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
+        ])
+        reader.add(output)
+        XCTAssertTrue(reader.startReading())
+
+        let sampleBuffer = try XCTUnwrap(output.copyNextSampleBuffer())
+        let pixelBuffer = try XCTUnwrap(CMSampleBufferGetImageBuffer(sampleBuffer))
+
+        CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
+        defer { CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly) }
+
+        let bytesPerRow = CVPixelBufferGetBytesPerRow(pixelBuffer)
+        let height = CVPixelBufferGetHeight(pixelBuffer)
+        let width = CVPixelBufferGetWidth(pixelBuffer)
+        let base = try XCTUnwrap(CVPixelBufferGetBaseAddress(pixelBuffer))
+        let bytes = [UInt8](UnsafeRawBufferPointer(start: base, count: bytesPerRow * height))
+
+        reader.cancelReading()
+        return BGRAFrame(bytes: bytes, width: width, height: height, bytesPerRow: bytesPerRow)
+    }
+
 }
 
 private func XCTAssertEqual(_ a: Int, _ b: Int, accuracy: Int) {
