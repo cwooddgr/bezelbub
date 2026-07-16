@@ -24,6 +24,7 @@ struct ContentView: View {
     @State private var exportSizeModel: ExportSizeModel?
     @State private var imageSizeModel: ExportSizeModel?
     @State private var exportError: String?
+    @State private var showTransparentExportInfo = false
     @State private var localBGColor: Color = .white
     @State private var bgColorDebounce: DispatchWorkItem?
     @State private var sampleMockups: [CGImage] = []
@@ -260,9 +261,29 @@ struct ContentView: View {
                     exportError = error
                     appState.errorMessage = nil
                 } else if let url = exportedVideoURL {
+                    // Transparent exports get a format explainer first; the
+                    // share sheet follows when it's dismissed.
+                    if appState.videoBackgroundTransparent {
+                        showTransparentExportInfo = true
+                    } else {
+                        shareItem = ShareItem(items: [url])
+                    }
+                }
+            }
+        }
+        .alert("Transparent Video Exported", isPresented: $showTransparentExportInfo) {
+            Button("Continue") {
+                if let url = exportedVideoURL {
                     shareItem = ShareItem(items: [url])
                 }
             }
+        } message: {
+            Text(
+                "This video is HEVC with alpha (.mov). Transparency shows in "
+                    + "Safari and Apple apps; Chrome and Firefox need a WebM (VP9) "
+                    + "copy — convert with ffmpeg on a Mac, or run the bezelbub "
+                    + "CLI with --background transparent --webm."
+            )
         }
         .alert("Export Failed", isPresented: .init(
             get: { exportError != nil },
