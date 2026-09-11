@@ -1,6 +1,22 @@
 # Listing bezelbub-mcp in MCP directories
 
 > **Author:** Claude Code (coder)
+> **Date:** 2026-09-11
+> **Status:** proposed-by-agent (status check; each fact below was verified live today)
+>
+> Where we stand on 2026-09-11, checked against each directory's live site/API:
+>
+> | Directory | Listed? | State |
+> |---|---|---|
+> | Official registry | yes | `io.github.cwooddgr/bezelbub-mcp` 0.2.1 is `isLatest`; 0.1.0 (2026-07-16) still resolves |
+> | PulseMCP | no | Search returns "No servers found". Their submit page says submissions and listing changes are **paused since 2026-09-03** pending a pipeline overhaul, and that official-registry entries get picked up automatically when they resume. Nothing to do; re-check later. Their v0beta API is sunset (HTTP 410) and v0.1 needs an API key. |
+> | Glama | no | Search returns nothing. Listing requires the maintainer to click the **Add Server** button on glama.ai/mcp/servers (it is a button opening an in-page flow, not a link) and authenticate with GitHub OAuth; Glama verifies write access to the repo. Needs Charlie in a browser; the API needs a key. |
+> | Smithery | no | Registry search (`registry.smithery.ai/servers?q=bezelbub`) has no entry. Path is the CLI: `smithery auth login` (browser OAuth, Charlie), then `smithery mcp publish ./bezelbub-mcp.mcpb -n <namespace>/bezelbub-mcp`. The `.mcpb` was repacked today at 0.2.1 (3.2 MB; pack with `npm ci --omit=dev` first or TypeScript ends up in the bundle, 11.8 MB). |
+>
+> Usage signals as of today, for the record: npm shows a flat 3–5 downloads/day since August (mirror/scanner shaped, no bump at either release), and the CLI tarballs the MCP server depends on total 14 downloads across all six releases. No evidence of a real user yet.
+
+
+> **Author:** Claude Code (coder)
 > **Date:** 2026-07-15
 > **Status:** proposed-by-agent
 >
