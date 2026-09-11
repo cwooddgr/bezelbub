@@ -72,7 +72,15 @@ Everything runs on-device. No accounts, no uploads, no telemetry, no tracking.
 Universal Purchase — buy once, use on Mac, iPhone, and iPad.
 ```
 
-## What's New in This Version — v3.2.1 (4000 chars max)
+## What's New in This Version — v3.4.0 (4000 chars max)
+
+```
+• New iPhone bezels: iPhone 18 Pro and 18 Pro Max in Silver, Black, Burgundy, and Glacier, and iPhone Duo in Night Sky and Star White — the inner display open, the outer display closed, and the outer display with the phone open, seen from the back.
+• New display bezels: Studio Display and iMac 24" M4 in all seven colors. 45 devices in all.
+• Smarter Mac detection: screenshots and screen recordings from a Mac are now identified by the exact capture size of each display zoom setting, so a capture from a 15" MacBook Air is recognized as that Mac at any zoom level instead of listing every MacBook. Models that share a display are still all offered.
+```
+
+## What's New — v3.2.1 (previous, for reference)
 
 ```
 • Paste screenshots from the clipboard on Mac — copy any image and press ⌘V, or use Edit ▸ Paste.
@@ -81,7 +89,7 @@ Universal Purchase — buy once, use on Mac, iPhone, and iPad.
 • Fixes for loading palette ("optimized") PNGs, plus polish across macOS, iOS, and the Share Extension.
 ```
 
-## What's New — v3.1.0 (previous, for reference)
+## What's New — v3.1.0 (older, for reference)
 
 ```
 • 11 new device bezels, including iPad (A16), iPad mini (A17 Pro), iPad Air M4 (11" and 13"), iPad Pro M5 (11" and 13"), MacBook Pro M5 (14" and 16"), MacBook Air M5 (13" and 15"), and MacBook Neo.
