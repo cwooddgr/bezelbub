@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * bezelbub-mcp — MCP server wrapping the `bezelbub` CLI.
+ * bezelbub-mcp: MCP server wrapping the `bezelbub` CLI.
  *
  * Composites Apple device bezels onto screenshots and screen recordings.
  * macOS-only (the CLI is a macOS-native binary). Every tool shells out to
@@ -11,9 +11,13 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { resolve as resolvePath } from "node:path";
+import { readFileSync } from "node:fs";
 import { runBezelbub } from "./cli.js";
 
-const SERVER_VERSION = "0.1.0";
+// Read the version from package.json so it can never drift from what npm ships.
+const SERVER_VERSION: string = JSON.parse(
+  readFileSync(new URL("../package.json", import.meta.url), "utf8")
+).version;
 
 const server = new McpServer({
   name: "bezelbub",
@@ -114,7 +118,7 @@ server.registerTool(
   {
     title: "Frame a screenshot in a device bezel",
     description:
-      "Frame a screenshot in an Apple device bezel — i.e. make a device " +
+      "Frame a screenshot in an Apple device bezel, i.e. make a device " +
       "mockup: put a screenshot inside a realistic iPhone, iPad, Mac, iMac, " +
       "or Apple TV frame. Use for requests like 'frame this screenshot in an " +
       "iPhone bezel', 'device mockup', 'make this look like it's on an iPad', " +
@@ -158,14 +162,14 @@ server.registerTool(
   {
     title: "Frame a screen recording in a device bezel",
     description:
-      "Frame a screen recording (video) in an Apple device bezel — a video " +
+      "Frame a screen recording (video) in an Apple device bezel: a video " +
       "device mockup: put an iPhone/iPad/Mac screen recording inside a " +
       "realistic device frame, preserving the audio track. Use for requests " +
       "like 'frame this screen recording in an iPhone bezel', 'app demo " +
       "video in a device frame', or 'transparent video with alpha for my " +
       "website'. Input: .mov, .mp4, or .m4v file on disk. Output: a framed " +
-      "MP4 (background defaults to black), or — with background " +
-      "'transparent' — an HEVC-with-alpha QuickTime .mov whose surroundings " +
+      "MP4 (background defaults to black), or, with background " +
+      "'transparent', an HEVC-with-alpha QuickTime .mov whose surroundings " +
       "are truly transparent (plays in Safari and Apple frameworks only; set " +
       "webm=true to also write a VP9/WebM copy for Chrome/Firefox, which " +
       "requires ffmpeg on PATH). Device is auto-detected from the video's " +
@@ -217,10 +221,10 @@ server.registerTool(
     description:
       "List the Apple device bezels available for framing (iPhones, iPads, " +
       "MacBooks, iMac, Apple TV) with their ids, color options, and screen " +
-      "pixel sizes — or find which devices fit a given screenshot, screen " +
+      "pixel sizes, or find which devices fit a given screenshot, screen " +
       "recording, or WxH pixel size ('which iPhone matches a 1206x2622 " +
       "screenshot?'). With input_path or dimensions, returns {width, height, " +
-      "matches, nearest}: 'matches' are exact fits — an iPhone/iPad's screen " +
+      "matches, nearest}: 'matches' are exact fits, meaning an iPhone/iPad's screen " +
       "size, or one of a Mac/display's known display-zoom capture sizes (empty means " +
       "no device fits; 'nearest' then lists the closest by aspect ratio). " +
       "Without a filter, returns the full device catalog. Use this before " +
