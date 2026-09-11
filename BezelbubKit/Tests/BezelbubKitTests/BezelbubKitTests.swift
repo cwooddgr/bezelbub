@@ -158,6 +158,21 @@ final class BezelbubKitTests: XCTestCase {
         XCTAssertTrue(matches.contains { $0.device.id == "iphone17pro" })
     }
 
+    // MARK: - Displays
+
+    // A native 5K capture is 16:9, so every 16:9 display device is a candidate
+    // (matched by aspect ratio), with the newest catalog entry — iMac M4 — first.
+    func testFiveKCaptureListsSixteenByNineDisplays() {
+        let devices = DeviceCatalog.hydrated()
+        let matches = DeviceMatcher.match(screenshotWidth: 5120, screenshotHeight: 2880, devices: devices)
+        let ids = matches.map(\.device.id)
+        XCTAssertEqual(ids.first, "imacm4")
+        for expected in ["studiodisplay", "imac24", "appletv4k"] {
+            XCTAssertTrue(ids.contains(expected), "Expected \(expected) among \(ids)")
+        }
+        XCTAssertTrue(matches.allSatisfy(\.matchedByAspectRatio))
+    }
+
     // MARK: - Helpers
 
     private func makeSolidImage(width: Int, height: Int) -> CGImage? {

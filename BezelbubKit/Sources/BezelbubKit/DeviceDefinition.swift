@@ -501,6 +501,32 @@ public enum DeviceCatalog {
             defaultColorID: "Silver",
             hasPortraitBezel: false
         ),
+        // Apple's "Studio Displays" pack ships four PNGs — Studio Display and
+        // Studio Display XDR, each "on light" and "on dark" background — that are
+        // pixel-identical, so one entry covers all of them. Screen hole 5120×2880;
+        // XDR captures (6016×3384) are 16:9 too and match by aspect ratio.
+        DeviceDefinition(
+            id: "studiodisplay",
+            displayName: "Studio Display (2026)",
+            colors: [DeviceColor("Silver")],
+            defaultColorID: "Silver",
+            hasPortraitBezel: false
+        ),
+        DeviceDefinition(
+            id: "imacm4",
+            displayName: "iMac 24\" M4",
+            colors: [
+                DeviceColor("Silver"),
+                DeviceColor("Blue"),
+                DeviceColor("Green"),
+                DeviceColor("Orange"),
+                DeviceColor("Pink"),
+                DeviceColor("Purple"),
+                DeviceColor("Yellow"),
+            ],
+            defaultColorID: "Silver",
+            hasPortraitBezel: false
+        ),
     ]
 
     /// The catalog with each device's `screenRegion` populated from the bundled

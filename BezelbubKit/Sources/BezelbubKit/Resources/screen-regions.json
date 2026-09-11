@@ -11,6 +11,48 @@
     "x" : 140,
     "y" : 161
   },
+  "imacm4-blue-l.png" : {
+    "height" : 2520,
+    "width" : 4480,
+    "x" : 140,
+    "y" : 150
+  },
+  "imacm4-green-l.png" : {
+    "height" : 2520,
+    "width" : 4480,
+    "x" : 140,
+    "y" : 150
+  },
+  "imacm4-orange-l.png" : {
+    "height" : 2520,
+    "width" : 4480,
+    "x" : 142,
+    "y" : 150
+  },
+  "imacm4-pink-l.png" : {
+    "height" : 2520,
+    "width" : 4480,
+    "x" : 140,
+    "y" : 150
+  },
+  "imacm4-purple-l.png" : {
+    "height" : 2520,
+    "width" : 4480,
+    "x" : 140,
+    "y" : 150
+  },
+  "imacm4-silver-l.png" : {
+    "height" : 2520,
+    "width" : 4480,
+    "x" : 140,
+    "y" : 150
+  },
+  "imacm4-yellow-l.png" : {
+    "height" : 2520,
+    "width" : 4480,
+    "x" : 140,
+    "y" : 150
+  },
   "ipad-silver-l.png" : {
     "height" : 1620,
     "width" : 2160,
@@ -1528,5 +1570,11 @@
     "width" : 3456,
     "x" : 402,
     "y" : 303
+  },
+  "studiodisplay-silver-l.png" : {
+    "height" : 2880,
+    "width" : 5120,
+    "x" : 140,
+    "y" : 140
   }
 }

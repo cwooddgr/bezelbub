@@ -4,7 +4,7 @@
   "display_name": "Bezelbub",
   "version": "0.1.0",
   "description": "Frame screenshots and screen recordings in Apple device bezels (iPhone, iPad, Mac, iMac, Apple TV mockups).",
-  "long_description": "Bezelbub composites realistic Apple device bezels onto screenshots and screen recordings — device mockups for App Store pages, marketing sites, and demo videos.\n\nTools: frame a screenshot as a framed PNG, frame a screen recording as a framed MP4 (or a transparent HEVC-with-alpha .mov, with an optional VP9/WebM copy for Chrome/Firefox), and list/match the device catalog (43 devices: iPhone 14–18 families, iPhone Air, iPhone Duo, iPads, MacBooks, iMac, Apple TV).\n\nRequires the bezelbub CLI on this Mac: `brew install cwooddgr/tap/bezelbub`. macOS only — the engine is a macOS-native binary.",
+  "long_description": "Bezelbub composites realistic Apple device bezels onto screenshots and screen recordings — device mockups for App Store pages, marketing sites, and demo videos.\n\nTools: frame a screenshot as a framed PNG, frame a screen recording as a framed MP4 (or a transparent HEVC-with-alpha .mov, with an optional VP9/WebM copy for Chrome/Firefox), and list/match the device catalog (45 devices: iPhone 14–18 families, iPhone Air, iPhone Duo, iPads, MacBooks, iMac, Studio Display, Apple TV).\n\nRequires the bezelbub CLI on this Mac: `brew install cwooddgr/tap/bezelbub`. macOS only — the engine is a macOS-native binary.",
   "author": {
     "name": "DGR Labs",
     "url": "https://dgrlabs.co"

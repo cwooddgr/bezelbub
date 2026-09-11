@@ -99,7 +99,7 @@ to black for video. Returns JSON:
 
 ### `list_devices`
 
-List the 43-device bezel catalog (ids, colors, screen pixel sizes), or — with
+List the 45-device bezel catalog (ids, colors, screen pixel sizes), or — with
 `input_path` or `dimensions` (`"1206x2622"`) — find which devices fit a given
 screenshot, recording, or pixel size. Filtered results return
 `{width, height, matches, nearest}`; an empty `matches` array means no exact
