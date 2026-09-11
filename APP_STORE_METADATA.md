@@ -75,9 +75,9 @@ Universal Purchase — buy once, use on Mac, iPhone, and iPad.
 ## What's New in This Version — v3.4.0 (4000 chars max)
 
 ```
-• New iPhone bezels: iPhone 18 Pro and 18 Pro Max in Silver, Black, Burgundy, and Glacier, and iPhone Duo in Night Sky and Star White — the inner display open, the outer display closed, and the outer display with the phone open, seen from the back.
-• New display bezels: Studio Display and iMac 24" M4 in all seven colors. 45 devices in all.
-• Smarter Mac detection: screenshots and screen recordings from a Mac are now identified by the exact capture size of each display zoom setting, so a capture from a 15" MacBook Air is recognized as that Mac at any zoom level instead of listing every MacBook. Models that share a display are still all offered.
+• Added bezels for iPhone 18 Pro and iPhone 18 Pro Max in Silver, Black, Burgundy, and Glacier, and for iPhone Duo in Night Sky and Star White. For the Duo you can frame the inner display, the outer display with the phone closed, or the outer display with the phone open and seen from the back.
+• Added Studio Display and iMac 24" M4 in all seven colors. You now have 45 devices to choose from.
+• If you take screenshots or screen recordings on a Mac at any display zoom setting, we now work out which Mac they came from by the capture size. A capture from a 15" MacBook Air picks the 15" MacBook Air instead of listing every MacBook. When two Macs share the same display, you still get to choose between them.
 ```
 
 ## What's New — v3.2.1 (previous, for reference)
