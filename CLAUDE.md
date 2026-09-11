@@ -39,7 +39,7 @@ Clients:
 - The **macOS / iOS apps** depend on both library products; the **share extension** depends only on `BezelbubKit` (declared in `project.yml` under each target's `dependencies:`). `AppState` and the views are adapters over the engine.
 - The **`bezelbub` CLI** (`Sources/bezelbub/`) depends on `BezelbubKit` + `BezelbubVideoKit` + swift-argument-parser. swift-argument-parser is a dependency of the CLI target only — it is **not** linked into the apps (verified: absent from the archived app binary), though it does appear in the package's resolved graph.
 
-A future MCP server is meant to wrap the CLI (a clean process boundary) or link `BezelbubKit` directly.
+The **MCP server** (`bezelbub-mcp/`, npm `@dgr_labs/bezelbub-mcp`, registry `io.github.cwooddgr/bezelbub-mcp`) wraps the CLI over a process boundary: tools `frame_image`, `frame_video`, `list_devices`; it resolves the binary via `BEZELBUB_CLI_PATH`, then PATH, then Homebrew. Its version is read from `package.json` at runtime (a 0.2.0 shipped announcing itself as 0.1.0 when it was a source constant). Publishing needs Charlie: `npm publish --access public` prompts for his OTP, and `mcp-publisher login github` is a browser device flow.
 
 ## Build
 
@@ -78,6 +78,12 @@ Agent-friendly: every input is a flag with a default, `--json` gives machine-rea
 `Scripts/generate-screen-regions.swift` flood-fills the bezel PNGs to (re)generate `Masks/` and `screen-regions.json`. It reads/writes under `BezelbubKit/Sources/BezelbubKit/Resources/`.
 
 The flood fill seeds from the image center; when that pixel is opaque (the iPhone Duo "open, outer display" view, where the center is the hinge) it falls back to the largest enclosed fully-transparent region. `ScreenRegionDetector` mirrors the same seed logic for its runtime fallback. Apple ships that Duo view once, as a wide canvas with a portrait screen: that file is our `-p` bezel, and the `-l` bezel is the same art rotated 90° counter-clockwise (`sips --rotate -90`) so the display sits on top.
+
+### Releasing
+
+> **Author:** Claude Code (coder) · **Date:** 2026-09-11 · **Status:** proposed-by-agent (mechanics as run for 3.4.0; the App Store as the only macOS channel is assumed from 3.3.0 onward, not confirmed)
+
+App Store builds go up headlessly: `xcodebuild archive` per scheme (`Bezelbub` for macOS, `Bezelbub-iOS` for iOS) with `-allowProvisioningUpdates`, then `xcodebuild -exportArchive -exportOptionsPlist build/ExportOptions-upload.plist` (method `app-store-connect`, destination `upload`, automatic signing; Xcode's logged-in ASC session does the auth). Then `Scripts/asc_prepare_version.py --version X --macos-build N --ios-build M --whats-new-file F` creates the App Store versions on both platforms, waits for build processing, attaches the builds, and sets the en-US What's New through the ASC API (Admin key via the marketroid venv); add `--submit` only on Charlie's say-so, since it creates and submits the review submission. Bump `MARKETING_VERSION` and each `CURRENT_PROJECT_VERSION` in `project.yml` first (macOS and iOS build numbers run independently), `xcodegen generate`, commit, tag `vX.Y.Z`. The CLI (`cli-vX.Y.Z` GitHub release + Homebrew tap formula) and the MCP server (npm + registry) are separate release rituals with their own version numbers. Build-number history: 3.4.0 shipped macOS 18 / iOS 14. `Scripts/build-dmg.sh` still works but no DMG has been cut since 3.2.1; the README links the App Store.
 
 ### Targets
 
