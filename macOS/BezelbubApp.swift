@@ -17,10 +17,11 @@ struct BezelbubApp: App {
             ContentView()
                 .environment(appState)
                 .onAppear {
-                    // Delay briefly so onOpenURL can fire first when
-                    // the app is launched by dropping a file on the dock.
+                    // Delay briefly so onOpenURL can fire first when the app is
+                    // launched by dropping a file on the Dock or Finder icon. Any
+                    // file handed in by then — image or video — means no panel.
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        if appState.screenshotImage == nil {
+                        if !appState.hasReceivedFile && appState.screenshotImage == nil && !appState.isVideoMode {
                             appState.showOpenPanel()
                         }
                     }

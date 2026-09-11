@@ -25,6 +25,12 @@ final class AppState {
     var matches: [DeviceMatcher.Match] = []
     var errorMessage: String?
     var isCompositing = false
+    /// True once any file has been handed to `processFile` (Finder/Dock drop at
+    /// launch, open panel, paste, drag). The macOS launch-time open panel checks
+    /// this rather than the image slot, since a video load leaves the image slot
+    /// empty — which used to show the panel on top of a recording dropped on
+    /// the app icon.
+    private(set) var hasReceivedFile = false
 
     #if os(macOS)
     // Open panel (modeless, so drag-and-drop still works on the main window)
@@ -69,6 +75,7 @@ final class AppState {
     }
 
     func processFile(url: URL) {
+        hasReceivedFile = true
         #if os(macOS)
         dismissOpenPanel()
         #endif

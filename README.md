@@ -10,7 +10,7 @@ Bezelbub wraps your screenshots and screen recordings in realistic Apple device 
 
 ## Features
 
-- **Auto-detection** — Matches screenshots and videos to the correct device: iPhone and iPad by exact resolution; Macs, iMac, Studio Display, and Apple TV by the exact capture size of each macOS display zoom setting ("Larger Text" through "More Space"), so a capture at any zoom identifies the model, with aspect-ratio matching as the fallback for sizes not on file. Models that share a panel are all offered. Keeps your current device and color when you load another screenshot that fits the same device
+- **Auto-detection.** Drop in a screenshot or video and you get the right device. iPhones and iPads are recognized by their exact resolution. Macs, iMac, Studio Display, and Apple TV are recognized by the capture size of each macOS display zoom setting, from "Larger Text" to "More Space", so you can take the capture at any zoom level; a size we don't have on file falls back to aspect-ratio matching. When several models share a panel, you pick from all of them. Loading another screenshot for the same device keeps your device and color choices
 - **Drag and drop** (macOS) — Drop a screenshot or screen recording onto the app window or dock icon
 - **Paste** (macOS) — Paste a screenshot straight from the clipboard with ⌘V, or via Edit ▸ Paste
 - **Photos & Share Extension** (iOS) — Import from Photos, or frame images directly from any app via the system share sheet
@@ -24,11 +24,11 @@ Bezelbub wraps your screenshots and screen recordings in realistic Apple device 
 
 ## Supported Devices
 
-- **iPhone** — 14, 14 Plus, 14 Pro, 14 Pro Max, 15, 15 Plus, 15 Pro, 15 Pro Max, 16, 16 Plus, 16 Pro, 16 Pro Max, 17, 17 Pro, 17 Pro Max, Air, 18 Pro, 18 Pro Max
-- **iPhone Duo** — three views, each a separate device: the inner display open (`iphoneduo`), the outer display closed (`iphoneduoouter`), and the outer display with the phone open, seen from the back (`iphoneduoouteropen`); all in portrait and landscape
-- **iPad** — iPad, iPad (A16), iPad Air 11"/13" M2, iPad Air 11"/13" M4, iPad mini, iPad mini (A17 Pro), iPad Pro 11"/13" M4, iPad Pro 11"/13" M5
-- **Mac** — MacBook Air 13", MacBook Air 13"/15" M5, MacBook Pro 14", MacBook Pro 16", MacBook Pro 14"/16" M5, MacBook Neo, iMac 24", iMac 24" M4, Studio Display (2026) (matched by aspect ratio, so any scaled display resolution works; the Studio Display bezel covers the XDR too — Apple ships identical art for both)
-- **Apple TV** — Apple TV 4K (1080p and 4K screenshots)
+- **iPhone:** 14, 14 Plus, 14 Pro, 14 Pro Max, 15, 15 Plus, 15 Pro, 15 Pro Max, 16, 16 Plus, 16 Pro, 16 Pro Max, 17, 17 Pro, 17 Pro Max, Air, 18 Pro, 18 Pro Max
+- **iPhone Duo:** three views, each its own device. Frame the inner display with the phone open (`iphoneduo`), the outer display with the phone closed (`iphoneduoouter`), or the outer display with the phone open and seen from the back (`iphoneduoouteropen`), in portrait or landscape
+- **iPad:** iPad, iPad (A16), iPad Air 11"/13" M2, iPad Air 11"/13" M4, iPad mini, iPad mini (A17 Pro), iPad Pro 11"/13" M4, iPad Pro 11"/13" M5
+- **Mac:** MacBook Air 13", MacBook Air 13"/15" M5, MacBook Pro 14", MacBook Pro 16", MacBook Pro 14"/16" M5, MacBook Neo, iMac 24", iMac 24" M4, Studio Display (2026). Any display zoom setting works. The Studio Display bezel covers the XDR too, because Apple ships identical art for both
+- **Apple TV:** Apple TV 4K (1080p and 4K screenshots)
 
 ## Headless CLI (`bezelbub`)
 
@@ -76,7 +76,7 @@ bezelbub frame --input shot.png --device iphone17pro \
 
 ### Device auto-detection
 
-Omit `--device` and the CLI detects the device from the input's pixel dimensions. iPhones and iPads match by exact screen resolution (±1px). Display devices (Macs, iMac, Studio Display, Apple TV) match by exact capture size too: every macOS display zoom setting captures at a known pixel size per model, so a 3420×2214 screenshot is a 15" MacBook Air whatever zoom it was taken at; sizes not on file (external monitors, downscaled recordings) fall back to aspect-ratio matching. Display captures are rescaled to the bezel's screen when framed. Detection succeeds when exactly one device matches; if several share the resolution, the error lists the candidates so you can re-run with `--device <id>`, and if none match, the nearest devices by aspect ratio are suggested. `bezelbub devices --input <path>` (or `--dimensions WxH`) answers "which devices fit this input" without framing anything.
+Leave out `--device` and the CLI works out the device from the input's pixel dimensions. For iPhones and iPads that means an exact match on screen resolution (within a pixel). For Macs, iMac, Studio Display, and Apple TV it means an exact match on capture size: every macOS display zoom setting captures at a known pixel size per model, so a 3420×2214 screenshot can only have come from a 15" MacBook Air, whatever zoom it was taken at. Sizes we don't have on file, such as external monitors or downscaled recordings, fall back to aspect-ratio matching. When you frame a display capture, we scale it to fit the bezel's screen. Detection succeeds when exactly one device matches; if several share the resolution, the error lists the candidates so you can re-run with `--device <id>`, and if none match, the nearest devices by aspect ratio are suggested. `bezelbub devices --input <path>` (or `--dimensions WxH`) answers "which devices fit this input" without framing anything.
 
 ### Transparent video and WebM (alpha-channel screen recordings)
 

@@ -21,7 +21,7 @@ struct Devices: AsyncParsableCommand {
         (±1px), and any other size falls back to matching by aspect ratio. Either \
         way the screenshot is rescaled to the bezel's screen when framed. If \
         nothing matches, the nearest devices by aspect ratio are shown instead \
-        (in JSON, under "nearest"). Filtering exits 0 either way — an empty \
+        (in JSON, under "nearest"). Filtering exits 0 either way; an empty \
         "matches" array is the signal, not the exit code.
         """
     )
