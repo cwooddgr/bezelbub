@@ -59,10 +59,11 @@ public enum DeviceCatalog {
     /// 2026-09-11) and matches Wikipedia's table exactly, which is why the other
     /// MacBook rows are taken from the same Wikipedia tables ("MacBook Air
     /// (Apple silicon)", "MacBook Pro (Apple silicon)"; the Pro rows also match
-    /// 9to5Mac's 2021 list from the Monterey RC). Neo, iMac, and Studio Display
-    /// rows come from owner reports on MacRumors/Apple Support Communities and
-    /// carry lower confidence; a size missing here only costs precision, since
-    /// the aspect-ratio fallback still matches it.
+    /// 9to5Mac's 2021 list from the Monterey RC). The iMac 24" row was likewise
+    /// enumerated on hardware. Neo and Studio Display rows come from owner
+    /// reports on MacRumors/Apple Support Communities and carry lower
+    /// confidence; a size missing here only costs precision, since the
+    /// aspect-ratio fallback still matches it.
     private enum MacCaptures {
         /// 2560×1664 panel (MacBook Air 13" M2/M3/M4/M5): looks-like 1710×1112,
         /// 1470×956 (default), 1280×832 (native), 1024×666.
@@ -85,10 +86,15 @@ public enum DeviceCatalog {
         /// (default — a scaled mode, not native), 1204×753 (native), 1024×640.
         /// Owner-reported (MacRumors "Neo Display Thoughts?", 2026); single source.
         static let neo = px((3274, 2048), (2816, 1762), (2408, 1506), (2048, 1280))
-        /// 4480×2520 panel (iMac 24" M1/M3/M4): looks-like 2560×1440,
-        /// 2240×1260 (default, native), 1920×1080, 1600×900, 1280×720.
-        /// Owner-reported (MacRumors "M1 iMac - Scaled (HiDPI) Resolutions").
-        static let imac24 = px((5120, 2880), (4480, 2520), (3840, 2160), (3200, 1800), (2560, 1440))
+        /// 4480×2520 panel (iMac 24" M1/M3/M4): presets looks-like 2560×1440,
+        /// 2240×1260 (default, native), 1920×1080, 1600×900, 1280×720; plus the
+        /// "Show all resolutions" modes — 1120×630 and 960×540 at 2×, and the
+        /// 1× modes down to 1152×648 — all 16:9. Enumerated on hardware
+        /// (CGDisplayCopyAllDisplayModes, iMac 24" M1, 2026-09-11).
+        static let imac24 = px(
+            (5120, 2880), (4480, 2520), (3840, 2160), (3200, 1800), (2560, 1440),
+            (2240, 1260), (1920, 1080), (1680, 945), (1600, 900), (1280, 720), (1152, 648)
+        )
         /// 5120×2880 panel (Studio Display, 2022 and 2026, and XDR): looks-like
         /// 3200×1800, 2880×1620, 2560×1440 (default, native), 2048×1152,
         /// 1600×900 — the 5K list, with 1920×1080 also offered. The top three
