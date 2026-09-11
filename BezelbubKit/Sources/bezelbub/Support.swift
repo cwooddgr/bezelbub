@@ -327,6 +327,9 @@ struct DeviceInfo: Encodable {
     let hasPortraitBezel: Bool
     let screenWidth: Int?
     let screenHeight: Int?
+    /// Known capture sizes ("WxH") for display devices, one per macOS
+    /// display-zoom setting; empty for iPhones/iPads (always the screen size).
+    let captureSizes: [String]
 
     init(_ device: DeviceDefinition) {
         id = device.id
@@ -337,5 +340,6 @@ struct DeviceInfo: Encodable {
         hasPortraitBezel = device.hasPortraitBezel
         screenWidth = device.screenRegion.map { Int($0.width) }
         screenHeight = device.screenRegion.map { Int($0.height) }
+        captureSizes = device.captureSizes.map { "\(Int($0.width))x\(Int($0.height))" }
     }
 }

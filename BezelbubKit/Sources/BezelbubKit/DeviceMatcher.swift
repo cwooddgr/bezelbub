@@ -4,10 +4,12 @@ public enum DeviceMatcher {
     public struct Match {
         public let device: DeviceDefinition
         public let isLandscape: Bool
-        /// True when the device was matched by aspect ratio (display devices —
-        /// Macs, iMac, Apple TV — whose screenshots arrive at many scaled
-        /// resolutions and are rescaled at composite time), false when the
-        /// screenshot's pixel size matched the device's screen exactly (±1px).
+        /// True when the device was matched only by aspect ratio (a display
+        /// device — Mac, iMac, Studio Display, Apple TV — at a capture size we
+        /// don't have on file), false when the screenshot's pixel size matched
+        /// exactly (±1px): the device's screen for iPhones/iPads, or one of its
+        /// known display-zoom capture sizes for display devices. Display
+        /// devices are rescaled at composite time either way.
         public let matchedByAspectRatio: Bool
     }
 
@@ -31,18 +33,30 @@ public enum DeviceMatcher {
             let aspectError = abs(screenshotAspect - regionAspect) / regionAspect
 
             if !device.hasPortraitBezel {
-                // Display devices (Apple TV, Macs/iMac) have no portrait bezel and
-                // are captured at many scaled resolutions, so match by aspect ratio
-                // (±2%) rather than exact pixels — e.g. Apple TV accepts both
-                // 1920×1080 and 3840×2160, and an iMac at any "More Space" scaled
-                // setting still resolves to the same 16:9 bezel. The screenshot is
-                // rescaled to the bezel's screen region at composite time.
+                // Display devices (Apple TV, Macs/iMac/Studio Display) have no
+                // portrait bezel and are captured at many sizes: each macOS
+                // display-zoom preset yields its own pixel size. Those sizes are
+                // known per panel (`captureSizes`), so a capture at one of them
+                // identifies the panel exactly (±1px) — a 3420×2214 capture can
+                // only be a 15" MacBook Air. Sizes we don't have on file (an
+                // external monitor, a downscaled recording) fall back to aspect
+                // ratio (±2%). Either way the screenshot is rescaled to the
+                // bezel's screen region at composite time.
                 //
-                // 16:9 displays (Apple TV, iMac) are mutually ambiguous, as are the
-                // ~16:10 MacBooks; the matcher returns every candidate so the user
-                // can disambiguate with the device picker.
+                // Panels shared across models stay ambiguous on purpose (every
+                // 15" Air generation, Studio Display vs. an iMac at "More Space"
+                // vs. Apple TV at 4K); the matcher returns every candidate so
+                // the user can disambiguate with the device picker.
                 guard isLandscape else { continue }
-                if aspectError < 0.02 {
+                let exact = device.captureSizes.contains {
+                    abs(Int($0.width) - screenshotWidth) <= 1 && abs(Int($0.height) - screenshotHeight) <= 1
+                }
+                if exact {
+                    matches.append((
+                        Match(device: device, isLandscape: true, matchedByAspectRatio: false),
+                        aspectError, index
+                    ))
+                } else if aspectError < 0.02 {
                     matches.append((
                         Match(device: device, isLandscape: true, matchedByAspectRatio: true),
                         aspectError, index
@@ -61,6 +75,13 @@ public enum DeviceMatcher {
                     ))
                 }
             }
+        }
+
+        // Once any display device matched a known capture size exactly, the
+        // aspect-only display matches are just noise (a 3420×2214 capture is a
+        // 15" Air, not "any 16:10 MacBook"), so drop them.
+        if matches.contains(where: { !$0.match.matchedByAspectRatio && !$0.match.device.hasPortraitBezel }) {
+            matches.removeAll { $0.match.matchedByAspectRatio }
         }
 
         // Closest aspect first so the default selection is the best fit; ties

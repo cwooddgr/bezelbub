@@ -220,7 +220,8 @@ server.registerTool(
       "pixel sizes — or find which devices fit a given screenshot, screen " +
       "recording, or WxH pixel size ('which iPhone matches a 1206x2622 " +
       "screenshot?'). With input_path or dimensions, returns {width, height, " +
-      "matches, nearest}: 'matches' are exact screen-size fits (empty means " +
+      "matches, nearest}: 'matches' are exact fits — an iPhone/iPad's screen " +
+      "size, or one of a Mac/display's known display-zoom capture sizes (empty means " +
       "no device fits; 'nearest' then lists the closest by aspect ratio). " +
       "Without a filter, returns the full device catalog. Use this before " +
       "frame_image/frame_video when the device or color is ambiguous. " +

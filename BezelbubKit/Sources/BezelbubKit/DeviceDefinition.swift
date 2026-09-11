@@ -26,6 +26,15 @@ public struct DeviceDefinition: Identifiable {
     /// Whether a portrait bezel PNG exists for this device. Macs/iMac ship landscape-only
     /// bezels but are otherwise "normal" (pixel-matched, no screenshot rescaling).
     public var hasPortraitBezel: Bool = true
+    /// Pixel sizes a screenshot or screen recording of this display can have —
+    /// one per macOS display-zoom preset ("Larger Text" … "More Space"), i.e.
+    /// the preset's point size × 2, plus any 1× modes — in landscape. Empty for
+    /// devices whose captures are always the native panel size (iPhone, iPad).
+    /// A capture whose size is in this list identifies the device exactly, the
+    /// way a native-resolution capture identifies an iPhone; display devices
+    /// still fall back to aspect-ratio matching for sizes not listed here
+    /// (see `DeviceMatcher`). Sources are noted per entry in `DeviceCatalog`.
+    public var captureSizes: [CGSize] = []
 
     public var defaultColor: DeviceColor {
         colors.first { $0.id == defaultColorID } ?? colors[0]
@@ -39,6 +48,56 @@ public struct DeviceDefinition: Identifiable {
 }
 
 public enum DeviceCatalog {
+    /// Capture sizes in pixels, written as (width, height) pairs.
+    private static func px(_ pairs: (Int, Int)...) -> [CGSize] {
+        pairs.map { CGSize(width: $0.0, height: $0.1) }
+    }
+
+    /// macOS display-zoom capture sizes per panel. Each preset "looks like"
+    /// W×H points and captures at 2W×2H pixels. The 15" Air list was enumerated
+    /// on hardware (CGDisplayCopyAllDisplayModes, MacBook Air 15" M4,
+    /// 2026-09-11) and matches Wikipedia's table exactly, which is why the other
+    /// MacBook rows are taken from the same Wikipedia tables ("MacBook Air
+    /// (Apple silicon)", "MacBook Pro (Apple silicon)"; the Pro rows also match
+    /// 9to5Mac's 2021 list from the Monterey RC). Neo, iMac, and Studio Display
+    /// rows come from owner reports on MacRumors/Apple Support Communities and
+    /// carry lower confidence; a size missing here only costs precision, since
+    /// the aspect-ratio fallback still matches it.
+    private enum MacCaptures {
+        /// 2560×1664 panel (MacBook Air 13" M2/M3/M4/M5): looks-like 1710×1112,
+        /// 1470×956 (default), 1280×832 (native), 1024×666.
+        static let air13 = px((3420, 2224), (2940, 1912), (2560, 1664), (2048, 1332))
+        /// 2880×1864 panel (MacBook Air 15" M2/M3/M4/M5): looks-like 1920×1243,
+        /// 1710×1107 (default), 1440×932 (native), 1280×828, 1024×663.
+        /// The panel also exposes 16:10 "notch hidden" modes (3840×2400 …
+        /// 2048×1280, and 1920×1200 at 1×) whose captures omit the menu-bar
+        /// strip; they're 3.6% off the bezel's aspect and would need the
+        /// compositor to letterbox that strip, so they're deliberately not
+        /// listed — same for the other notched MacBooks.
+        static let air15 = px((3840, 2486), (3420, 2214), (2880, 1864), (2560, 1656), (2048, 1326))
+        /// 3024×1964 panel (MacBook Pro 14" M1 Pro → M5): looks-like 1800×1169,
+        /// 1512×982 (default, native), 1352×878, 1147×745, 1024×665.
+        static let pro14 = px((3600, 2338), (3024, 1964), (2704, 1756), (2294, 1490), (2048, 1330))
+        /// 3456×2234 panel (MacBook Pro 16" M1 Pro → M5): looks-like 2056×1329,
+        /// 1728×1117 (default, native), 1496×967, 1312×848, 1168×755.
+        static let pro16 = px((4112, 2658), (3456, 2234), (2992, 1934), (2624, 1696), (2336, 1510))
+        /// 2408×1506 panel (MacBook Neo): looks-like 1637×1024, 1408×881
+        /// (default — a scaled mode, not native), 1204×753 (native), 1024×640.
+        /// Owner-reported (MacRumors "Neo Display Thoughts?", 2026); single source.
+        static let neo = px((3274, 2048), (2816, 1762), (2408, 1506), (2048, 1280))
+        /// 4480×2520 panel (iMac 24" M1/M3/M4): looks-like 2560×1440,
+        /// 2240×1260 (default, native), 1920×1080, 1600×900, 1280×720.
+        /// Owner-reported (MacRumors "M1 iMac - Scaled (HiDPI) Resolutions").
+        static let imac24 = px((5120, 2880), (4480, 2520), (3840, 2160), (3200, 1800), (2560, 1440))
+        /// 5120×2880 panel (Studio Display, 2022 and 2026, and XDR): looks-like
+        /// 3200×1800, 2880×1620, 2560×1440 (default, native), 2048×1152,
+        /// 1600×900 — the 5K list, with 1920×1080 also offered. The top three
+        /// are owner-confirmed; the lower ones are the standard 5K set.
+        static let studio = px((6400, 3600), (5760, 3240), (5120, 2880), (4096, 2304), (3840, 2160), (3200, 1800))
+        /// Apple TV 4K captures at 1080p or 4K.
+        static let appleTV = px((3840, 2160), (1920, 1080))
+    }
+
     public static let allDevices: [DeviceDefinition] = [
         // MARK: - iPhone 14 family
         DeviceDefinition(
@@ -413,7 +472,8 @@ public enum DeviceCatalog {
             colors: [DeviceColor("Black")],
             defaultColorID: "Black",
             landscapeOnly: true,
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.appleTV
         ),
 
         // MARK: - Mac family
@@ -422,7 +482,8 @@ public enum DeviceCatalog {
             displayName: "MacBook Air 13\"",
             colors: [DeviceColor("Midnight")],
             defaultColorID: "Midnight",
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.air13
         ),
         DeviceDefinition(
             id: "macbookairm513",
@@ -434,7 +495,8 @@ public enum DeviceCatalog {
                 DeviceColor("Starlight"),
             ],
             defaultColorID: "Midnight",
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.air13
         ),
         DeviceDefinition(
             id: "macbookairm515",
@@ -446,14 +508,16 @@ public enum DeviceCatalog {
                 DeviceColor("Starlight"),
             ],
             defaultColorID: "Midnight",
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.air15
         ),
         DeviceDefinition(
             id: "macbookpro14",
             displayName: "MacBook Pro 14\"",
             colors: [DeviceColor("Silver")],
             defaultColorID: "Silver",
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.pro14
         ),
         DeviceDefinition(
             id: "macbookprom514",
@@ -463,14 +527,16 @@ public enum DeviceCatalog {
                 DeviceColor("Space Black"),
             ],
             defaultColorID: "Silver",
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.pro14
         ),
         DeviceDefinition(
             id: "macbookpro16",
             displayName: "MacBook Pro 16\"",
             colors: [DeviceColor("Silver")],
             defaultColorID: "Silver",
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.pro16
         ),
         DeviceDefinition(
             id: "macbookprom516",
@@ -480,7 +546,8 @@ public enum DeviceCatalog {
                 DeviceColor("Space Black"),
             ],
             defaultColorID: "Silver",
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.pro16
         ),
         DeviceDefinition(
             id: "macbookneo",
@@ -492,14 +559,16 @@ public enum DeviceCatalog {
                 DeviceColor("Indigo"),
             ],
             defaultColorID: "Silver",
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.neo
         ),
         DeviceDefinition(
             id: "imac24",
             displayName: "iMac 24\"",
             colors: [DeviceColor("Silver")],
             defaultColorID: "Silver",
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.imac24
         ),
         // Apple's "Studio Displays" pack ships four PNGs — Studio Display and
         // Studio Display XDR, each "on light" and "on dark" background — that are
@@ -510,7 +579,8 @@ public enum DeviceCatalog {
             displayName: "Studio Display (2026)",
             colors: [DeviceColor("Silver")],
             defaultColorID: "Silver",
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.studio
         ),
         DeviceDefinition(
             id: "imacm4",
@@ -525,7 +595,8 @@ public enum DeviceCatalog {
                 DeviceColor("Yellow"),
             ],
             defaultColorID: "Silver",
-            hasPortraitBezel: false
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.imac24
         ),
     ]
 

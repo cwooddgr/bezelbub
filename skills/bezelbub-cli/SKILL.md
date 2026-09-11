@@ -32,7 +32,7 @@ bezelbub frame --input demo.mp4 --json      # frame a recording → MP4
 
 ## 2. Device selection
 
-- Omit `--device` first — auto-detection from pixel size usually works.
+- Omit `--device` first — auto-detection from pixel size usually works. iPhones/iPads match their native size; Macs, iMac, Studio Display, and Apple TV match the exact capture size of each macOS display-zoom setting (falling back to aspect ratio for unknown sizes), so several candidates usually means models that share a panel.
 - If the size matches several devices, the command exits 2 and stderr lists candidate ids; re-run with `--device <id>` (ask the user which device if it matters, or pick the newest listed).
 - If nothing matches, stderr suggests the nearest devices by aspect ratio. Prefer resizing/recapturing the input at a native screen size; forcing `--device` on a mismatched size composites at native pixel size and looks wrong.
 - To check before framing: `bezelbub devices --input <path> --json` → `{width, height, matches, nearest}`. That query always exits 0; an empty `matches` array is the "no fit" signal.

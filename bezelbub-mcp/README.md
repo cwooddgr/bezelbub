@@ -103,7 +103,9 @@ List the 45-device bezel catalog (ids, colors, screen pixel sizes), or — with
 `input_path` or `dimensions` (`"1206x2622"`) — find which devices fit a given
 screenshot, recording, or pixel size. Filtered results return
 `{width, height, matches, nearest}`; an empty `matches` array means no exact
-fit and `nearest` lists the closest devices by aspect ratio.
+fit and `nearest` lists the closest devices by aspect ratio. Each device also
+lists its `captureSizes` (the pixel size of every macOS display-zoom setting,
+for Macs and displays), which is how display captures are matched exactly.
 
 ## Error handling
 

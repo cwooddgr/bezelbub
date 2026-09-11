@@ -160,30 +160,60 @@ final class BezelbubKitTests: XCTestCase {
 
     // MARK: - Displays
 
-    // A native 5K capture is 16:9, so every 16:9 display device is a candidate
-    // (matched by aspect ratio), with the newest catalog entry — iMac M4 — first.
-    func testFiveKCaptureListsSixteenByNineDisplays() {
+    // A native 5K capture is the Studio Display's native size and also the iMac
+    // 24" at "More Space" (2560×1440 ×2), so those match exactly; Apple TV is
+    // 16:9 too but 5120×2880 isn't a size it captures at, so it's dropped.
+    func testFiveKCaptureMatchesKnownCaptureSizesOnly() {
         let devices = DeviceCatalog.hydrated()
         let matches = DeviceMatcher.match(screenshotWidth: 5120, screenshotHeight: 2880, devices: devices)
-        let ids = matches.map(\.device.id)
-        XCTAssertEqual(ids.first, "imacm4")
-        for expected in ["studiodisplay", "imac24", "appletv4k"] {
-            XCTAssertTrue(ids.contains(expected), "Expected \(expected) among \(ids)")
-        }
-        XCTAssertTrue(matches.allSatisfy(\.matchedByAspectRatio))
+        XCTAssertEqual(Set(matches.map(\.device.id)), ["studiodisplay", "imacm4", "imac24"])
+        XCTAssertTrue(matches.allSatisfy { !$0.matchedByAspectRatio })
     }
 
     // macOS display zoom ("Larger Text" … "More Space") changes the capture size
     // of the same panel. These are the five real screenshot sizes from a 15"
-    // MacBook Air M4 (2026-09-11); every one must match its bezel first. Screen
+    // MacBook Air M4 (2026-09-11). Each is unique to the 15" Air's panel, so it
+    // must be the only match — not one of seven 16:10 MacBooks. Screen
     // recordings carry the same pixel sizes, so this covers both.
-    func testMacDisplayZoomSizesAllMatchTheirMacBook() {
+    func testMacDisplayZoomSizesIdentifyTheMacBookExactly() {
         let devices = DeviceCatalog.hydrated()
         let zoomSizes = [(2048, 1326), (2560, 1656), (2880, 1864), (3420, 2214), (3840, 2486)]
         for (w, h) in zoomSizes {
             let matches = DeviceMatcher.match(screenshotWidth: w, screenshotHeight: h, devices: devices)
-            XCTAssertEqual(matches.first?.device.id, "macbookairm515", "\(w)×\(h) should lead with the 15\" Air")
-            XCTAssertTrue(matches.allSatisfy(\.matchedByAspectRatio))
+            XCTAssertEqual(matches.map(\.device.id), ["macbookairm515"], "\(w)×\(h) should be the 15\" Air alone")
+            XCTAssertEqual(matches.first?.matchedByAspectRatio, false)
+        }
+    }
+
+    // A 14" Pro capture identifies the 14" Pro panel — both generations we ship.
+    func testMacBookPro14DefaultZoomMatchesBothPro14Entries() {
+        let devices = DeviceCatalog.hydrated()
+        let matches = DeviceMatcher.match(screenshotWidth: 3024, screenshotHeight: 1964, devices: devices)
+        XCTAssertEqual(Set(matches.map(\.device.id)), ["macbookprom514", "macbookpro14"])
+    }
+
+    // A 16:10 size that no panel captures at (an external monitor, say) still
+    // resolves — by aspect ratio, to every 16:10 MacBook.
+    func testUnknownSixteenByTenSizeFallsBackToAspectRatio() {
+        let devices = DeviceCatalog.hydrated()
+        let matches = DeviceMatcher.match(screenshotWidth: 3000, screenshotHeight: 1940, devices: devices)
+        XCTAssertGreaterThan(matches.count, 1)
+        XCTAssertTrue(matches.allSatisfy { $0.matchedByAspectRatio && $0.device.id.hasPrefix("macbook") })
+    }
+
+    // Every display device carries a capture-size table, and every size in it
+    // is landscape and within 2% of the bezel's screen aspect (a typo in the
+    // table would silently never match).
+    func testCaptureSizeTablesAreConsistentWithBezels() throws {
+        for device in DeviceCatalog.hydrated() where !device.hasPortraitBezel {
+            XCTAssertFalse(device.captureSizes.isEmpty, "\(device.id) has no capture sizes")
+            let region = try XCTUnwrap(device.screenRegion)
+            let bezelAspect = region.width / region.height
+            for size in device.captureSizes {
+                XCTAssertGreaterThan(size.width, size.height, "\(device.id) \(size) is not landscape")
+                let error = abs(size.width / size.height - bezelAspect) / bezelAspect
+                XCTAssertLessThan(error, 0.02, "\(device.id) \(size) is off the bezel's aspect")
+            }
         }
     }
 

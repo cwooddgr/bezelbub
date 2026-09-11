@@ -10,7 +10,7 @@ Bezelbub wraps your screenshots and screen recordings in realistic Apple device 
 
 ## Features
 
-- **Auto-detection** — Matches screenshots and videos to the correct device: iPhone and iPad by exact resolution, and Macs, iMac, and Apple TV by aspect ratio so captures taken at any scaled ("More Space") resolution still match and fill the bezel. Keeps your current device and color when you load another screenshot that fits the same device
+- **Auto-detection** — Matches screenshots and videos to the correct device: iPhone and iPad by exact resolution; Macs, iMac, Studio Display, and Apple TV by the exact capture size of each macOS display zoom setting ("Larger Text" through "More Space"), so a capture at any zoom identifies the model, with aspect-ratio matching as the fallback for sizes not on file. Models that share a panel are all offered. Keeps your current device and color when you load another screenshot that fits the same device
 - **Drag and drop** (macOS) — Drop a screenshot or screen recording onto the app window or dock icon
 - **Paste** (macOS) — Paste a screenshot straight from the clipboard with ⌘V, or via Edit ▸ Paste
 - **Photos & Share Extension** (iOS) — Import from Photos, or frame images directly from any app via the system share sheet
@@ -76,7 +76,7 @@ bezelbub frame --input shot.png --device iphone17pro \
 
 ### Device auto-detection
 
-Omit `--device` and the CLI detects the device from the input's pixel dimensions. iPhones and iPads match by exact screen resolution (±1px); display devices (Macs, iMac, Apple TV) match by aspect ratio, so screenshots taken at any scaled resolution still work and are rescaled to the bezel's screen. Detection succeeds when exactly one device matches; if several share the resolution, the error lists the candidates so you can re-run with `--device <id>`, and if none match, the nearest devices by aspect ratio are suggested. `bezelbub devices --input <path>` (or `--dimensions WxH`) answers "which devices fit this input" without framing anything.
+Omit `--device` and the CLI detects the device from the input's pixel dimensions. iPhones and iPads match by exact screen resolution (±1px). Display devices (Macs, iMac, Studio Display, Apple TV) match by exact capture size too: every macOS display zoom setting captures at a known pixel size per model, so a 3420×2214 screenshot is a 15" MacBook Air whatever zoom it was taken at; sizes not on file (external monitors, downscaled recordings) fall back to aspect-ratio matching. Display captures are rescaled to the bezel's screen when framed. Detection succeeds when exactly one device matches; if several share the resolution, the error lists the candidates so you can re-run with `--device <id>`, and if none match, the nearest devices by aspect ratio are suggested. `bezelbub devices --input <path>` (or `--dimensions WxH`) answers "which devices fit this input" without framing anything.
 
 ### Transparent video and WebM (alpha-channel screen recordings)
 

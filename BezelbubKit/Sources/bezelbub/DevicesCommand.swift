@@ -15,12 +15,14 @@ struct Devices: AsyncParsableCommand {
           bezelbub devices --dimensions 1206x2622   # same, without a file on disk
 
         When filtering, iPhones/iPads match when their screen pixel size equals \
-        the query (±1px); display devices (Macs, iMac, Apple TV) are captured at \
-        many scaled resolutions, so they match by aspect ratio and the screenshot \
-        is rescaled when framed. If nothing matches, the nearest devices by \
-        aspect ratio are shown instead (in JSON, under "nearest"). Filtering \
-        exits 0 either way — an empty "matches" array is the signal, not the \
-        exit code.
+        the query (±1px). Display devices (Macs, iMac, Studio Display, Apple TV) \
+        are captured at one size per macOS display-zoom setting; those sizes are \
+        known per model, so a query at one of them identifies the model exactly \
+        (±1px), and any other size falls back to matching by aspect ratio. Either \
+        way the screenshot is rescaled to the bezel's screen when framed. If \
+        nothing matches, the nearest devices by aspect ratio are shown instead \
+        (in JSON, under "nearest"). Filtering exits 0 either way — an empty \
+        "matches" array is the signal, not the exit code.
         """
     )
 
@@ -122,7 +124,7 @@ struct Devices: AsyncParsableCommand {
         let exact = matches.filter { !$0.matchedByAspectRatio }.map(\.device)
         let byAspect = matches.filter(\.matchedByAspectRatio).map(\.device)
         if !exact.isEmpty {
-            print("Devices whose screen is exactly \(size.width)×\(size.height) px:")
+            print("Devices that capture at exactly \(size.width)×\(size.height) px:")
             print(deviceList(exact))
         }
         if !byAspect.isEmpty {
