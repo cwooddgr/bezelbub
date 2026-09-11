@@ -24,7 +24,8 @@ Bezelbub wraps your screenshots and screen recordings in realistic Apple device 
 
 ## Supported Devices
 
-- **iPhone** — 14, 14 Plus, 14 Pro, 14 Pro Max, 15, 15 Plus, 15 Pro, 15 Pro Max, 16, 16 Plus, 16 Pro, 16 Pro Max, 17, 17 Pro, 17 Pro Max, Air
+- **iPhone** — 14, 14 Plus, 14 Pro, 14 Pro Max, 15, 15 Plus, 15 Pro, 15 Pro Max, 16, 16 Plus, 16 Pro, 16 Pro Max, 17, 17 Pro, 17 Pro Max, Air, 18 Pro, 18 Pro Max
+- **iPhone Duo** — three views, each a separate device: the inner display open (`iphoneduo`), the outer display closed (`iphoneduoouter`), and the outer display with the phone open, seen from the back (`iphoneduoouteropen`); all in portrait and landscape
 - **iPad** — iPad, iPad (A16), iPad Air 11"/13" M2, iPad Air 11"/13" M4, iPad mini, iPad mini (A17 Pro), iPad Pro 11"/13" M4, iPad Pro 11"/13" M5
 - **Mac** — MacBook Air 13", MacBook Air 13"/15" M5, MacBook Pro 14", MacBook Pro 16", MacBook Pro 14"/16" M5, MacBook Neo, iMac 24" (matched by aspect ratio, so any scaled display resolution works)
 - **Apple TV** — Apple TV 4K (1080p and 4K screenshots)

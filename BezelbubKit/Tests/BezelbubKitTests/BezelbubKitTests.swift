@@ -110,6 +110,54 @@ final class BezelbubKitTests: XCTestCase {
         )
     }
 
+    // MARK: - iPhone Duo
+
+    // The Duo's "open, outer display" bezel is the one catalog image whose
+    // center pixel is opaque (it lands on the hinge), so the runtime detector
+    // must fall back from the center seed to the enclosed transparent region.
+    // Its region must equal the precomputed one and the closed-outer region's
+    // size — same physical display.
+    func testDuoOuterOpenRegionDetectsOffCenterScreen() throws {
+        let fileName = "iphoneduoouteropen-nightsky-p.png"
+        let detected = try XCTUnwrap(
+            ScreenRegionDetector.detectScreenRegion(bezelFileName: fileName),
+            "Runtime flood-fill should find the off-center screen hole"
+        )
+        let bundled = try XCTUnwrap(ScreenRegionDetector.bundledRegions[fileName])
+        XCTAssertEqual(detected, bundled)
+
+        let closed = try XCTUnwrap(ScreenRegionDetector.bundledRegions["iphoneduoouter-nightsky-p.png"])
+        XCTAssertEqual(detected.size, closed.size)
+        XCTAssertGreaterThan(detected.minX, 1000, "Screen sits on the right half of the wide canvas")
+    }
+
+    // An outer-display screenshot is ambiguous between the closed and open
+    // views; both must be offered, closed first (the default), and the inner
+    // display must resolve to the single "iphoneduo" entry.
+    func testDuoOuterDisplayListsBothViews() throws {
+        let devices = DeviceCatalog.hydrated()
+        let outer = try XCTUnwrap(devices.first { $0.id == "iphoneduoouter" }?.screenRegion)
+        let matches = DeviceMatcher.match(
+            screenshotWidth: Int(outer.width), screenshotHeight: Int(outer.height), devices: devices
+        )
+        XCTAssertEqual(matches.map(\.device.id), ["iphoneduoouter", "iphoneduoouteropen"])
+
+        let inner = try XCTUnwrap(devices.first { $0.id == "iphoneduo" }?.screenRegion)
+        let innerMatches = DeviceMatcher.match(
+            screenshotWidth: Int(inner.width), screenshotHeight: Int(inner.height), devices: devices
+        )
+        XCTAssertEqual(innerMatches.map(\.device.id), ["iphoneduo"])
+    }
+
+    // iPhone 18 Pro shares its screen with 17 Pro; the newer device should be
+    // listed first among the candidates.
+    func testIPhone18ProRanksFirstAtSharedResolution() {
+        let devices = DeviceCatalog.hydrated()
+        let matches = DeviceMatcher.match(screenshotWidth: 1206, screenshotHeight: 2622, devices: devices)
+        XCTAssertEqual(matches.first?.device.id, "iphone18pro")
+        XCTAssertTrue(matches.contains { $0.device.id == "iphone17pro" })
+    }
+
     // MARK: - Helpers
 
     private func makeSolidImage(width: Int, height: Int) -> CGImage? {

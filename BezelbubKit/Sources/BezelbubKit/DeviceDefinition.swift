@@ -229,6 +229,67 @@ public enum DeviceCatalog {
             defaultColorID: "Space Black"
         ),
 
+        // MARK: - iPhone 18 family
+        DeviceDefinition(
+            id: "iphone18pro",
+            displayName: "iPhone 18 Pro",
+            colors: [
+                DeviceColor("Silver"),
+                DeviceColor("Black"),
+                DeviceColor("Burgundy"),
+                DeviceColor("Glacier"),
+            ],
+            defaultColorID: "Silver"
+        ),
+        DeviceDefinition(
+            id: "iphone18promax",
+            displayName: "iPhone 18 Pro Max",
+            colors: [
+                DeviceColor("Silver"),
+                DeviceColor("Black"),
+                DeviceColor("Burgundy"),
+                DeviceColor("Glacier"),
+            ],
+            defaultColorID: "Silver"
+        ),
+
+        // MARK: - iPhone Duo
+        // The foldable is three catalog entries, one per Apple bezel view, each
+        // with a single screen region: the inner display (open), the outer
+        // display with the device closed, and the outer display with the device
+        // open, seen from the back. Apple ships the last one once, as a wide
+        // canvas with a portrait screen; that's our portrait file, and the
+        // landscape file is the same art rotated 90° with the display on top.
+        // The two outer views share a resolution, so an outer-display screenshot
+        // lists both as candidates; "closed" comes last to win the default.
+        DeviceDefinition(
+            id: "iphoneduo",
+            displayName: "iPhone Duo",
+            colors: [
+                DeviceColor("Night Sky"),
+                DeviceColor("Star White"),
+            ],
+            defaultColorID: "Night Sky"
+        ),
+        DeviceDefinition(
+            id: "iphoneduoouteropen",
+            displayName: "iPhone Duo (open, outer display)",
+            colors: [
+                DeviceColor("Night Sky"),
+                DeviceColor("Star White"),
+            ],
+            defaultColorID: "Night Sky"
+        ),
+        DeviceDefinition(
+            id: "iphoneduoouter",
+            displayName: "iPhone Duo (closed, outer display)",
+            colors: [
+                DeviceColor("Night Sky"),
+                DeviceColor("Star White"),
+            ],
+            defaultColorID: "Night Sky"
+        ),
+
         // MARK: - iPad family
         DeviceDefinition(
             id: "ipad",

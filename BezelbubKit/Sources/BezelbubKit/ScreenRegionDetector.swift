@@ -76,17 +76,15 @@ public enum ScreenRegionDetector {
         let bytesPerPixel = image.bitsPerPixel / 8
         let bytesPerRow = image.bytesPerRow
 
-        // Flood-fill from the center of the bezel image outward through
-        // connected fully-transparent (alpha == 0) pixels. The center is
-        // guaranteed to be in the screen area. The bounding box of all
-        // filled pixels is the screen region.
+        // Flood-fill from a seed inside the screen hole outward through
+        // connected fully-transparent (alpha == 0) pixels. The bounding box
+        // of all filled pixels is the screen region.
 
-        let startX = width / 2
-        let startY = height / 2
-
-        let startAlpha = ptr[startY * bytesPerRow + startX * bytesPerPixel + 3]
-        guard startAlpha == 0 else {
-            print("[Bezelbub] Center pixel is not transparent in \(bezelFileName)")
+        guard let (startX, startY) = findScreenSeed(
+            ptr: ptr, width: width, height: height,
+            bytesPerRow: bytesPerRow, bytesPerPixel: bytesPerPixel
+        ) else {
+            print("[Bezelbub] No enclosed transparent screen region in \(bezelFileName)")
             return nil
         }
 
@@ -123,6 +121,60 @@ public enum ScreenRegionDetector {
         }
 
         return rect
+    }
+
+    // MARK: - Seed Search
+
+    /// Returns a fully-transparent pixel inside the screen hole to flood-fill from.
+    ///
+    /// Fast path: the image center, which every single-screen bezel satisfies.
+    /// When the center is opaque — the iPhone Duo "outer display, open" view puts
+    /// the hinge there, with the back panel on one side and the display on the
+    /// other — scan for the largest connected alpha == 0 component that does not
+    /// touch the image border. The exterior transparency always reaches the
+    /// border; the screen hole never does.
+    static func findScreenSeed(ptr: UnsafePointer<UInt8>, width: Int, height: Int,
+                        bytesPerRow: Int, bytesPerPixel: Int) -> (x: Int, y: Int)? {
+        let centerX = width / 2
+        let centerY = height / 2
+        if ptr[centerY * bytesPerRow + centerX * bytesPerPixel + 3] == 0 {
+            return (centerX, centerY)
+        }
+
+        var visited = [Bool](repeating: false, count: width * height)
+        var best: (seed: (x: Int, y: Int), size: Int)?
+
+        for y in 0..<height {
+            for x in 0..<width {
+                let idx = y * width + x
+                guard !visited[idx], ptr[y * bytesPerRow + x * bytesPerPixel + 3] == 0 else { continue }
+
+                visited[idx] = true
+                var stack: [(Int, Int)] = [(x, y)]
+                var size = 0
+                var touchesBorder = false
+
+                while let (px, py) = stack.popLast() {
+                    size += 1
+                    if px == 0 || py == 0 || px == width - 1 || py == height - 1 {
+                        touchesBorder = true
+                    }
+                    for (nx, ny) in [(px - 1, py), (px + 1, py), (px, py - 1), (px, py + 1)] {
+                        guard nx >= 0, nx < width, ny >= 0, ny < height else { continue }
+                        let nidx = ny * width + nx
+                        guard !visited[nidx], ptr[ny * bytesPerRow + nx * bytesPerPixel + 3] == 0 else { continue }
+                        visited[nidx] = true
+                        stack.append((nx, ny))
+                    }
+                }
+
+                if !touchesBorder, size > (best?.size ?? 0) {
+                    best = ((x, y), size)
+                }
+            }
+        }
+
+        return best?.seed
     }
 
     // MARK: - Bundled Masks (precomputed by Scripts/generate-screen-regions.swift)
@@ -179,11 +231,10 @@ public enum ScreenRegionDetector {
         let bytesPerPixel = image.bitsPerPixel / 8
         let bytesPerRow = image.bytesPerRow
 
-        let startX = width / 2
-        let startY = height / 2
-
-        let startAlpha = ptr[startY * bytesPerRow + startX * bytesPerPixel + 3]
-        guard startAlpha == 0 else { return nil }
+        guard let (startX, startY) = findScreenSeed(
+            ptr: ptr, width: width, height: height,
+            bytesPerRow: bytesPerRow, bytesPerPixel: bytesPerPixel
+        ) else { return nil }
 
         // Phase 1: Flood fill through fully-transparent pixels from center.
         // When we hit a semi-transparent pixel (0 < alpha < 255), record it

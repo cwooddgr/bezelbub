@@ -1199,6 +1199,102 @@
     "x" : 75,
     "y" : 66
   },
+  "iphone18pro-black-l.png" : {
+    "height" : 1206,
+    "width" : 2622,
+    "x" : 69,
+    "y" : 72
+  },
+  "iphone18pro-black-p.png" : {
+    "height" : 2622,
+    "width" : 1206,
+    "x" : 72,
+    "y" : 69
+  },
+  "iphone18pro-burgundy-l.png" : {
+    "height" : 1206,
+    "width" : 2622,
+    "x" : 69,
+    "y" : 72
+  },
+  "iphone18pro-burgundy-p.png" : {
+    "height" : 2622,
+    "width" : 1206,
+    "x" : 72,
+    "y" : 69
+  },
+  "iphone18pro-glacier-l.png" : {
+    "height" : 1206,
+    "width" : 2622,
+    "x" : 69,
+    "y" : 72
+  },
+  "iphone18pro-glacier-p.png" : {
+    "height" : 2622,
+    "width" : 1206,
+    "x" : 72,
+    "y" : 69
+  },
+  "iphone18pro-silver-l.png" : {
+    "height" : 1206,
+    "width" : 2622,
+    "x" : 69,
+    "y" : 72
+  },
+  "iphone18pro-silver-p.png" : {
+    "height" : 2622,
+    "width" : 1206,
+    "x" : 72,
+    "y" : 69
+  },
+  "iphone18promax-black-l.png" : {
+    "height" : 1320,
+    "width" : 2868,
+    "x" : 66,
+    "y" : 76
+  },
+  "iphone18promax-black-p.png" : {
+    "height" : 2868,
+    "width" : 1320,
+    "x" : 75,
+    "y" : 66
+  },
+  "iphone18promax-burgundy-l.png" : {
+    "height" : 1320,
+    "width" : 2868,
+    "x" : 66,
+    "y" : 76
+  },
+  "iphone18promax-burgundy-p.png" : {
+    "height" : 2868,
+    "width" : 1320,
+    "x" : 75,
+    "y" : 66
+  },
+  "iphone18promax-glacier-l.png" : {
+    "height" : 1320,
+    "width" : 2868,
+    "x" : 66,
+    "y" : 76
+  },
+  "iphone18promax-glacier-p.png" : {
+    "height" : 2868,
+    "width" : 1320,
+    "x" : 75,
+    "y" : 66
+  },
+  "iphone18promax-silver-l.png" : {
+    "height" : 1320,
+    "width" : 2868,
+    "x" : 66,
+    "y" : 76
+  },
+  "iphone18promax-silver-p.png" : {
+    "height" : 2868,
+    "width" : 1320,
+    "x" : 75,
+    "y" : 66
+  },
   "iphoneair-cloudwhite-l.png" : {
     "height" : 1260,
     "width" : 2736,
@@ -1246,6 +1342,78 @@
     "width" : 1260,
     "x" : 60,
     "y" : 72
+  },
+  "iphoneduo-nightsky-l.png" : {
+    "height" : 2007,
+    "width" : 2853,
+    "x" : 120,
+    "y" : 120
+  },
+  "iphoneduo-nightsky-p.png" : {
+    "height" : 2853,
+    "width" : 2007,
+    "x" : 120,
+    "y" : 120
+  },
+  "iphoneduo-starwhite-l.png" : {
+    "height" : 2007,
+    "width" : 2853,
+    "x" : 120,
+    "y" : 120
+  },
+  "iphoneduo-starwhite-p.png" : {
+    "height" : 2853,
+    "width" : 2007,
+    "x" : 120,
+    "y" : 120
+  },
+  "iphoneduoouter-nightsky-l.png" : {
+    "height" : 1398,
+    "width" : 2034,
+    "x" : 80,
+    "y" : 88
+  },
+  "iphoneduoouter-nightsky-p.png" : {
+    "height" : 2034,
+    "width" : 1398,
+    "x" : 88,
+    "y" : 80
+  },
+  "iphoneduoouter-starwhite-l.png" : {
+    "height" : 1398,
+    "width" : 2034,
+    "x" : 80,
+    "y" : 88
+  },
+  "iphoneduoouter-starwhite-p.png" : {
+    "height" : 2034,
+    "width" : 1398,
+    "x" : 88,
+    "y" : 80
+  },
+  "iphoneduoouteropen-nightsky-l.png" : {
+    "height" : 1398,
+    "width" : 2034,
+    "x" : 80,
+    "y" : 88
+  },
+  "iphoneduoouteropen-nightsky-p.png" : {
+    "height" : 2034,
+    "width" : 1398,
+    "x" : 1570,
+    "y" : 80
+  },
+  "iphoneduoouteropen-starwhite-l.png" : {
+    "height" : 1398,
+    "width" : 2034,
+    "x" : 80,
+    "y" : 88
+  },
+  "iphoneduoouteropen-starwhite-p.png" : {
+    "height" : 2034,
+    "width" : 1398,
+    "x" : 1570,
+    "y" : 80
   },
   "macbookair13-midnight-l.png" : {
     "height" : 1664,

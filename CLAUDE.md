@@ -77,6 +77,8 @@ Agent-friendly: every input is a flag with a default, `--json` gives machine-rea
 
 `Scripts/generate-screen-regions.swift` flood-fills the bezel PNGs to (re)generate `Masks/` and `screen-regions.json`. It reads/writes under `BezelbubKit/Sources/BezelbubKit/Resources/`.
 
+The flood fill seeds from the image center; when that pixel is opaque (the iPhone Duo "open, outer display" view, where the center is the hinge) it falls back to the largest enclosed fully-transparent region. `ScreenRegionDetector` mirrors the same seed logic for its runtime fallback. Apple ships that Duo view once, as a wide canvas with a portrait screen: that file is our `-p` bezel, and the `-l` bezel is the same art rotated 90° counter-clockwise (`sips --rotate -90`) so the display sits on top.
+
 ### Targets
 
 - **Bezelbub** — macOS application

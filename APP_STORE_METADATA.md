@@ -48,8 +48,8 @@ Built for developers, designers, product managers, indie makers, and anyone who 
 AUTOMATIC DEVICE MATCHING
 Drop in a screenshot or screen recording and Bezelbub detects the resolution, picks the right device model, and selects portrait or landscape. No picker, no calibration, no guesswork. Load another screenshot for the same device and it keeps the device and color you already chose.
 
-38+ DEVICE MODELS, EVERY COLOR
-Complete coverage of modern Apple hardware — iPhone 14 through iPhone 17, iPhone Air, iPad, iPad (A16), iPad mini, iPad mini (A17 Pro), iPad Air M2/M4 in 11" and 13", iPad Pro M4/M5 in 11" and 13", MacBook Air, MacBook Pro, MacBook Neo, iMac 24", and Apple TV 4K — each in every color Apple ships.
+43 DEVICE MODELS, EVERY COLOR
+Complete coverage of modern Apple hardware — iPhone 14 through iPhone 18 Pro, iPhone Air, iPhone Duo (inner and outer displays), iPad, iPad (A16), iPad mini, iPad mini (A17 Pro), iPad Air M2/M4 in 11" and 13", iPad Pro M4/M5 in 11" and 13", MacBook Air, MacBook Pro, MacBook Neo, iMac 24", and Apple TV 4K — each in every color Apple ships.
 
 VIDEO FRAMING, NOT JUST STILLS
 Wrap full screen recordings in device art. MOV, MP4, and M4V. Audio preserved. Rotation, background color selection, and custom export sizing built in. On iOS, a resolution picker with a quality indicator lets you choose the right size for Slack, Twitter/X, or a marketing site.
