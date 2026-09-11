@@ -173,6 +173,20 @@ final class BezelbubKitTests: XCTestCase {
         XCTAssertTrue(matches.allSatisfy(\.matchedByAspectRatio))
     }
 
+    // macOS display zoom ("Larger Text" … "More Space") changes the capture size
+    // of the same panel. These are the five real screenshot sizes from a 15"
+    // MacBook Air M4 (2026-09-11); every one must match its bezel first. Screen
+    // recordings carry the same pixel sizes, so this covers both.
+    func testMacDisplayZoomSizesAllMatchTheirMacBook() {
+        let devices = DeviceCatalog.hydrated()
+        let zoomSizes = [(2048, 1326), (2560, 1656), (2880, 1864), (3420, 2214), (3840, 2486)]
+        for (w, h) in zoomSizes {
+            let matches = DeviceMatcher.match(screenshotWidth: w, screenshotHeight: h, devices: devices)
+            XCTAssertEqual(matches.first?.device.id, "macbookairm515", "\(w)×\(h) should lead with the 15\" Air")
+            XCTAssertTrue(matches.allSatisfy(\.matchedByAspectRatio))
+        }
+    }
+
     // MARK: - Helpers
 
     private func makeSolidImage(width: Int, height: Int) -> CGImage? {
