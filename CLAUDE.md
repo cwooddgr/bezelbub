@@ -2,6 +2,8 @@
 
 macOS + iOS app that composites device bezels onto screenshots and screen recordings. Built with SwiftUI, targeting macOS 14+ and iOS 17+.
 
+**App Store status:** 3.4.0 (macOS build 18 / iOS build 14) approved and live on both stores since 2026-09-12 (READY_FOR_SALE per the ASC API; Charlie confirmed). No submission pending. Update this line at every submission so the session-start status check stays accurate.
+
 The device-framing engine lives in a UI-free Swift package (`BezelbubKit`) so it can run headless. The SwiftUI apps, the share extension, and the `bezelbub` CLI are all thin clients of that package — see [Architecture](#architecture-shared-engine--thin-adapters).
 
 ## Project Structure
