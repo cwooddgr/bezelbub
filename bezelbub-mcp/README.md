@@ -121,14 +121,38 @@ failed, 6 write failed, 7 ffmpeg missing for `--webm`).
 |---|---|
 | `BEZELBUB_CLI_PATH` | Explicit path to the `bezelbub` binary (overrides `PATH` lookup) |
 | `BEZELBUB_TIMEOUT_MS` | Per-call CLI timeout in milliseconds (default 600000; raise for long video exports) |
+| `BEZELBUB_NO_UPDATE_CHECK` | Set to `1` to skip the update check described below |
+
+## Updating
+
+`npx -y` fetches the newest release each time the server starts, so a fresh
+session always gets the current version. A session that is already open does
+not: an MCP client reads a server's tool list once, when it connects, and the
+server process it started keeps running the code it launched with. Until you
+reconnect, that session keeps the old tool descriptions and schemas, and if a
+release changed a tool's inputs, calls from the old session can fail.
+
+Since 0.3.0 the server checks the npm registry for a newer version when it
+starts (and every six hours after that) and, when one exists, adds a short
+note to every tool result saying which version is available and that the
+server needs to be reconnected. The assistant reads tool results, so it will
+pass the note along. To pick up the new version:
+
+- Claude Code: run `/mcp`, select `bezelbub`, and choose Reconnect.
+- Claude Desktop: quit and reopen the app.
+
+The check is one request to `registry.npmjs.org` with a four-second timeout.
+It runs in the background, never delays a tool call, and stays silent when
+it fails. Set `BEZELBUB_NO_UPDATE_CHECK=1` to turn it off.
 
 ## Development
 
 ```sh
 npm ci
 npm run build      # tsc → dist/
-npm test           # builds, then runs an end-to-end MCP-over-stdio test
-                   # (requires the bezelbub CLI; generates its own test image)
+npm test           # builds, then runs the update-notice tests and an
+                   # end-to-end MCP-over-stdio test (requires the bezelbub
+                   # CLI; generates its own test image)
 ```
 
 ## License

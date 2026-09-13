@@ -13,6 +13,7 @@ import { z } from "zod";
 import { resolve as resolvePath } from "node:path";
 import { readFileSync } from "node:fs";
 import { runBezelbub } from "./cli.js";
+import { startUpdateCheck, updateNotice } from "./update-check.js";
 
 // Read the version from package.json so it can never drift from what npm ships.
 const SERVER_VERSION: string = JSON.parse(
@@ -93,24 +94,36 @@ type ToolResult = {
   isError?: boolean;
 };
 
+/**
+ * When a newer release exists, every result carries a second text block
+ * saying so, because the text of tool results is the only thing that
+ * reaches a session that connected before the release (see update-check.ts).
+ * It goes after the JSON so content[0] stays parseable.
+ */
+function withUpdateNotice(result: ToolResult): ToolResult {
+  const notice = updateNotice();
+  if (notice) result.content.push({ type: "text", text: notice });
+  return result;
+}
+
 function ok(json: unknown, stdout: string): ToolResult {
-  return {
+  return withUpdateNotice({
     content: [
       {
         type: "text",
         text: typeof json === "string" ? stdout : JSON.stringify(json, null, 2),
       },
     ],
-  };
+  });
 }
 
 function fail(error: unknown): ToolResult {
-  return {
+  return withUpdateNotice({
     content: [
       { type: "text", text: error instanceof Error ? error.message : String(error) },
     ],
     isError: true,
-  };
+  });
 }
 
 server.registerTool(
@@ -268,6 +281,8 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   console.error(`bezelbub-mcp ${SERVER_VERSION} ready (stdio)`);
+  // After connect, so the registry lookup can never delay the handshake.
+  startUpdateCheck(SERVER_VERSION);
 }
 
 main().catch((error) => {

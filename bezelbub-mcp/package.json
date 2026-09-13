@@ -1,6 +1,6 @@
 {
   "name": "@dgr_labs/bezelbub-mcp",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "mcpName": "io.github.cwooddgr/bezelbub-mcp",
   "description": "MCP server for Bezelbub: frame screenshots and screen recordings in Apple device bezels (iPhone, iPad, Mac, iMac, Apple TV device mockups), including transparent HEVC-alpha video export. macOS only.",
   "type": "module",
@@ -16,7 +16,7 @@
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build",
-    "test": "npm run build && node test/e2e.mjs",
+    "test": "npm run build && node test/update-check.mjs && BEZELBUB_NO_UPDATE_CHECK=1 node test/e2e.mjs",
     "bundle:smithery": "node scripts/build-smithery-bundle.mjs"
   },
   "engines": {
