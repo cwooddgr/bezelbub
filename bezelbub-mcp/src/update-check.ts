@@ -8,20 +8,31 @@
  * can reach it. The only thing that does reach it is the text of tool
  * results, which the model reads before every reply.
  *
- * This module checks the npm registry for a newer version (best-effort,
- * short timeout, never blocks a tool call) and, if one exists, supplies a
- * one-line notice for the server to append to every tool result: which
- * version is available, and that the session has to reconnect the server to
- * get it. Set BEZELBUB_NO_UPDATE_CHECK=1 to turn the check off.
+ * This module checks the npm registry for a newer version and, if one
+ * exists, supplies a one-line notice for the server to append to every tool
+ * result: which version is available, and that the session has to reconnect
+ * the server to get it.
+ *
+ * The check runs on demand, not on a timer: a tool call triggers it in the
+ * background when the last check is older than CHECK_INTERVAL_MS, and the
+ * call itself is answered immediately (the next call carries the notice).
+ * An idle session makes no requests at all. A check at startup alone would
+ * be pointless, since npx has just fetched the latest build at that moment;
+ * the release we care about is the one that lands after the session opened.
+ * Best-effort, short timeout, silent on failure. Set
+ * BEZELBUB_NO_UPDATE_CHECK=1 to turn it off.
  */
 
 const PACKAGE_NAME = "@dgr_labs/bezelbub-mcp";
 const REGISTRY_URL = `https://registry.npmjs.org/${PACKAGE_NAME}/latest`;
 const FETCH_TIMEOUT_MS = 4_000;
-const RECHECK_INTERVAL_MS = 6 * 60 * 60 * 1000;
+const CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000;
 
 let currentVersion = "0.0.0";
 let latestVersion: string | undefined;
+let registryUrl: string | undefined; // undefined = check disabled
+let lastCheckStarted = -Infinity;
+let inFlight: Promise<void> | undefined;
 
 /** True when BEZELBUB_NO_UPDATE_CHECK is set to anything but "", "0", "false". */
 export function updateCheckDisabled(env: NodeJS.ProcessEnv = process.env): boolean {
@@ -94,16 +105,29 @@ async function checkOnce(url: string): Promise<void> {
   }
 }
 
-/**
- * Start the background check: once now, then every few hours for the life
- * of the session (long-lived clients keep a server open for days). Never
- * throws and never keeps the process alive on its own.
- */
-export function startUpdateCheck(version: string, env: NodeJS.ProcessEnv = process.env): void {
+/** Configure the check. Does not perform one. */
+export function configureUpdateCheck(version: string, env: NodeJS.ProcessEnv = process.env): void {
   currentVersion = version;
-  if (updateCheckDisabled(env)) return;
-  // Overridable for tests only; not documented.
-  const url = env.BEZELBUB_UPDATE_CHECK_URL?.trim() || REGISTRY_URL;
-  void checkOnce(url);
-  setInterval(() => void checkOnce(url), RECHECK_INTERVAL_MS).unref();
+  latestVersion = undefined;
+  lastCheckStarted = -Infinity;
+  // The URL is overridable for tests only; not documented.
+  registryUrl = updateCheckDisabled(env)
+    ? undefined
+    : env.BEZELBUB_UPDATE_CHECK_URL?.trim() || REGISTRY_URL;
+}
+
+/**
+ * Called on every tool call. Starts a background check when the last one is
+ * older than the interval; never waits for it and never throws. The returned
+ * promise is for tests that want to await the lookup.
+ */
+export function maybeCheckForUpdate(now = Date.now()): Promise<void> {
+  if (!registryUrl) return Promise.resolve();
+  if (inFlight) return inFlight;
+  if (now - lastCheckStarted < CHECK_INTERVAL_MS) return Promise.resolve();
+  lastCheckStarted = now;
+  inFlight = checkOnce(registryUrl).finally(() => {
+    inFlight = undefined;
+  });
+  return inFlight;
 }

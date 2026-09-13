@@ -3,10 +3,12 @@
  * Update-notice tests.
  *
  * 1. Pure version comparison.
- * 2. End to end: a local fake npm registry reports a newer version, and the
- *    built server appends the reconnect notice to a tool result (an error
- *    result here, so no bezelbub CLI is needed). A second server with the
- *    check disabled appends nothing.
+ * 2. Throttling of the on-demand check (pure, with an injected clock).
+ * 3. End to end: a local fake npm registry reports a newer version. The
+ *    first tool call triggers the background lookup, the second call carries
+ *    the reconnect notice, and the registry was hit once (error results
+ *    here, so no bezelbub CLI is needed). A server with the check disabled
+ *    never contacts the registry and appends nothing.
  */
 
 import { createServer } from "node:http";
@@ -16,7 +18,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
-const { isNewerVersion, formatUpdateNotice, updateCheckDisabled } = await import(
+const { isNewerVersion, formatUpdateNotice, updateCheckDisabled, configureUpdateCheck, maybeCheckForUpdate } = await import(
   join(root, "dist", "update-check.js")
 );
 
@@ -41,7 +43,7 @@ check("opt-out env var: 0", !updateCheckDisabled({ BEZELBUB_NO_UPDATE_CHECK: "0"
 check("opt-out env var: 1", updateCheckDisabled({ BEZELBUB_NO_UPDATE_CHECK: "1" }));
 check("opt-out env var: true", updateCheckDisabled({ BEZELBUB_NO_UPDATE_CHECK: "true" }));
 
-// 2. Fake registry.
+// 2. Fake registry + throttling.
 let hits = 0;
 const registry = createServer((req, res) => {
   hits += 1;
@@ -50,6 +52,19 @@ const registry = createServer((req, res) => {
 });
 await new Promise((resolve) => registry.listen(0, "127.0.0.1", resolve));
 const registryUrl = `http://127.0.0.1:${registry.address().port}/latest`;
+
+configureUpdateCheck("0.0.1", { BEZELBUB_UPDATE_CHECK_URL: registryUrl });
+const t0 = 1_000_000_000_000;
+await maybeCheckForUpdate(t0);
+await maybeCheckForUpdate(t0 + 1000);
+await maybeCheckForUpdate(t0 + 5 * 60 * 60 * 1000);
+check("in-process: calls within the interval share one lookup", hits === 1, `hits=${hits}`);
+await maybeCheckForUpdate(t0 + 7 * 60 * 60 * 1000);
+check("in-process: a call after the interval looks again", hits === 2, `hits=${hits}`);
+configureUpdateCheck("0.0.1", { BEZELBUB_UPDATE_CHECK_URL: registryUrl, BEZELBUB_NO_UPDATE_CHECK: "1" });
+await maybeCheckForUpdate(t0 + 20 * 60 * 60 * 1000);
+check("in-process: disabled means no lookup", hits === 2, `hits=${hits}`);
+hits = 0;
 
 async function callWithEnv(env) {
   const transport = new StdioClientTransport({
@@ -60,29 +75,35 @@ async function callWithEnv(env) {
   const client = new Client({ name: "update-check-test", version: "0.0.0" });
   try {
     await client.connect(transport);
-    // Give the background registry fetch a moment to land.
+    const hitsAtConnect = hits;
+    // The first call starts the background lookup; give it a moment to land,
+    // then the second call should carry the notice.
+    const first = await client.callTool({ name: "list_devices", arguments: {} });
     await new Promise((resolve) => setTimeout(resolve, 500));
-    return await client.callTool({ name: "list_devices", arguments: {} });
+    const second = await client.callTool({ name: "list_devices", arguments: {} });
+    return { first, second, hitsAtConnect };
   } finally {
     await client.close().catch(() => {});
   }
 }
 
 try {
-  const stale = await callWithEnv({ BEZELBUB_UPDATE_CHECK_URL: registryUrl });
-  check("fake registry was consulted", hits >= 1, `hits=${hits}`);
+  const { first, second: stale, hitsAtConnect } = await callWithEnv({ BEZELBUB_UPDATE_CHECK_URL: registryUrl });
+  check("no lookup before the first tool call", hitsAtConnect === 0, `hits=${hitsAtConnect}`);
+  check("two calls produce one registry hit", hits === 1, `hits=${hits}`);
+  const isNotice = (c) => c.type === "text" && c.text.startsWith("Note from bezelbub-mcp");
+  check("first call (lookup still pending) has no notice", !first.content.some(isNotice));
   check("result is still an error (no CLI)", stale.isError === true);
-  const notice = stale.content.find((c) => c.type === "text" && c.text.startsWith("Note from bezelbub-mcp"));
+  const notice = stale.content.find(isNotice);
   check("stale session gets the reconnect notice", Boolean(notice), JSON.stringify(stale.content).slice(0, 300));
   check("notice is the last content block", stale.content.at(-1) === notice);
   check("notice names 99.0.0 and says to reconnect",
     Boolean(notice) && notice.text.includes("99.0.0") && /reconnect/i.test(notice.text));
 
   const hitsBefore = hits;
-  const quiet = await callWithEnv({ BEZELBUB_UPDATE_CHECK_URL: registryUrl, BEZELBUB_NO_UPDATE_CHECK: "1" });
+  const { second: quiet } = await callWithEnv({ BEZELBUB_UPDATE_CHECK_URL: registryUrl, BEZELBUB_NO_UPDATE_CHECK: "1" });
   check("opt-out: registry not consulted", hits === hitsBefore, `hits=${hits}`);
-  check("opt-out: no notice appended",
-    !quiet.content.some((c) => c.type === "text" && c.text.startsWith("Note from bezelbub-mcp")));
+  check("opt-out: no notice appended", !quiet.content.some(isNotice));
 } finally {
   registry.close();
 }

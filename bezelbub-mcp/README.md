@@ -132,18 +132,20 @@ server process it started keeps running the code it launched with. Until you
 reconnect, that session keeps the old tool descriptions and schemas, and if a
 release changed a tool's inputs, calls from the old session can fail.
 
-Since 0.3.0 the server checks the npm registry for a newer version when it
-starts (and every six hours after that) and, when one exists, adds a short
-note to every tool result saying which version is available and that the
-server needs to be reconnected. The assistant reads tool results, so it will
-pass the note along. To pick up the new version:
+Since 0.3.0 the server checks the npm registry for a newer version when a
+tool is called, at most once every six hours, and when one exists it adds a
+short note to every tool result saying which version is available and that
+the server needs to be reconnected. The assistant reads tool results, so it
+will pass the note along. To pick up the new version:
 
 - Claude Code: run `/mcp`, select `bezelbub`, and choose Reconnect.
 - Claude Desktop: quit and reopen the app.
 
 The check is one request to `registry.npmjs.org` with a four-second timeout.
-It runs in the background, never delays a tool call, and stays silent when
-it fails. Set `BEZELBUB_NO_UPDATE_CHECK=1` to turn it off.
+It runs in the background, so the tool call that triggers it is answered
+right away and the next call carries the note. An idle session makes no
+requests, and a failed check stays silent. Set `BEZELBUB_NO_UPDATE_CHECK=1`
+to turn it off.
 
 ## Development
 

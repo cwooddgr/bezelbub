@@ -13,7 +13,7 @@ import { z } from "zod";
 import { resolve as resolvePath } from "node:path";
 import { readFileSync } from "node:fs";
 import { runBezelbub } from "./cli.js";
-import { startUpdateCheck, updateNotice } from "./update-check.js";
+import { configureUpdateCheck, maybeCheckForUpdate, updateNotice } from "./update-check.js";
 
 // Read the version from package.json so it can never drift from what npm ships.
 const SERVER_VERSION: string = JSON.parse(
@@ -101,6 +101,7 @@ type ToolResult = {
  * It goes after the JSON so content[0] stays parseable.
  */
 function withUpdateNotice(result: ToolResult): ToolResult {
+  void maybeCheckForUpdate(); // background; the next call carries a fresh answer
   const notice = updateNotice();
   if (notice) result.content.push({ type: "text", text: notice });
   return result;
@@ -281,8 +282,7 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   console.error(`bezelbub-mcp ${SERVER_VERSION} ready (stdio)`);
-  // After connect, so the registry lookup can never delay the handshake.
-  startUpdateCheck(SERVER_VERSION);
+  configureUpdateCheck(SERVER_VERSION);
 }
 
 main().catch((error) => {
