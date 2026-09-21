@@ -95,6 +95,8 @@ Charlie, 2026-09-21, for all DGR Labs app projects (also in the workspace `CLAUD
 
 Mechanics, as run for Flip Flap 1.2 that day and as `overflight/docs/release-sync.md` records them: check `/v1/apps/6759073631/reviewSubmissions` for an open submission, then `POST /v1/reviewSubmissions` (one per platform the version ships on; here `MAC_OS` and `IOS`), `POST /v1/reviewSubmissionItems` with the version, and `PATCH` the submission with `submitted: true`; expect `WAITING_FOR_REVIEW`. A new version does not inherit `promotionalText`, so copy it from the previous version before submitting. App Store Connect app id `6759073631`. `Scripts/asc_prepare_version.py --submit` (see "Releasing" above) makes these calls for this project. Read `../APP_STORE_REJECTIONS.md` first, and update this file's status line after submitting.
 
+The shared release guide for all our apps (order of the work, each project's recipe, App Store Connect gotchas) is `../APP_STORE_RELEASE.md`, approved by Charlie 2026-09-21; read it when cutting a build, and add to it when a release teaches us something new.
+
 ### Targets
 
 - **Bezelbub** — macOS application
