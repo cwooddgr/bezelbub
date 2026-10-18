@@ -29,6 +29,7 @@ struct Frame: AsyncParsableCommand {
           bezelbub frame --input shot.png
           bezelbub frame --input shot.png --device iphone17pro --color "Cosmic Orange"
           bezelbub frame --input shot.png --background "#1D1D1F" --json
+          bezelbub frame --input shot.png --background "#FFFFFF" --padding 10%
           bezelbub frame --input recording.mp4 --output-size 50%
           bezelbub frame --input recording.mp4 --background transparent --webm
 
@@ -60,6 +61,13 @@ struct Frame: AsyncParsableCommand {
     Apple apps only).
     """)
     var background: String?
+
+    @Option(help: """
+    Empty space around the device on every side, filled with --background: \
+    a percentage of the bezel's longer side (10%) or pixels at the bezel's \
+    native scale (120px). Applied before --output-size. Default: none.
+    """)
+    var padding: String?
 
     @Option(help: """
     Scale the output, preserving the bezel's aspect ratio: a width (1920), \
@@ -159,13 +167,16 @@ struct Frame: AsyncParsableCommand {
             backgroundColor = nil
         }
 
+        let framePadding = try padding.map(parsePadding) ?? .none
+
         // --- Composite ---
         guard var framed = FrameCompositor.composite(
             screenshot: screenshot,
             device: device,
             color: resolvedColor,
             isLandscape: isLandscape,
-            backgroundColor: backgroundColor
+            backgroundColor: backgroundColor,
+            padding: framePadding
         ) else {
             throw fail(
                 "Compositing failed — no bezel/region for \(device.id) (\(resolvedColor.id), "
@@ -271,8 +282,12 @@ struct Frame: AsyncParsableCommand {
             videoBackground = .color(CGColor(srgbRed: 0, green: 0, blue: 0, alpha: 1))
         }
 
-        // --- Resolve --output-size against the bezel's native pixel size ---
-        let native = try bezelPixelSize(device: device, color: resolvedColor, isLandscape: isLandscape)
+        let framePadding = try padding.map(parsePadding) ?? .none
+
+        // --- Resolve --output-size against the padded bezel's native pixel size ---
+        let bezel = try bezelPixelSize(device: device, color: resolvedColor, isLandscape: isLandscape)
+        let paddingPixels = framePadding.pixels(forBezelWidth: bezel.width, height: bezel.height)
+        let native = (width: bezel.width + paddingPixels * 2, height: bezel.height + paddingPixels * 2)
         var exportSize: CGSize?
         if let outputSize {
             let target = try resolveOutputSize(
@@ -313,6 +328,7 @@ struct Frame: AsyncParsableCommand {
                 color: resolvedColor,
                 isLandscape: isLandscape,
                 background: videoBackground,
+                padding: framePadding,
                 outputURL: outputURL,
                 outputSize: exportSize,
                 progressHandler: { progress in
@@ -352,6 +368,7 @@ struct Frame: AsyncParsableCommand {
                     color: resolvedColor,
                     isLandscape: isLandscape,
                     background: .transparent,
+                    padding: framePadding,
                     outputURL: master,
                     outputSize: exportSize,
                     exportPreset: AVAssetExportPresetAppleProRes4444LPCM,

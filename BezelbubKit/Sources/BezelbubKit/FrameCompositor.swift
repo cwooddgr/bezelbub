@@ -9,7 +9,26 @@ public enum FrameCompositor {
         device: DeviceDefinition,
         color: DeviceColor,
         isLandscape: Bool,
-        backgroundColor: CGColor? = nil
+        backgroundColor: CGColor? = nil,
+        padding: FramePadding = .none
+    ) -> CGImage? {
+        guard let framed = compositeUnpadded(
+            screenshot: screenshot,
+            device: device,
+            color: color,
+            isLandscape: isLandscape,
+            backgroundColor: backgroundColor
+        ) else { return nil }
+        let paddingPixels = padding.pixels(forBezelWidth: framed.width, height: framed.height)
+        return FramePadding.pad(framed, by: paddingPixels, backgroundColor: backgroundColor)
+    }
+
+    private static func compositeUnpadded(
+        screenshot: CGImage,
+        device: DeviceDefinition,
+        color: DeviceColor,
+        isLandscape: Bool,
+        backgroundColor: CGColor?
     ) -> CGImage? {
         let bezelFileName = device.bezelFileName(color: color, landscape: isLandscape)
 

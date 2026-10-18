@@ -81,6 +81,7 @@ Frame a screenshot in a device bezel; writes a framed PNG.
 | `orientation` | no | `portrait` \| `landscape` \| `auto` (default) |
 | `background` | no | Hex color (`#FFFFFF`, `#RRGGBBAA`) or `transparent` (default) |
 | `output_size` | no | Width (`1920`), exact size (`1920x988`), or percentage (`50%`) |
+| `padding` | no | Space around the device on every side: percentage of the bezel's longer side (`10%`) or pixels (`120px`); filled with `background` |
 | `output_path` | no | Defaults to `<input>-framed.png` beside the input |
 
 Returns JSON: `{kind: "image", device, color, orientation, output, width, height}`.

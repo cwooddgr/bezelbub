@@ -44,7 +44,8 @@ struct ContentView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .background {
-                                if appState.isVideoMode && appState.videoBackgroundTransparent {
+                                if appState.backgroundTransparent
+                                    && (appState.isVideoMode || appState.paddingPercent > 0) {
                                     CheckerboardBackground()
                                 }
                             }
@@ -357,31 +358,47 @@ struct ContentView: View {
                         .disabled(appState.isExporting)
                     }
 
-                    if appState.isVideoMode {
-                        ColorPicker("BG", selection: $localBGColor, supportsOpacity: false)
-                            .disabled(appState.isExporting || appState.videoBackgroundTransparent)
-                            .opacity(appState.videoBackgroundTransparent ? 0.4 : 1)
-                            .onAppear { localBGColor = appState.videoBackgroundColor }
-                            .onChange(of: localBGColor) {
-                                bgColorDebounce?.cancel()
-                                let item = DispatchWorkItem {
-                                    appState.videoBackgroundColor = localBGColor
-                                    appState.recomposite()
-                                }
-                                bgColorDebounce = item
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: item)
-                            }
+                    Picker("Padding", selection: $appState.paddingPercent) {
+                        ForEach(AppState.paddingChoices, id: \.self) { percent in
+                            Text(percent == 0 ? "No Padding" : "\(Int(percent))% Padding").tag(percent)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .disabled(appState.isExporting)
+                    .onChange(of: appState.paddingPercent) {
+                        appState.recomposite()
+                    }
 
-                        Toggle("Transparent", isOn: $appState.videoBackgroundTransparent)
-                            .toggleStyle(.switch)
-                            .fixedSize()
-                            .disabled(appState.isExporting)
-                            .onChange(of: appState.videoBackgroundTransparent) {
+                    ColorPicker("BG", selection: $localBGColor, supportsOpacity: false)
+                        .disabled(appState.isExporting || appState.backgroundTransparent)
+                        .opacity(appState.backgroundTransparent ? 0.4 : 1)
+                        .onAppear { localBGColor = appState.backgroundColor }
+                        // Images and videos keep separate background colors.
+                        .onChange(of: appState.isVideoMode) { localBGColor = appState.backgroundColor }
+                        .onChange(of: localBGColor) {
+                            bgColorDebounce?.cancel()
+                            let item = DispatchWorkItem {
+                                appState.backgroundColor = localBGColor
                                 appState.recomposite()
                             }
-                            .accessibilityLabel("Transparent Background")
-                            .accessibilityHint("Exports HEVC with alpha as a QuickTime movie")
+                            bgColorDebounce = item
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: item)
+                        }
+                        .accessibilityLabel("Background Color")
 
+                    Toggle("Transparent", isOn: $appState.backgroundTransparent)
+                        .toggleStyle(.switch)
+                        .fixedSize()
+                        .disabled(appState.isExporting)
+                        .onChange(of: appState.backgroundTransparent) {
+                            appState.recomposite()
+                        }
+                        .accessibilityLabel("Transparent Background")
+                        .accessibilityHint(
+                            appState.isVideoMode ? "Exports HEVC with alpha as a QuickTime movie" : ""
+                        )
+
+                    if appState.isVideoMode {
                         Button {
                             appState.rotateVideo(clockwise: true)
                         } label: {

@@ -33,7 +33,8 @@ struct ContentView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .background {
-                            if appState.isVideoMode && appState.videoBackgroundTransparent {
+                            if appState.backgroundTransparent
+                                && (appState.isVideoMode || appState.paddingPercent > 0) {
                                 CheckerboardBackground()
                             }
                         }
@@ -169,29 +170,46 @@ struct ContentView: View {
                         .disabled(appState.isExporting)
                     }
 
-                    if appState.isVideoMode {
-                        ColorPicker("Background", selection: $appState.videoBackgroundColor, supportsOpacity: false)
-                            .disabled(appState.isExporting || appState.videoBackgroundTransparent)
-                            .opacity(appState.videoBackgroundTransparent ? 0.4 : 1)
-                            .onChange(of: appState.videoBackgroundColor) {
-                                appState.recompositeDebounced()
-                            }
+                    Picker("Padding", selection: $appState.paddingPercent) {
+                        ForEach(AppState.paddingChoices, id: \.self) { percent in
+                            Text(percent == 0 ? "None" : "\(Int(percent))%").tag(percent)
+                        }
+                    }
+                    .frame(maxWidth: 150)
+                    .disabled(appState.isExporting)
+                    .help("Space around the device, as a share of its longer side")
+                    .onChange(of: appState.paddingPercent) {
+                        appState.recomposite()
+                    }
 
-                        Toggle("Transparent", isOn: $appState.videoBackgroundTransparent)
-                            .disabled(appState.isExporting)
-                            .help(
-                                "Export HEVC with alpha (.mov). Plays in Safari and "
+                    ColorPicker("Background", selection: $appState.backgroundColor, supportsOpacity: false)
+                        .fixedSize()
+                        .disabled(appState.isExporting || appState.backgroundTransparent)
+                        .opacity(appState.backgroundTransparent ? 0.4 : 1)
+                        .onChange(of: appState.backgroundColor) {
+                            appState.recompositeDebounced()
+                        }
+
+                    Toggle("Transparent", isOn: $appState.backgroundTransparent)
+                        .disabled(appState.isExporting)
+                        .help(
+                            appState.isVideoMode
+                                ? "Export HEVC with alpha (.mov). Plays in Safari and "
                                     + "Apple apps; convert to WebM for other browsers."
-                            )
-                            .onChange(of: appState.videoBackgroundTransparent) {
-                                appState.recomposite()
-                                if appState.videoBackgroundTransparent {
-                                    NSColorPanel.shared.close()
-                                }
+                                : "Leave the background around the device clear."
+                        )
+                        .onChange(of: appState.backgroundTransparent) {
+                            appState.recomposite()
+                            if appState.backgroundTransparent {
+                                NSColorPanel.shared.close()
                             }
-                            .accessibilityLabel("Transparent Background")
-                            .accessibilityHint("Exports HEVC with alpha as a QuickTime movie")
+                        }
+                        .accessibilityLabel("Transparent Background")
+                        .accessibilityHint(
+                            appState.isVideoMode ? "Exports HEVC with alpha as a QuickTime movie" : ""
+                        )
 
+                    if appState.isVideoMode {
                         Button {
                             appState.rotateVideo(clockwise: !optionKeyDown)
                         } label: {

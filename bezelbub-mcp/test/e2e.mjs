@@ -9,7 +9,10 @@
  */
 
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import {
+  StdioClientTransport,
+  getDefaultEnvironment,
+} from "@modelcontextprotocol/sdk/client/stdio.js";
 import { deflateSync } from "node:zlib";
 import { mkdtempSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -72,6 +75,16 @@ writePng(shot, 1206, 2622, [46, 110, 240, 255]); // iPhone 17 / 17 Pro / 16 Pro 
 const transport = new StdioClientTransport({
   command: process.execPath,
   args: [join(root, "dist", "index.js")],
+  // The SDK passes only a minimal environment by default; forward the
+  // variables that point the server at a local CLI or silence update checks.
+  env: {
+    ...getDefaultEnvironment(),
+    ...Object.fromEntries(
+      ["BEZELBUB_CLI_PATH", "BEZELBUB_NO_UPDATE_CHECK"]
+        .filter((key) => process.env[key])
+        .map((key) => [key, process.env[key]])
+    ),
+  },
 });
 const client = new Client({ name: "bezelbub-mcp-e2e", version: "0.0.0" });
 
@@ -120,6 +133,26 @@ try {
     framed.content[0].text.slice(0, 300)
   );
   check("framed PNG written to disk", existsSync(framedPath));
+
+  // 2b. padding passes through → output grows by 2 × padding on each axis
+  const paddedPath = join(workDir, "padded.png");
+  const padded = await client.callTool({
+    name: "frame_image",
+    arguments: {
+      input_path: shot,
+      device: "iphone17pro",
+      padding: "100px",
+      output_path: paddedPath,
+    },
+  });
+  const paddedJson = padded.isError ? {} : JSON.parse(padded.content[0].text);
+  check(
+    "frame_image padding grows the output by 200 px per axis",
+    !padded.isError &&
+      paddedJson.width === framedJson.width + 200 &&
+      paddedJson.height === framedJson.height + 200,
+    padded.content[0].text.slice(0, 300)
+  );
 
   // 3. ambiguous device → isError with candidate list (CLI exit 2)
   const ambiguous = await client.callTool({

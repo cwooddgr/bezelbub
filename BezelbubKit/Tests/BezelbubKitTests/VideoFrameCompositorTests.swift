@@ -147,6 +147,72 @@ final class VideoFrameCompositorTests: XCTestCase {
         XCTAssertGreaterThan(frame.partialAlphaCount(), 100)
     }
 
+    // Padding grows the render size by 2p and fills the margin with the
+    // background color (opaque path: CALayer on macOS, custom compositor on iOS).
+    func testVideoExportPaddingGrowsRenderSizeAndFillsBackground() async throws {
+        let context = try await makeTestContext()
+        let p = 60
+
+        let outputURL = context.tempDir.appendingPathComponent("framed-padded.mp4")
+        try await VideoFrameCompositor.export(
+            asset: context.asset,
+            device: context.device,
+            color: context.device.defaultColor,
+            isLandscape: false,
+            background: .color(CGColor(srgbRed: 1, green: 0, blue: 0, alpha: 1)),
+            padding: .pixels(p),
+            outputURL: outputURL,
+            progressHandler: { _ in }
+        )
+
+        let framed = AVURLAsset(url: outputURL)
+        let framedSize = try await VideoFrameCompositor.videoDimensions(asset: framed)
+        XCTAssertEqual(framedSize.width, context.bezelSize.width + 2 * p, accuracy: 2)
+        XCTAssertEqual(framedSize.height, context.bezelSize.height + 2 * p, accuracy: 2)
+
+        let frame = try await firstFrameBGRA(url: outputURL)
+        let corner = frame.bgr(x: 4, y: 4)
+        XCTAssertGreaterThan(corner.r, 200, "Margin should be the red background")
+        XCTAssertLessThan(corner.g, 60)
+        XCTAssertLessThan(corner.b, 60)
+    }
+
+    // Transparent + padding + output scaling: the margin is clear, the screen
+    // stays opaque, and the size is the requested one.
+    func testTransparentVideoExportWithPaddingAndOutputSize() async throws {
+        let context = try await makeTestContext()
+        let padding = FramePadding.percent(10)
+        let p = padding.pixels(forBezelWidth: context.bezelSize.width, height: context.bezelSize.height)
+        let target = CGSize(
+            width: (context.bezelSize.width + 2 * p) / 2,
+            height: (context.bezelSize.height + 2 * p) / 2
+        )
+
+        let outputURL = context.tempDir.appendingPathComponent("framed-padded.mov")
+        try await VideoFrameCompositor.export(
+            asset: context.asset,
+            device: context.device,
+            color: context.device.defaultColor,
+            isLandscape: false,
+            background: .transparent,
+            padding: padding,
+            outputURL: outputURL,
+            outputSize: target,
+            progressHandler: { _ in }
+        )
+
+        let framed = AVURLAsset(url: outputURL)
+        let framedSize = try await VideoFrameCompositor.videoDimensions(asset: framed)
+        XCTAssertEqual(framedSize.width, Int(target.width), accuracy: 2)
+        XCTAssertEqual(framedSize.height, Int(target.height), accuracy: 2)
+
+        let frame = try await firstFrameBGRA(url: outputURL)
+        // Just inside the padded margin, beside the device's vertical center.
+        XCTAssertLessThanOrEqual(frame.alpha(x: p / 4, y: frame.height / 2), 8)
+        XCTAssertGreaterThanOrEqual(frame.alpha(x: frame.width / 2, y: frame.height / 2), 247)
+        XCTAssertGreaterThan(frame.partialAlphaCount(), 100)
+    }
+
     // The ProRes 4444 master that --webm renders for ffmpeg must itself carry
     // alpha; this isolates the first half of the WebM conversion chain.
     func testProResTransparentExportKeepsAlpha() async throws {
@@ -235,6 +301,11 @@ final class VideoFrameCompositorTests: XCTestCase {
 
         func alpha(x: Int, y: Int) -> UInt8 {
             bytes[y * bytesPerRow + x * 4 + 3]
+        }
+
+        func bgr(x: Int, y: Int) -> (r: UInt8, g: UInt8, b: UInt8) {
+            let i = y * bytesPerRow + x * 4
+            return (r: bytes[i + 2], g: bytes[i + 1], b: bytes[i])
         }
 
         /// Pixels that are neither fully transparent nor fully opaque —

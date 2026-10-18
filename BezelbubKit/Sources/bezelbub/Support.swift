@@ -214,6 +214,27 @@ func scaleImage(_ image: CGImage, to size: (width: Int, height: Int)) -> CGImage
     return ctx.makeImage()
 }
 
+// MARK: - Padding
+
+/// Parses `--padding`: a percentage of the bezel's longer side (`10%`) or exact
+/// pixels at the bezel's native scale (`120px`), added to each side.
+func parsePadding(_ spec: String) throws -> FramePadding {
+    let trimmed = spec.trimmingCharacters(in: .whitespaces).lowercased()
+    if trimmed.hasSuffix("%"),
+       let percent = Double(trimmed.dropLast()),
+       percent >= 0, percent <= FramePadding.maxPercent {
+        return .percent(percent)
+    }
+    if trimmed.hasSuffix("px"), let pixels = Int(trimmed.dropLast(2)), pixels >= 0 {
+        return .pixels(pixels)
+    }
+    throw fail(
+        "Invalid --padding '\(spec)'. Use a percentage of the bezel's longer side "
+            + "(10%, at most \(Int(FramePadding.maxPercent))%) or pixels (120px).",
+        code: .usage
+    )
+}
+
 // MARK: - External tools
 
 /// Finds an executable by walking PATH, mirroring shell lookup. Used to locate

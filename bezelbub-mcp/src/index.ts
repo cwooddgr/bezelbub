@@ -61,6 +61,15 @@ const framingShape = {
         "('1920'), an exact size ('1920x988'), or a percentage of native " +
         "size ('50%'). Default: the bezel's native size."
     ),
+  padding: z
+    .string()
+    .optional()
+    .describe(
+      "Empty space around the device on every side, filled with the " +
+        "background: a percentage of the bezel's longer side ('10%', at most " +
+        "'100%') or pixels at the bezel's native scale ('120px'). Applied " +
+        "before output_size. Default: none."
+    ),
   output_path: z
     .string()
     .optional()
@@ -76,6 +85,7 @@ type FramingArgs = {
   color?: string;
   orientation?: "portrait" | "landscape" | "auto";
   output_size?: string;
+  padding?: string;
   output_path?: string;
 };
 
@@ -85,6 +95,7 @@ function framingFlags(args: FramingArgs): string[] {
   if (args.color) flags.push("--color", args.color);
   if (args.orientation) flags.push("--orientation", args.orientation);
   if (args.output_size) flags.push("--output-size", args.output_size);
+  if (args.padding) flags.push("--padding", args.padding);
   if (args.output_path) flags.push("--output", resolvePath(args.output_path));
   return flags;
 }

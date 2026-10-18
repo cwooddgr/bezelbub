@@ -38,6 +38,20 @@ final class AppState {
     #endif
     @ObservationIgnored private var debounceWork: DispatchWorkItem?
 
+    /// Choices offered for padding, as a percent of the bezel's longer side.
+    static let paddingChoices: [Double] = [0, 5, 10, 15, 20, 25]
+    @ObservationIgnored private static let paddingDefaultsKey = "paddingPercent"
+    /// Padding around the device, as a percent of the bezel's longer side.
+    /// Remembered across launches; applies to images and video alike.
+    var paddingPercent: Double = AppState.storedPaddingPercent() {
+        didSet { UserDefaults.standard.set(paddingPercent, forKey: Self.paddingDefaultsKey) }
+    }
+
+    // Image background (session-only, like the video background). Transparent
+    // by default so an image export is unchanged until the user picks a color.
+    var imageBackgroundColor: Color = .white
+    var imageBackgroundTransparent = true
+
     #if !SHARE_EXTENSION
     // Video state
     var videoAsset: AVAsset?
@@ -49,9 +63,34 @@ final class AppState {
     // Session-only (not persisted): exports HEVC-with-alpha .mov when true.
     var videoBackgroundTransparent = false
     var isVideoMode: Bool { videoAsset != nil }
+
+    /// The background controls edit whichever mode is showing: images and
+    /// videos keep separate settings because their defaults differ.
+    var backgroundColor: Color {
+        get { isVideoMode ? videoBackgroundColor : imageBackgroundColor }
+        set {
+            if isVideoMode { videoBackgroundColor = newValue } else { imageBackgroundColor = newValue }
+        }
+    }
+
+    var backgroundTransparent: Bool {
+        get { isVideoMode ? videoBackgroundTransparent : imageBackgroundTransparent }
+        set {
+            if isVideoMode {
+                videoBackgroundTransparent = newValue
+            } else {
+                imageBackgroundTransparent = newValue
+            }
+        }
+    }
     #endif
     var sourceFileName: String?
     var sourceDirectoryURL: URL?
+
+    private static func storedPaddingPercent() -> Double {
+        let stored = UserDefaults.standard.double(forKey: paddingDefaultsKey)
+        return paddingChoices.contains(stored) ? stored : 0
+    }
 
     init() {
         devices = ScreenRegionDetector.detectAll(devices: DeviceCatalog.allDevices)
@@ -353,16 +392,14 @@ final class AppState {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15, execute: item)
     }
 
-    #if !SHARE_EXTENSION
-    private func videoBackgroundCGColor() -> CGColor {
+    private func sRGBColor(_ color: Color) -> CGColor {
         #if os(macOS)
-        return NSColor(videoBackgroundColor).usingColorSpace(.sRGB)?.cgColor
+        return NSColor(color).usingColorSpace(.sRGB)?.cgColor
             ?? CGColor(red: 1, green: 1, blue: 1, alpha: 1)
         #elseif os(iOS)
-        return UIColor(videoBackgroundColor).cgColor
+        return UIColor(color).cgColor
         #endif
     }
-    #endif
 
     func recomposite() {
         guard let screenshot = screenshotImage,
@@ -373,12 +410,12 @@ final class AppState {
         isCompositing = true
         let landscape = isLandscape
         #if !SHARE_EXTENSION
-        // Transparent video previews like a transparent image (nil background).
-        let bgColor: CGColor? = (isVideoMode && !videoBackgroundTransparent)
-            ? videoBackgroundCGColor() : nil
+        // A transparent background composites with a nil fill in either mode.
+        let bgColor: CGColor? = backgroundTransparent ? nil : sRGBColor(backgroundColor)
         #else
-        let bgColor: CGColor? = nil
+        let bgColor: CGColor? = imageBackgroundTransparent ? nil : sRGBColor(imageBackgroundColor)
         #endif
+        let padding = FramePadding.percent(paddingPercent)
         #if os(macOS)
         let compositingQoS = DispatchQoS.QoSClass.userInitiated
         #else
@@ -390,7 +427,8 @@ final class AppState {
                 device: device,
                 color: color,
                 isLandscape: landscape,
-                backgroundColor: bgColor
+                backgroundColor: bgColor,
+                padding: padding
             )
             DispatchQueue.main.async {
                 self?.compositedImage = result
@@ -414,7 +452,8 @@ final class AppState {
         let landscape = isLandscape
         let rotation = videoRotation
         let background: VideoBackground = videoBackgroundTransparent
-            ? .transparent : .color(videoBackgroundCGColor())
+            ? .transparent : .color(sRGBColor(videoBackgroundColor))
+        let padding = FramePadding.percent(paddingPercent)
 
         Task { @MainActor in
             do {
@@ -425,6 +464,7 @@ final class AppState {
                     isLandscape: landscape,
                     extraRotation: rotation,
                     background: background,
+                    padding: padding,
                     outputURL: outputURL,
                     outputSize: size,
                     exportPreset: exportPreset

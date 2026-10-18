@@ -62,6 +62,9 @@ public enum VideoFrameCompositor {
     /// `AVAssetExportPresetAppleProRes4444LPCM` for a lossless master that
     /// non-Apple tools like ffmpeg can read the alpha out of — they can't
     /// decode HEVC alpha).
+    ///
+    /// `padding` grows the canvas evenly around the bezel (filled with the
+    /// background); `outputSize` then scales the padded canvas.
     public static func export(
         asset: AVAsset,
         device: DeviceDefinition,
@@ -69,6 +72,7 @@ public enum VideoFrameCompositor {
         isLandscape: Bool,
         extraRotation: Int = 0,
         background: VideoBackground,
+        padding: FramePadding = .none,
         outputURL: URL,
         outputSize: CGSize? = nil,
         exportPreset: String? = nil,
@@ -84,22 +88,33 @@ public enum VideoFrameCompositor {
         let bezelFileName = device.bezelFileName(color: color, landscape: isLandscape)
         guard let bezelURL = ScreenRegionDetector.bezelURL(fileName: bezelFileName),
               let bezelSource = CGImageSourceCreateWithURL(bezelURL as CFURL, nil),
-              let bezelImage = CGImageSourceCreateImageAtIndex(bezelSource, 0, nil)
+              let unpaddedBezelImage = CGImageSourceCreateImageAtIndex(bezelSource, 0, nil)
         else {
             throw VideoExportError.bezelNotFound
         }
+
+        // --- Apply padding: from here on, the "bezel" is the padded canvas with
+        // the bezel art centered in it, and the screen region and mask shift with it.
+        let paddingPixels = padding.pixels(
+            forBezelWidth: unpaddedBezelImage.width, height: unpaddedBezelImage.height
+        )
+        guard let bezelImage = FramePadding.pad(unpaddedBezelImage, by: paddingPixels, backgroundColor: nil) else {
+            throw VideoExportError.bezelNotFound
+        }
+        let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName)
+            .flatMap { FramePadding.padMask($0, by: paddingPixels) }
 
         let bezelWidth = bezelImage.width
         let bezelHeight = bezelImage.height
 
         // --- Detect screen region ---
-        let screenRegion: CGRect
+        let unpaddedScreenRegion: CGRect
         if isLandscape {
             let landscapeBezelFileName = device.bezelFileName(color: color, landscape: true)
             if let landscapeRegion = ScreenRegionDetector.screenRegion(forBezelFileName: landscapeBezelFileName) {
-                screenRegion = landscapeRegion
+                unpaddedScreenRegion = landscapeRegion
             } else if let portraitRegion = device.screenRegion {
-                screenRegion = CGRect(
+                unpaddedScreenRegion = CGRect(
                     x: portraitRegion.origin.y,
                     y: portraitRegion.origin.x,
                     width: portraitRegion.height,
@@ -112,8 +127,11 @@ public enum VideoFrameCompositor {
             guard let portraitRegion = device.screenRegion else {
                 throw VideoExportError.screenRegionNotFound
             }
-            screenRegion = portraitRegion
+            unpaddedScreenRegion = portraitRegion
         }
+        let screenRegion = unpaddedScreenRegion.offsetBy(
+            dx: CGFloat(paddingPixels), dy: CGFloat(paddingPixels)
+        )
 
         // --- Load video track ---
         guard let videoTrack = try await asset.loadTracks(withMediaType: .video).first else {
@@ -275,7 +293,7 @@ public enum VideoFrameCompositor {
             // --- Custom compositor path ---
             // Load precomputed mask as CIImage
             let maskCIImage: CIImage?
-            if let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName) {
+            if let screenMask {
                 maskCIImage = CIImage(cgImage: screenMask)
             } else {
                 maskCIImage = nil
@@ -325,7 +343,7 @@ public enum VideoFrameCompositor {
 
             // Mask the video layer to the screen hole shape (rounded corners)
             // so video pixels don't poke out behind the bezel's anti-aliased edges.
-            if let screenMask = ScreenRegionDetector.screenMask(forBezelFileName: bezelFileName),
+            if let screenMask,
                let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
                let ctx = CGContext(
                    data: nil, width: renderWidth, height: renderHeight,

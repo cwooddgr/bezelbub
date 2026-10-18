@@ -62,6 +62,54 @@ final class BezelbubKitTests: XCTestCase {
         XCTAssertGreaterThan(framed.height, Int(region.height))
     }
 
+    // Padding grows the canvas by 2p on each axis, fills the margin with the
+    // background, and leaves the framed device untouched in the middle.
+    func testCompositePaddingGrowsCanvasAndFillsBackground() throws {
+        let devices = DeviceCatalog.hydrated()
+        let device = try XCTUnwrap(devices.first { $0.id == "iphone17pro" })
+        let region = try XCTUnwrap(device.screenRegion)
+        let screenshot = try XCTUnwrap(
+            makeSolidImage(width: Int(region.width), height: Int(region.height))
+        )
+        let red = CGColor(srgbRed: 1, green: 0, blue: 0, alpha: 1)
+
+        let unpadded = try XCTUnwrap(FrameCompositor.composite(
+            screenshot: screenshot, device: device, color: device.defaultColor,
+            isLandscape: false, backgroundColor: red
+        ))
+        let padded = try XCTUnwrap(FrameCompositor.composite(
+            screenshot: screenshot, device: device, color: device.defaultColor,
+            isLandscape: false, backgroundColor: red, padding: .percent(10)
+        ))
+
+        let p = Int((Double(max(unpadded.width, unpadded.height)) * 0.1).rounded())
+        XCTAssertEqual(padded.width, unpadded.width + 2 * p)
+        XCTAssertEqual(padded.height, unpadded.height + 2 * p)
+
+        let paddedPixels = try XCTUnwrap(rgbaPixels(padded))
+        let unpaddedPixels = try XCTUnwrap(rgbaPixels(unpadded))
+        XCTAssertEqual(paddedPixels.at(1, 1), [255, 0, 0, 255], "Margin should be the background")
+        XCTAssertEqual(
+            paddedPixels.at(padded.width / 2, padded.height / 2),
+            unpaddedPixels.at(unpadded.width / 2, unpadded.height / 2),
+            "Screen content should sit at the same place relative to the device"
+        )
+
+        // Pixel padding and a clear background: the margin stays transparent.
+        let clear = try XCTUnwrap(FrameCompositor.composite(
+            screenshot: screenshot, device: device, color: device.defaultColor,
+            isLandscape: false, padding: .pixels(40)
+        ))
+        XCTAssertEqual(clear.width, unpadded.width + 80)
+        XCTAssertEqual(try XCTUnwrap(rgbaPixels(clear)).at(1, 1)[3], 0)
+    }
+
+    func testPaddingPercentIsClamped() {
+        XCTAssertEqual(FramePadding.percent(500).pixels(forBezelWidth: 100, height: 200), 200)
+        XCTAssertEqual(FramePadding.percent(-5).pixels(forBezelWidth: 100, height: 200), 0)
+        XCTAssertEqual(FramePadding.none.pixels(forBezelWidth: 100, height: 200), 0)
+    }
+
     // MARK: - Suggestions
 
     // A one-typo device id should still surface the intended device.
@@ -218,6 +266,30 @@ final class BezelbubKitTests: XCTestCase {
     }
 
     // MARK: - Helpers
+
+    private struct RGBAPixels {
+        let bytes: [UInt8]
+        let width: Int
+
+        /// Pixel at (x, y) with y measured from the top, as [r, g, b, a].
+        func at(_ x: Int, _ y: Int) -> [UInt8] {
+            let i = (y * width + x) * 4
+            return Array(bytes[i..<i + 4])
+        }
+    }
+
+    private func rgbaPixels(_ image: CGImage) -> RGBAPixels? {
+        var bytes = [UInt8](repeating: 0, count: image.width * image.height * 4)
+        guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
+              let ctx = CGContext(
+                  data: &bytes, width: image.width, height: image.height,
+                  bitsPerComponent: 8, bytesPerRow: image.width * 4, space: colorSpace,
+                  bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+              )
+        else { return nil }
+        ctx.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+        return RGBAPixels(bytes: bytes, width: image.width)
+    }
 
     private func makeSolidImage(width: Int, height: Int) -> CGImage? {
         guard width > 0, height > 0,

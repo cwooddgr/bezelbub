@@ -1,4 +1,5 @@
 import AVFoundation
+import BezelbubKit
 import Foundation
 import XCTest
 
@@ -85,6 +86,74 @@ final class CLIFrameTests: XCTestCase {
         XCTAssertGreaterThan(stats.transparent, 0, "WebM lost full transparency")
         XCTAssertGreaterThan(stats.partial, 0, "WebM lost anti-aliased (partial-alpha) edges")
         XCTAssertGreaterThan(stats.opaque, 0, "WebM has no opaque content")
+    }
+
+    // MARK: - Padding
+
+    func testPaddingGrowsImageOutput() throws {
+        let (dir, shot) = try makeScreenshot()
+        let plain = try frameJSON(["--input", shot, "--device", "iphone17pro",
+                                   "--output", dir.appendingPathComponent("plain.png").path])
+        let padded = try frameJSON(["--input", shot, "--device", "iphone17pro", "--padding", "50px",
+                                    "--output", dir.appendingPathComponent("padded.png").path])
+        XCTAssertEqual(padded.width, plain.width + 100)
+        XCTAssertEqual(padded.height, plain.height + 100)
+
+        let percent = try frameJSON(["--input", shot, "--device", "iphone17pro", "--padding", "10%",
+                                     "--output", dir.appendingPathComponent("percent.png").path])
+        let p = Int((Double(max(plain.width, plain.height)) * 0.1).rounded())
+        XCTAssertEqual(percent.width, plain.width + 2 * p)
+    }
+
+    // --output-size scales the padded canvas, so the requested width is final.
+    func testPaddingAppliesBeforeOutputSize() throws {
+        let (dir, shot) = try makeScreenshot()
+        let result = try frameJSON(["--input", shot, "--device", "iphone17pro", "--padding", "10%",
+                                    "--output-size", "800",
+                                    "--output", dir.appendingPathComponent("sized.png").path])
+        XCTAssertEqual(result.width, 800)
+    }
+
+    func testInvalidPaddingExitsOne() throws {
+        let (_, shot) = try makeScreenshot()
+        for bad in ["10", "abc", "-5%", "150%", "12.5px"] {
+            let result = try runCLI(["frame", "--input", shot, "--device", "iphone17pro", "--padding=\(bad)"])
+            XCTAssertEqual(result.status, 1, "--padding \(bad): \(result.stderr)")
+            XCTAssertTrue(result.stderr.contains("Invalid --padding"), result.stderr)
+        }
+    }
+
+    /// Writes a native-size iPhone 17 Pro screenshot into a fresh temp dir.
+    private func makeScreenshot() throws -> (URL, String) {
+        let tempDir = FileManager.default.temporaryDirectory
+            .appendingPathComponent("BezelbubCLITests-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
+        addTeardownBlock {
+            try? FileManager.default.removeItem(at: tempDir)
+        }
+        let device = try XCTUnwrap(DeviceCatalog.hydrated().first { $0.id == "iphone17pro" })
+        let region = try XCTUnwrap(device.screenRegion)
+        let colorSpace = try XCTUnwrap(CGColorSpace(name: CGColorSpace.sRGB))
+        let ctx = try XCTUnwrap(CGContext(
+            data: nil, width: Int(region.width), height: Int(region.height),
+            bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace,
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ))
+        ctx.setFillColor(CGColor(srgbRed: 0.2, green: 0.5, blue: 0.9, alpha: 1))
+        ctx.fill(CGRect(x: 0, y: 0, width: ctx.width, height: ctx.height))
+        let url = tempDir.appendingPathComponent("shot.png")
+        XCTAssertTrue(FrameCompositor.savePNG(image: try XCTUnwrap(ctx.makeImage()), to: url))
+        return (tempDir, url.path)
+    }
+
+    /// Runs `bezelbub frame … --json` and returns the reported output size.
+    private func frameJSON(_ arguments: [String]) throws -> (width: Int, height: Int) {
+        let result = try runCLI(["frame"] + arguments + ["--json"])
+        XCTAssertEqual(result.status, 0, result.stderr)
+        let object = try XCTUnwrap(
+            JSONSerialization.jsonObject(with: Data(result.stdout.utf8)) as? [String: Any]
+        )
+        return (try XCTUnwrap(object["width"] as? Int), try XCTUnwrap(object["height"] as? Int))
     }
 
     // MARK: - Harness
