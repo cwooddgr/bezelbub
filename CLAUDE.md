@@ -2,7 +2,7 @@
 
 macOS + iOS app that composites device bezels onto screenshots and screen recordings. Built with SwiftUI, targeting macOS 14+ and iOS 17+. Tier 1, live on the Mac and iOS App Stores. Also ships the headless `bezelbub` CLI (GitHub release + Homebrew tap) and an MCP server (`bezelbub-mcp/`, npm `@dgr_labs/bezelbub-mcp`). Bundle ID `co.dgrlabs.bezelbub`, team `2CTUXD4C44`, ASC app id `6759073631`.
 
-**Status: 3.4.0 (macOS build 18 / iOS build 14) live on both stores since 2026-09-12; no submission pending.** Replace this line at each submission and outcome so the session-start status check stays accurate; history goes in `docs/release.md`.
+**Status: 3.5.0 (macOS build 19 / iOS build 15) submitted to App Review on both platforms 2026-10-18, waiting; 3.4.0 is live. CLI 1.5.0 and MCP 0.4.0 released 2026-10-18.** Replace this line at each submission and outcome so the session-start status check stays accurate; history goes in `docs/release.md`.
 
 ## Docs map
 
