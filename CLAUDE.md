@@ -13,6 +13,8 @@ macOS + iOS app that composites device bezels onto screenshots and screen record
 | Archive/export/upload recipe, submitting to App Review, status history | `docs/release.md` |
 | MCP registry and directory listings | `bezelbub-mcp/REGISTRY_SUBMISSIONS.md` |
 | App Store listing copy | `APP_STORE_METADATA.md` |
+| Decisions and rationale (padding, 2026-10-18 onward) | `docs/decisions.md` |
+| Release inventories for marketroid | `docs/release-inventories/` |
 | Design plans | `docs/plans/` |
 
 ## Build
