@@ -61,6 +61,7 @@ Glama listing skipped: its checks run on Linux, so a macOS-only server would nev
 ## Releases
 
 - **Who submits**: the workspace `CLAUDE.md` standing permission (decided-by-user 2026-09-21); never resubmit after a rejection without asking. Mechanics and the ASC calls in `docs/release.md`.
+- **Session-start check** (decided-by-user 2026-11-15): while the status line shows a submitted version, check it with `../otd/Scripts/asc_release_status.py --bundle-id co.dgrlabs.bezelbub` (marketroid venv; swap its platform tuple to `("IOS", "MAC_OS")`). Bezelbub has no supportbot guide, and the release watch handles marketroid, so on `READY_FOR_SALE` release-sync means replacing the status lines here and in `docs/release.md`.
 - Before any submission, read `../APP_STORE_REJECTIONS.md` and `../APP_STORE_RELEASE.md`.
 - Bump `MARKETING_VERSION` and each `CURRENT_PROJECT_VERSION` in `project.yml` (macOS and iOS build numbers run independently), `xcodegen generate`, commit, tag `vX.Y.Z`; then archive/export per scheme and run `Scripts/asc_prepare_version.py` (`--submit` only on Charlie's say-so). Full recipe in `docs/release.md`.
 - The CLI (`cli-vX.Y.Z` release + Homebrew tap) and the MCP server (npm + registry) are separate releases with their own versions. Publishing the MCP server needs Charlie (npm OTP, browser device flow for `mcp-publisher login github`).
