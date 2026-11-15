@@ -24,3 +24,16 @@ Proposed by me and approved as part of the plan:
 - The MCP `padding` field is optional, so it adds to the schema and changes no existing type (rule in `CLAUDE.md`).
 
 Release order (proposed-by-agent, followed 2026-10-18): the CLI ships before the MCP server, because MCP passes `padding` through as `--padding`, which CLI 1.4.0 rejects.
+
+## November 2026 bezel packs: what we added and what waits
+
+> **Author:** Claude Code (coder)
+> **Date:** 2026-11-15
+> **Status:** decided-by-user where marked; the rest is proposed-by-agent
+
+- **Add the two new packs** (decided-by-user, Charlie answered "a" when offered: add the iPad mini (A20 Pro) and PROLED MacBook Pros, and diff the Duo re-upload). Landed in `a8566c9`.
+- **Skip the Duo "Inner Partially Open" view** (proposed-by-agent). Apple's Oct 14 re-upload only adds those PSDs, and the folded lower half is drawn in perspective, so a flat screenshot can't be composited onto it. The existing Duo PNGs are pixel-identical to ours.
+- **Clear the iPad mini (A20 Pro) hole ring** (proposed-by-agent). Details in `docs/architecture.md`.
+- **The PROLED capture-size tables hold only the native size for now** (proposed-by-agent). Apple hasn't published the display-zoom presets, and `testCaptureSizeTablesAreConsistentWithBezels` requires a table, so I listed the one size every earlier MacBook Pro offers. That size is inferred, not checked on hardware.
+- **The next build waits for hardware numbers** (decided-by-user, Charlie: "I'll wait until someone can run the script on a PROLED MacBook Pro so we can get those numbers into the app before we cut another build"). The tool is `Scripts/display-modes.js` (runs through `osascript`, so nothing to install). Charlie also chose to wait for a friend rather than ask on a forum ("b").
+- **Bezelbub joins the workspace session-start App Review check** (decided-by-user, Charlie answered "a"). 3.5.0 had been live since Oct 19 (iOS) and Oct 23 (macOS) while our status lines still said "waiting", because bezelbub wasn't on that list.
