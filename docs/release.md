@@ -2,7 +2,7 @@
 
 > **Author:** Claude Code (coder) · **Date:** 2026-09-26 · **Status:** moved verbatim from `CLAUDE.md` when it was slimmed (decided-by-user 2026-09-26); provenance stamps inside the text are the originals.
 
-**App Store status:** 3.5.0 (macOS build 19 / iOS build 15, padding and image backgrounds) submitted to App Review on both platforms 2026-10-18 and registered with the release watch; 3.4.0 (macOS 18 / iOS 14) is live. Inventory: `docs/release-inventories/3.5.0.md`. Update this line at every submission so the session-start status check stays accurate.
+**App Store status:** 3.5.0 (macOS build 19 / iOS build 15, padding and image backgrounds) is live on both platforms. It was submitted 2026-10-18, and the release watch recorded it live and applied on iOS at 2026-10-19 17:08 UTC and on macOS at 2026-10-23 01:07 UTC (the watch runs hourly, so those are upper bounds; the API has no went-live timestamp). 3.4.0 (macOS 18 / iOS 14) was the previous release. Inventory: `docs/release-inventories/3.5.0.md`. Update this line at every submission so the session-start status check stays accurate.
 
 ### Releasing
 
