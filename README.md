@@ -26,8 +26,8 @@ Bezelbub puts your screenshots and screen recordings inside realistic Apple devi
 
 - **iPhone:** 14, 14 Plus, 14 Pro, 14 Pro Max, 15, 15 Plus, 15 Pro, 15 Pro Max, 16, 16 Plus, 16 Pro, 16 Pro Max, 17, 17 Pro, 17 Pro Max, Air, 18 Pro, 18 Pro Max
 - **iPhone Duo:** three views, each its own device. Frame the inner display with the phone open (`iphoneduo`), the outer display with the phone closed (`iphoneduoouter`), or the outer display with the phone open and seen from the back (`iphoneduoouteropen`), in portrait or landscape
-- **iPad:** iPad, iPad (A16), iPad Air 11"/13" M2, iPad Air 11"/13" M4, iPad mini, iPad mini (A17 Pro), iPad Pro 11"/13" M4, iPad Pro 11"/13" M5
-- **Mac:** MacBook Air 13", MacBook Air 13"/15" M5, MacBook Pro 14", MacBook Pro 16", MacBook Pro 14"/16" M5, MacBook Neo, iMac 24", iMac 24" M4, Studio Display (2026). Any display zoom setting works. The Studio Display bezel covers the XDR too, because Apple ships identical art for both
+- **iPad:** iPad, iPad (A16), iPad Air 11"/13" M2, iPad Air 11"/13" M4, iPad mini, iPad mini (A17 Pro), iPad mini (A20 Pro), iPad Pro 11"/13" M4, iPad Pro 11"/13" M5
+- **Mac:** MacBook Air 13", MacBook Air 13"/15" M5, MacBook Pro 14", MacBook Pro 16", MacBook Pro 14"/16" M5, MacBook Pro 14"/16" with PROLED XDR Display, MacBook Neo, iMac 24", iMac 24" M4, Studio Display (2026). Any display zoom setting works. The Studio Display bezel covers the XDR too, because Apple ships identical art for both
 - **Apple TV:** Apple TV 4K, from 1080p or 4K screenshots
 
 ## The `bezelbub` command-line tool

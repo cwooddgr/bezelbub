@@ -240,6 +240,28 @@ final class BezelbubKitTests: XCTestCase {
         XCTAssertEqual(Set(matches.map(\.device.id)), ["macbookprom514", "macbookpro14"])
     }
 
+    // The PROLED panels are taller than the LCD Pros (3024×1986 vs 3024×1964),
+    // so a native-size capture identifies the PROLED model alone.
+    func testProledNativeCapturesIdentifyTheProledModel() {
+        let devices = DeviceCatalog.hydrated()
+        for (w, h, id) in [(3024, 1986, "macbookproproled14"), (3472, 2266, "macbookproproled16")] {
+            let matches = DeviceMatcher.match(screenshotWidth: w, screenshotHeight: h, devices: devices)
+            XCTAssertEqual(matches.map(\.device.id), [id], "\(w)×\(h)")
+            XCTAssertEqual(matches.first?.matchedByAspectRatio, false)
+        }
+    }
+
+    // Apple's iPad mini (A20 Pro) art has a faint antialiasing ring around the
+    // screen hole; we cleared it so the region is the 1512×2316 panel. If the
+    // art is ever re-imported without that step, this catches it.
+    func testIPadMiniA20ProMatchesItsNativeResolution() {
+        let devices = DeviceCatalog.hydrated()
+        let portrait = DeviceMatcher.match(screenshotWidth: 1512, screenshotHeight: 2316, devices: devices)
+        XCTAssertEqual(portrait.map(\.device.id), ["ipadminia20pro"])
+        let landscape = DeviceMatcher.match(screenshotWidth: 2316, screenshotHeight: 1512, devices: devices)
+        XCTAssertEqual(landscape.first?.isLandscape, true)
+    }
+
     // A 16:10 size that no panel captures at (an external monitor, say) still
     // resolves — by aspect ratio, to every 16:10 MacBook.
     func testUnknownSixteenByTenSizeFallsBackToAspectRatio() {

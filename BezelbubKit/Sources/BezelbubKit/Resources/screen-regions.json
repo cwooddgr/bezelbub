@@ -365,6 +365,30 @@
     "x" : 146,
     "y" : 142
   },
+  "ipadminia20pro-midnight-l.png" : {
+    "height" : 1512,
+    "width" : 2316,
+    "x" : 130,
+    "y" : 130
+  },
+  "ipadminia20pro-midnight-p.png" : {
+    "height" : 2316,
+    "width" : 1512,
+    "x" : 130,
+    "y" : 130
+  },
+  "ipadminia20pro-starlight-l.png" : {
+    "height" : 1512,
+    "width" : 2316,
+    "x" : 130,
+    "y" : 130
+  },
+  "ipadminia20pro-starlight-p.png" : {
+    "height" : 2316,
+    "width" : 1512,
+    "x" : 130,
+    "y" : 130
+  },
   "ipadpro11m4-silver-l.png" : {
     "height" : 1668,
     "width" : 2420,
@@ -1570,6 +1594,30 @@
     "width" : 3456,
     "x" : 402,
     "y" : 303
+  },
+  "macbookproproled14-silver-l.png" : {
+    "height" : 1986,
+    "width" : 3024,
+    "x" : 418,
+    "y" : 277
+  },
+  "macbookproproled14-spaceblack-l.png" : {
+    "height" : 1986,
+    "width" : 3024,
+    "x" : 418,
+    "y" : 277
+  },
+  "macbookproproled16-silver-l.png" : {
+    "height" : 2266,
+    "width" : 3472,
+    "x" : 394,
+    "y" : 287
+  },
+  "macbookproproled16-spaceblack-l.png" : {
+    "height" : 2266,
+    "width" : 3472,
+    "x" : 394,
+    "y" : 287
   },
   "studiodisplay-silver-l.png" : {
     "height" : 2880,

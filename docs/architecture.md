@@ -47,6 +47,8 @@ The **MCP server** (`bezelbub-mcp/`, npm `@dgr_labs/bezelbub-mcp`, registry `io.
 
 The flood fill seeds from the image center; when that pixel is opaque (the iPhone Duo "open, outer display" view, where the center is the hinge) it falls back to the largest enclosed fully-transparent region. `ScreenRegionDetector` mirrors the same seed logic for its runtime fallback. Apple ships that Duo view once, as a wide canvas with a portrait screen: that file is our `-p` bezel, and the `-l` bezel is the same art rotated 90° counter-clockwise (`sips --rotate -90`) so the display sits on top.
 
+After generating, check each new region against the panel resolution on Apple's tech-specs page; iPhones and iPads must match within the matcher's ±1 px. The iPad mini (A20 Pro) art (Nov 2026) has a one-pixel alpha-30 antialiasing ring around the hole, so the flood fill came out 2 px short on each axis (2314×1510 against the 2316×1512 panel) and real screenshots wouldn't match. We zeroed the alpha ≤ 30 pixels that touch the hole, inside the hole's bounding box plus one pixel. The masks already included those pixels, so the composites look the same. `testIPadMiniA20ProMatchesItsNativeResolution` guards that fix.
+
 
 ### Targets
 

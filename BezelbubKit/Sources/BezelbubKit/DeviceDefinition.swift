@@ -82,6 +82,14 @@ public enum DeviceCatalog {
         /// 3456×2234 panel (MacBook Pro 16" M1 Pro → M5): looks-like 2056×1329,
         /// 1728×1117 (default, native), 1496×967, 1312×848, 1168×755.
         static let pro16 = px((4112, 2658), (3456, 2234), (2992, 1934), (2624, 1696), (2336, 1510))
+        /// 3024×1986 and 3472×2266 tandem OLED panels (MacBook Pro with PROLED
+        /// XDR Display, Oct 2026; apple.com/macbook-pro/proled-xdr-display/specs).
+        /// Only the native size is listed: every earlier MacBook Pro offers a
+        /// preset that captures at native pixels, but the PROLED presets weren't
+        /// published as of 2026-11-15 and this is inferred, not hardware-checked.
+        /// Other sizes still match by aspect ratio.
+        static let proledPro14 = px((3024, 1986))
+        static let proledPro16 = px((3472, 2266))
         /// 2408×1506 panel (MacBook Neo): looks-like 1637×1024, 1408×881
         /// (default — a scaled mode, not native), 1204×753 (native), 1024×640.
         /// Owner-reported (MacRumors "Neo Display Thoughts?", 2026); single source.
@@ -435,6 +443,15 @@ public enum DeviceCatalog {
             defaultColorID: "Space Gray"
         ),
         DeviceDefinition(
+            id: "ipadminia20pro",
+            displayName: "iPad mini (A20 Pro)",
+            colors: [
+                DeviceColor("Midnight"),
+                DeviceColor("Starlight"),
+            ],
+            defaultColorID: "Midnight"
+        ),
+        DeviceDefinition(
             id: "ipadpro11m4",
             displayName: "iPad Pro 11\" M4",
             colors: [
@@ -536,6 +553,19 @@ public enum DeviceCatalog {
             hasPortraitBezel: false,
             captureSizes: MacCaptures.pro14
         ),
+        // Tandem OLED with a Dynamic Island, drawn opaque in the art over the
+        // screenshot. Capture-size caveat on `MacCaptures.proledPro14`.
+        DeviceDefinition(
+            id: "macbookproproled14",
+            displayName: "MacBook Pro 14\" PROLED XDR",
+            colors: [
+                DeviceColor("Silver"),
+                DeviceColor("Space Black"),
+            ],
+            defaultColorID: "Silver",
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.proledPro14
+        ),
         DeviceDefinition(
             id: "macbookpro16",
             displayName: "MacBook Pro 16\"",
@@ -554,6 +584,19 @@ public enum DeviceCatalog {
             defaultColorID: "Silver",
             hasPortraitBezel: false,
             captureSizes: MacCaptures.pro16
+        ),
+        // Tandem OLED with a Dynamic Island, drawn opaque in the art over the
+        // screenshot. Capture-size caveat on `MacCaptures.proledPro14`.
+        DeviceDefinition(
+            id: "macbookproproled16",
+            displayName: "MacBook Pro 16\" PROLED XDR",
+            colors: [
+                DeviceColor("Silver"),
+                DeviceColor("Space Black"),
+            ],
+            defaultColorID: "Silver",
+            hasPortraitBezel: false,
+            captureSizes: MacCaptures.proledPro16
         ),
         DeviceDefinition(
             id: "macbookneo",
