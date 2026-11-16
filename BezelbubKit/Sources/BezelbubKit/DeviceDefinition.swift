@@ -82,14 +82,21 @@ public enum DeviceCatalog {
         /// 3456×2234 panel (MacBook Pro 16" M1 Pro → M5): looks-like 2056×1329,
         /// 1728×1117 (default, native), 1496×967, 1312×848, 1168×755.
         static let pro16 = px((4112, 2658), (3456, 2234), (2992, 1934), (2624, 1696), (2336, 1510))
-        /// 3024×1986 and 3472×2266 tandem OLED panels (MacBook Pro with PROLED
-        /// XDR Display, Oct 2026; apple.com/macbook-pro/proled-xdr-display/specs).
-        /// Only the native size is listed: every earlier MacBook Pro offers a
-        /// preset that captures at native pixels, but the PROLED presets weren't
-        /// published as of 2026-11-15 and this is inferred, not hardware-checked.
+        /// 3024×1986 tandem OLED panel (MacBook Pro 14" with PROLED XDR Display,
+        /// Oct 2026; apple.com/macbook-pro/proled-xdr-display/specs). Only the
+        /// native size is listed: every earlier MacBook Pro offers a preset that
+        /// captures at native pixels, but this is inferred, not hardware-checked.
         /// Other sizes still match by aspect ratio.
         static let proledPro14 = px((3024, 1986))
-        static let proledPro16 = px((3472, 2266))
+        /// 3472×2266 tandem OLED panel (MacBook Pro 16" with PROLED XDR Display):
+        /// looks-like 2064×1347, 1736×1133 (default, native), 1497×977,
+        /// 1316×859, 1166×761 at 2×, plus 1× modes at the same pixel sizes.
+        /// Enumerated on hardware with `Scripts/display-modes.js` (Mac17,10,
+        /// macOS 27.2.1, owner-run, 2026-11-15). The panel's 16:10
+        /// island-hidden modes (3450×2156, 2974×1858, 2616×1634, 2560×1600,
+        /// 2316×1448, 4102×2564, 1920×1200) are left out, as on the other
+        /// notched MacBooks.
+        static let proledPro16 = px((4128, 2694), (3472, 2266), (2994, 1954), (2632, 1718), (2332, 1522))
         /// 2408×1506 panel (MacBook Neo): looks-like 1637×1024, 1408×881
         /// (default — a scaled mode, not native), 1204×753 (native), 1024×640.
         /// Owner-reported (MacRumors "Neo Display Thoughts?", 2026); single source.

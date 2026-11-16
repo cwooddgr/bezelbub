@@ -251,6 +251,17 @@ final class BezelbubKitTests: XCTestCase {
         }
     }
 
+    // Every 16" PROLED display-zoom size (hardware-enumerated, 2026-11-15)
+    // identifies that model alone; none collides with the LCD 16" Pro's table.
+    func testProled16DisplayZoomSizesIdentifyTheProled16Exactly() {
+        let devices = DeviceCatalog.hydrated()
+        for (w, h) in [(4128, 2694), (3472, 2266), (2994, 1954), (2632, 1718), (2332, 1522)] {
+            let matches = DeviceMatcher.match(screenshotWidth: w, screenshotHeight: h, devices: devices)
+            XCTAssertEqual(matches.map(\.device.id), ["macbookproproled16"], "\(w)×\(h)")
+            XCTAssertEqual(matches.first?.matchedByAspectRatio, false)
+        }
+    }
+
     // Apple's iPad mini (A20 Pro) art has a faint antialiasing ring around the
     // screen hole; we cleared it so the region is the 1512×2316 panel. If the
     // art is ever re-imported without that step, this catches it.
