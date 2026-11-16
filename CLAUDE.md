@@ -2,7 +2,7 @@
 
 macOS + iOS app that composites device bezels onto screenshots and screen recordings. Built with SwiftUI, targeting macOS 14+ and iOS 17+. Tier 1, live on the Mac and iOS App Stores. Also ships the headless `bezelbub` CLI (GitHub release + Homebrew tap) and an MCP server (`bezelbub-mcp/`, npm `@dgr_labs/bezelbub-mcp`). Bundle ID `co.dgrlabs.bezelbub`, team `2CTUXD4C44`, ASC app id `6759073631`.
 
-**Status: 3.6.0 (macOS build 20 / iOS build 16, 48 devices) submitted to App Review on both platforms 2026-11-15, waiting; 3.5.0 is live. CLI 1.6.0 released 2026-11-15; MCP 1.6.0 committed, not yet published (needs Charlie's npm OTP). The 14" PROLED capture table is still the inferred native size only.** Replace this line at each submission and outcome so the session-start status check stays accurate; history goes in `docs/release.md`.
+**Status: 3.6.0 (macOS build 20 / iOS build 16, 48 devices) submitted to App Review on both platforms 2026-11-15, waiting; 3.5.0 is live. CLI 1.6.0 released 2026-11-15; MCP 1.6.0 on npm and the official registry. The 14" PROLED capture table is still the inferred native size only.** Replace this line at each submission and outcome so the session-start status check stays accurate; history goes in `docs/release.md`.
 
 ## Docs map
 
