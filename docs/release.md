@@ -2,7 +2,7 @@
 
 > **Author:** Claude Code (coder) · **Date:** 2026-09-26 · **Status:** moved verbatim from `CLAUDE.md` when it was slimmed (decided-by-user 2026-09-26); provenance stamps inside the text are the originals.
 
-**App Store status:** 3.5.0 (macOS build 19 / iOS build 15, padding and image backgrounds) is live on both platforms. It was submitted 2026-10-18, and the release watch recorded it live and applied on iOS at 2026-10-19 17:08 UTC and on macOS at 2026-10-23 01:07 UTC (the watch runs hourly, so those are upper bounds; the API has no went-live timestamp). 3.4.0 (macOS 18 / iOS 14) was the previous release. Inventory: `docs/release-inventories/3.5.0.md`. Update this line at every submission so the session-start status check stays accurate.
+**App Store status:** 3.6.0 (macOS build 20 / iOS build 16; iPad mini A20 Pro and PROLED MacBook Pros, 48 devices) was submitted on both platforms 2026-11-15 and is waiting for review. 3.5.0 (macOS 19 / iOS 15) is live; it was submitted 2026-10-18 and the release watch recorded it live on iOS by 2026-10-19 and on macOS by 2026-10-23. Inventory: `docs/release-inventories/3.6.0.md`. Update this line at every submission so the session-start status check stays accurate.
 
 ### Releasing
 
@@ -20,3 +20,9 @@ Mechanics, as run for Flip Flap 1.2 that day and as `overflight/docs/release-syn
 
 The shared release guide for all our apps (order of the work, each project's recipe, App Store Connect gotchas) is `../APP_STORE_RELEASE.md`, approved by Charlie 2026-09-21; read it when cutting a build, and add to it when a release teaches us something new.
 
+### 3.6.0 run notes
+
+> **Author:** Claude Code (coder) · **Date:** 2026-11-15 · **Status:** proposed-by-agent (what happened)
+
+- `asc_prepare_version.py --submit` hit the age-rating `socialMedia` 409 (the tminus gotcha in `../APP_STORE_RELEASE.md`). I answered it with `PATCH /v1/ageRatingDeclarations/<PREPARE_FOR_SUBMISSION appInfo id>` `{"socialMedia": false}`; Bezelbub has no social feed. The macOS version then went in on a leftover empty review submission. A second empty MAC_OS submission (`bba72353-…`) refused `canceled: true` with 409 and was left in place.
+- The script doesn't set promotional text or the description; I patched both on each version's en-US localization by hand. The live description had drifted from `APP_STORE_METADATA.md` (still "38+ DEVICE MODELS").
